@@ -1,10 +1,9 @@
-const MyPage = () => {
+const ChattingListBar = () => {
   return (
     <div>
-      MyPage
       <div className=""></div>
     </div>
   );
 };
 
-export default MyPage;
+export default ChattingListBar;
