@@ -1,0 +1,4 @@
+interface messageToGpt {
+    question: string,
+
+}
