@@ -7,6 +7,7 @@ const gurusMessage =
 const AIsurveyPage = () => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
+
       <div className="mt-20">
         <ConversationBox text={gurusMessage} />
       </div>

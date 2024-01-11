@@ -10,8 +10,6 @@ const AnswerLoadingPage = () => {
       </div>
 
       {/* 애니메이션 */}
-
-      <img src="/images/guru.png" className="quarter-size mt-4 "></img>
     </div>
   );
 };

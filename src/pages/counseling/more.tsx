@@ -9,24 +9,43 @@ const gurusMessage =
 const serverUrl = 'http://localhost:5000';
 let resultMode = false;
 
+
+// type ChatHistoryType = [
+//   ChatInfo,
+//   ...Message[]
+// ];
+
+// type ChatInfo = [string, string];
+
+// type Message = [string, string];
+
+
 const AIcounselingPage = () => {
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [gptAnswer, setGptAnswer] = useState('');
 
+  
+  const chatHistory = localStorage.getItem('chat')
+  console.log(chatHistory)
+  // const lastChat = chatHistory.slice(1).join('\n\n');
+  const chatInfo = chatHistory[0]
+  // const title = chatInfo.['title']
+  // const chatId = chatInfo['chatId']
+
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(`${serverUrl}/chat/first`, {
-        question: userInput,
+      const response = await axios.post(`${serverUrl}/chat/${chatId}`, {
+        newChat: { question: userInput },
+        lastChat,
+        chatHistory
       });
 
       const history = response.data.response;
       localStorage.setItem(`chat${history[0][0]}`, history);
 
-      const answer = history[1][1]?.split('\n\n')[1]
-      console.log(history)
-      console.log(history[1][1])
+      const answer = history[-1]
       setGptAnswer(answer);
       setLoading(false);
       resultMode = true;
@@ -50,10 +69,10 @@ const AIcounselingPage = () => {
         // 결과 페이지 표시
         <div>
           <div className="mt-20">
-            <ConversationBox text={gptAnswer} />
+            <ConversationBox text={`\n${gptAnswer}`} />
           </div>
           <div className="flex flex-col gap-2 mt-10 mb-10">
-            <Link href="/counseling/input">
+            <Link href="/counseling/more">
               <div
                 className="min-w-12 h-6 border-2 border-white bg-white/50"
                 onClick={handleMode}
