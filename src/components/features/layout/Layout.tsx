@@ -1,13 +1,12 @@
-import NavButtons from "./NavButtons"
+import NavButtons from './NavButtons';
 
 const Layout = (props: { children: React.ReactNode }) => {
+  return (
+    <>
+      <NavButtons />
+      {props.children}
+    </>
+  );
+};
 
-    return (
-        <>
-        <NavButtons />
-        {props.children}
-        </>
-    )
-}
-
-export default Layout
+export default Layout;

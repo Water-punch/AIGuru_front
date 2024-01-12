@@ -1,4 +1,3 @@
 interface messageToGpt {
-    question: string,
-
+  question: string;
 }
