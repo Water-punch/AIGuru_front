@@ -3,7 +3,7 @@ import ConversationBox from '../components/common/ConversationBox';
 
 const firstMessage = '연애에 대한 고민이 있는자 나에게로..';
 
-const HomePage = (props: any) => {
+const HomePage = () => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
       <img src="/images/title.png" className="title-resizing mt-4"></img>
@@ -14,7 +14,7 @@ const HomePage = (props: any) => {
       </div>
 
       <div className="flex flex-row gap-20 mt-10">
-        <Link href="/counseling">
+        <Link href="/chat">
           <div className="min-w-12 h-6 border-2 border-white bg-[#b91c1c]">
             👉구루에게 상담받기
           </div>

@@ -5,23 +5,19 @@ const serverUrl = 'http://localhost:5000';
 const api = axios.create({
   baseURL: serverUrl,
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 api.interceptors.request.use(
   req => {
     const token = localStorage.getItem('token');
-    if (!token) {
-      alert('로그인 상태를 확인해주세요.');
-      throw new Error('로그인이 필요합니다.');
-    }
 
     if (token) {
       req.headers['Authorization'] = `Bearer ${token}`;
     }
 
     if (req.data && req.data instanceof FormData) {
-      req.headers['Content-Type'] = 'multipart/form-data';
+      req.headers['Content-Type'] = 'multipart/form-bodyData';
     }
     return req;
   },
@@ -41,24 +37,24 @@ async function get(endpoint: string) {
   }
 }
 
-async function post(endpoint: string, data: FormData | Object) {
+async function post(endpoint: string, bodyData: FormData | Object) {
   try {
-    const res = api.post(endpoint, data);
-    console.log(`${endpoint} post요청 성공, 요청 데이터: ${data}`);
+    const res = api.post(endpoint, bodyData);
+    console.log(`${endpoint} post요청 성공, 요청 데이터: ${bodyData}`);
     return res;
   } catch (err) {
-    console.log(`${endpoint} post요청 실패, 요청 데이터: ${data}`, err);
+    console.log(`${endpoint} post요청 실패, 요청 데이터: ${bodyData}`, err);
     throw err;
   }
 }
 
-async function put(endpoint: string, data: FormData | Object) {
+async function put(endpoint: string, bodyData: FormData | Object) {
   try {
-    const res = api.put(endpoint, data);
-    console.log(`${endpoint} put요청 성공, 요청 데이터: ${data}`);
+    const res = api.put(endpoint, bodyData);
+    console.log(`${endpoint} put요청 성공, 요청 데이터: ${bodyData}`);
     return res;
   } catch (err) {
-    console.log(`${endpoint} put요청 실패, 요청 데이터: ${data}`, err);
+    console.log(`${endpoint} put요청 실패, 요청 데이터: ${bodyData}`, err);
     throw err;
   }
 }

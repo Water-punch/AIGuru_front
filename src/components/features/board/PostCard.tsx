@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-const PostCard = (props: postDataType) => {
-  const { title, date, postId } = props;
+const PostCard = (post : PostDataType) => {
+  const { title, date, postId } = post;
 
   return (
     <Link href={`/board/${postId}`}>

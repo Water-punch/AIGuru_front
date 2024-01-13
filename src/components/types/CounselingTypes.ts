@@ -7,7 +7,7 @@ export interface TestResultType {
 // Gpt로 Post요청 시 req.body에 넣을 데이터 타입
 export interface SendingMessageType {
   question: string;
-  testResult: TestResultType;
+  testResult?: TestResultType;
   imageUrl?: string;
 }
 
@@ -19,10 +19,10 @@ export interface RecievedMessageType {
   output: string;
 }
 
+export interface ChatResultType {
+  result: string;
+}
+
 // 프론트의 Chat History를 위한 데이터 타입
 export interface ChatHistoryType {}
 
-// 첫 질문과 추가질문의 API 분리
-// 첫 질문에는 title 생성(history를 위해)
-// chat = {id, title, input, output}
-// history = [chat1, chat2, chat3, chat4, ... ]

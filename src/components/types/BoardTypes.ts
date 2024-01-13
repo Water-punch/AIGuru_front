@@ -1,4 +1,4 @@
-interface postDataType {
+interface PostDataType {
   postId: any;
   title: string;
   content: string;
@@ -7,5 +7,5 @@ interface postDataType {
 }
 
 interface PostCardsProps {
-  dummyData: postDataType[];
+  dummyData: PostDataType[];
 }

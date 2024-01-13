@@ -15,9 +15,9 @@ const BoardDetailPage = () => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-board.jpg')]">
       <div className="bg-white flex flex-col gap-4 my-20">
-        <div>{foundPost.title}</div>
-        <div>{foundPost.date}</div>
-        <div>{foundPost.content}</div>
+        <div>{foundPost?.title}</div>
+        <div>{foundPost?.date}</div>
+        <div>{foundPost?.content}</div>
       </div>
     </div>
   );

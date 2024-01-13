@@ -14,7 +14,7 @@ const AIsurveyPage = () => {
 
       <div className="flex flex-row gap-20 mt-10 mb-10">
         <div className="min-w-12 h-6 border-2 border-[#f87171]">◀이전</div>
-        <Link href="/counseling/input">
+        <Link href="/chat/input">
           <div className="min-w-12 h-6 border-2 border-[#f87171]">다음▶</div>
         </Link>
       </div>

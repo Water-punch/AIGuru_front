@@ -5,7 +5,7 @@ const gurusMessage = '오오 영감이 떠오른다!';
 const AnswerLoadingPage = () => {
   return (
     <div>
-      <div className="mt-20">
+      <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
         <ConversationBox text={gurusMessage} />
       </div>
 
