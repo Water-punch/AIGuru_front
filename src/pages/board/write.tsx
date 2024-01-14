@@ -1,8 +1,8 @@
-import { formats, modules } from '@/src/components/features/board/EditorSetting';
+// import { formats, modules } from '@/src/components/features/board/EditorSetting';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import ReactQuill from 'react-quill';
-import "react-quill/dist/quill.snow.css";
+// import ReactQuill from 'react-quill';
+// import "react-quill/dist/quill.snow.css";
 
 const BoardWritingPage = () => {
   const router = useRouter();
@@ -19,14 +19,14 @@ const BoardWritingPage = () => {
     <div>
       <div>BoardWritingPage</div>
       <input type='text' placeholder='제목을 입력하세요' onChange={e=> setTitle(e.target.value)} />
-      <ReactQuill
+      {/* <ReactQuill
         style={{ width: '82%', height: '60vh', marginBottom: '5vh', marginTop: '2.5vh' }}
         theme='snow'
         modules={modules}
         formats={formats}
         value={content}
         onChange={e=> setContent(e)}
-        />
+        /> */}
       <button onClick={handleSubmit}>완료</button>
     </div>
   );
