@@ -3,6 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
 };
 
+const webpack = require('webpack')
+
 module.exports = {
   // 다른 설정들...
 
