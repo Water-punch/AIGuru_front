@@ -18,8 +18,7 @@ const AIsurveyPage = () => {
           <div className="min-w-12 h-6 border-2 border-[#f87171]">다음▶</div>
         </Link>
       </div>
-
-      <img src="/images/guru.png" className="quarter-size mt-4 "></img>
+      <img src="/images/guru.png" alt='guru' className="h-[300px] mt-20"></img>
     </div>
   );
 };

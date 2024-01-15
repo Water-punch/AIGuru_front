@@ -1,10 +1,30 @@
+import { useEffect, useState } from "react";
+
 interface ConversationBoxProps {
   text: string;
 }
 
 const ConversationBox = ({ text }: ConversationBoxProps) => {
+  const [typedText, setTypedText] = useState('');
+  const [index, setIndex] = useState(0);
+  const typingDelay = 50;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (index < text.length) {
+        setTypedText((prev) => prev + text[index]);
+        setIndex(index + 1);
+      }
+      if (index === text.length) {
+        clearInterval(timer);
+      }
+    }, typingDelay);
+
+    return () => clearInterval(timer);
+  }, [index, text]);
+
   return (
-    <div className="max-w-300">
+    <div className="max-w-3/4">
       <div>
         <div className="mb-5">
           <div className="w-20 h-8 border-2 border-white flex justify-center items-center bg-white/50">
@@ -13,8 +33,8 @@ const ConversationBox = ({ text }: ConversationBoxProps) => {
         </div>
 
         <div>
-          <div className="w-200 min-h-16 border-2 border-white flex justify-center items-center bg-white/50">
-            {text}
+          <div className="max-w-[600px] min-h-16 border-2 border-white flex justify-center items-center bg-white/50 break-words">
+            {typedText}
           </div>
         </div>
       </div>

@@ -30,7 +30,7 @@ const AIcounselingPage = () => {
       const history = response.data.response;
       localStorage.setItem(`chat${history[0][0]}`, history);
 
-      const answer = history[1][1]
+      const answer = history[1][1] || '...(고민을 다시 입력해보자.)'
       console.log(history)
       console.log(history[1][1])
       dispatch(saveResult({ result : answer }))
@@ -45,11 +45,11 @@ const AIcounselingPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
+    <div >
       {loading? (
         <AnswerLoadingPage/>
         ):(
-        <div>
+        <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
           <div className="mt-20">
             <ConversationBox text={gurusMessage} />
           </div>
@@ -70,9 +70,9 @@ const AIcounselingPage = () => {
               </button>
             </div>
           </div>
+          <img src="/images/guru.png" alt='guru' className="h-[300px] mt-20"></img>
         </div>
       )}
-      <img src="/images/guru.png" className="quarter-size mt-4 "></img>
     </div> 
   );
 };

@@ -29,7 +29,7 @@ const CounselingResult = () => {
           </div>
         </Link>
       </div>
-      <img src="/images/guru.png" className="quarter-size mt-4 "></img>
+      <img src="/images/guru.png" alt='guru' className="h-[300px] mt-20"></img>
     </div>
   );
 };
