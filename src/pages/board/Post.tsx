@@ -1,11 +1,12 @@
-import { useState, useCallback } from "react";
 import BoardCreateOrEdit from "../../components/features/board/BoardCreateOrEdit";
-import axios from "axios";
 import styled from "styled-components";
-// import { useNavigate, Link } from 'react-router-dom';
-// import { toast } from 'react-toastify';
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import axios from "axios";
+//import { useNavigate, Link } from "react-router-dom";
+// import { toast } from "react-toastify";
 import Link from "next/link";
 const PostPage = () => {
+  // 게시판 제목, 내용
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   //const navigate = useNavigate();
@@ -24,7 +25,7 @@ const PostPage = () => {
   };
 
   const handleSubmit = useCallback(
-    async (event: React.MouseEvent<HTMLButtonElement>) => {
+    async (event) => {
       event.preventDefault();
 
       // 게시물의 제목, 내용 중 하나라도 입력을 안하면 제출할 수 없도록 막고
@@ -77,18 +78,19 @@ const PostPage = () => {
         handleSubmit={handleSubmit}
       />
       <ButtonContainer>
-        <Link href="/board/PostlistPage">
+        <BoardButtonLink to="./PostlistPage">
           <BoardButton className="delete"> 취소 </BoardButton>
-        </Link>
-        <Link href="/PostviewPage">
+        </BoardButtonLink>
+        <BoardButtonLink to="./PostviewPage">
           <BoardButton type="submit" className="submit" onClick={handleSubmit}>
             등록
           </BoardButton>
-        </Link>
+        </BoardButtonLink>
       </ButtonContainer>
     </PostWrapper>
   );
 };
+/**/
 const PostWrapper = styled.div`
   @media only screen and (min-width: 1441px) {
     //해상도 1440보다 큰 모니터
@@ -145,4 +147,5 @@ const BoardButton = styled.button`
     background-color: #64b5ff;
   }
 `;
+
 export default PostPage;
