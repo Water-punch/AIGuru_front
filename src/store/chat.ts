@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { UserDataType } from '../components/types/UserTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { ChatResultType } from '../components/types/CounselingTypes';
+import { ChatResultType } from '../components/types/ChatTypes';
 
 
 const initialState: ChatResultType = {

@@ -1,10 +1,13 @@
 import NavButtons from './NavButtons';
+import { FC, PropsWithChildren } from 'react'
 
-const Layout = (props: { children: React.ReactNode }) => {
+interface LayoutProps extends PropsWithChildren {}
+
+const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <NavButtons />
-      {props.children}
+      {children}
     </>
   );
 };

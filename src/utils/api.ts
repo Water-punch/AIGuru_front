@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
-const serverUrl = 'http://localhost:5000';
+// const serverUrl = 'http://localhost:5000';
 
 const api = axios.create({
-  baseURL: serverUrl,
+  baseURL: 'http://localhost:5001/api',
   headers: { 'Content-Type': 'application/json' },
   // withCredentials: true,
 });
@@ -26,48 +26,20 @@ api.interceptors.request.use(
   },
 );
 
-async function get(endpoint: string) {
-  try {
-    const res = await api.get(endpoint);
-    console.log(`${endpoint} get요청 성공`);
-    return res;
-  } catch (err) {
-    console.log(`${endpoint} get요청 실패`, err);
-    throw err;
-  }
+async function get<T = any>(endpoint: string): Promise<AxiosResponse<T>> {
+  return await api.get<T>(endpoint);
 }
 
-async function post(endpoint: string, bodyData: FormData | Object) {
-  try {
-    const res = api.post(endpoint, bodyData);
-    console.log(`${endpoint} post요청 성공, 요청 데이터: ${bodyData}`);
-    return res;
-  } catch (err) {
-    console.log(`${endpoint} post요청 실패, 요청 데이터: ${bodyData}`, err);
-    throw err;
-  }
+async function post<T = any>(endpoint: string, bodyData: FormData | Object) {
+  return await api.post<T>(endpoint, bodyData);
 }
 
-async function put(endpoint: string, bodyData: FormData | Object) {
-  try {
-    const res = api.put(endpoint, bodyData);
-    console.log(`${endpoint} put요청 성공, 요청 데이터: ${bodyData}`);
-    return res;
-  } catch (err) {
-    console.log(`${endpoint} put요청 실패, 요청 데이터: ${bodyData}`, err);
-    throw err;
-  }
+async function put<T = any>(endpoint: string, bodyData: FormData | Object) {
+  return await api.put<T>(endpoint, bodyData)
 }
 
-async function del(endpoint: string) {
-  try {
-    const res = api.delete(endpoint);
-    console.log(`${endpoint} delete요청 성공`);
-    return res;
-  } catch (err) {
-    console.log(`${endpoint} delete요청 실패`, err);
-    throw err;
-  }
+async function del<T = any>(endpoint: string) {
+  return await api.delete<T>(endpoint)
 }
 
 export { get, post, put, del };

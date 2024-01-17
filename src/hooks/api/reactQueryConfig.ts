@@ -1,11 +1,16 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import * as Api from '../../utils/api'
 import { useCallback } from "react"
+import { AxiosResponse } from "axios"
 
-export const useBaseQuery = (endpoint: string) => {
-  const { isLoading, error, data } = useQuery({
-    queryKey: [`${endpoint}`],
-    queryFn: () => Api.get(endpoint)
+// 서버 데이터 요청: get
+export const useBaseQuery = <T = any> (endpoint: string, queryKey: string) => {
+  const { isLoading, error, data } = useQuery<T>({
+    queryKey: [queryKey],
+    queryFn: async () => {
+      const response = await Api.get<T>(endpoint)
+      return response.data;
+    }
   })
   return {
     isLoading,
@@ -14,22 +19,34 @@ export const useBaseQuery = (endpoint: string) => {
   }
 }
 
-export const useBaseMutation = (endpoint: string, bodyData: FormData | Object, method: 'post' | 'put' | 'delete') => {
-  const mutationFn = useCallback(() => {
+// 서버 데이터 변경: post, put, delete
+export const useBaseMutation = <T = any>(endpoint: string, bodyData: FormData | Object, method: 'post' | 'put' | 'delete', queryKey?: string) => {
+  const queryClient = useQueryClient();
+  const mutationFn = useCallback(async () => {
+    let result;
     switch (method) {
       case 'post':
-        return Api.post(endpoint, bodyData);
+        result = await Api.post<T>(endpoint, bodyData);
+        break;
       case 'put':
-        return Api.put(endpoint, bodyData);
+        result = await Api.put<T>(endpoint, bodyData);
+        break;
       case 'delete':
-        return Api.del(endpoint);
+        result = await Api.del<T>(endpoint);
+        break;
       default:
         throw new Error(`post, put, delete에서 method를 선택해주세요. 현재 선택 method:${method}`)
     }
+    return result.data
   }, [endpoint, bodyData, method])
   
-  const { isPending, isSuccess, error, data, mutate } = useMutation({
-    mutationFn: mutationFn
+  const { isPending, isSuccess, error, data, mutate, } = useMutation<T>({
+    mutationFn: mutationFn,
+    onSuccess: () => {
+      if (queryKey) {
+        queryClient.invalidateQueries({ queryKey: [queryKey] })
+      }
+    }
   })
 
   return {

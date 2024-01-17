@@ -4,8 +4,12 @@ import AnswerLoadingPage from '../../components/features/chat/AnswerLoading';
 import { useBaseMutation } from '@/src/hooks/api/reactQueryConfig';
 import { useDispatch } from 'react-redux';
 import { saveResult } from '@/src/store/chat';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
+import { useMutation } from '@tanstack/react-query';
+import * as Api from '../../utils/api'
+import { ChatResponseType } from '@/src/components/types/ChatTypes';
+import { useSendFirstMessage } from '@/src/hooks/api/chat';
 
 const gurusMessage =
   '그렇구만.. 대강 감이 오는구만. 어디 한 번 상세하게 고민을 읊어보게나.';
@@ -17,32 +21,35 @@ const AIcounselingPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const firstMessage = useSendFirstMessage({question: userInput})
+  console.log(firstMessage)
 
-  // 커스텀 훅을 사용했을 때 렌더링 오류가 발생합니다. 일단 해결을 못해서 임시로 axios를 생으로 사용했습니다...
   const handleSubmit = async () => {
-    try {
-      setLoading(true);
-      const serverUrl = 'http://localhost:5000';
-      const response = await axios.post(`${serverUrl}/chat/first`, {
-        question: userInput,
-      });
+    firstMessage.mutate()
+  }
 
-      const history = response.data.response;
-      localStorage.setItem(`chat${history[0][0]}`, history);
+  if(firstMessage.isPending) {
+    setLoading(true)
+  }
 
-      const answer = history[1][1] || '...(고민을 다시 입력해보자.)'
-      console.log(history)
-      console.log(history[1][1])
-      dispatch(saveResult({ result : answer }))
-      setLoading(false);
-      router.push('/chat/result')
+  if(firstMessage.isSuccess && firstMessage.data) {
+    const apiRes = firstMessage.data;
+    const history = apiRes.response;
+    localStorage.setItem(`chat${history[0][0]}`, JSON.stringify(history));
 
-    } catch (error) {
-      console.error('api 호출 오류', error);
-      setLoading(false);
-      setGptAnswer('무언가 오류가 있는 모양이군? 다시 시도해보게.');
-    }
-  };
+    const answer = history[1][1] || '...(고민을 다시 입력해보자.)'
+    console.log(history)
+    console.log(history[1][1])
+    dispatch(saveResult({ result : answer }))
+    setLoading(false);
+    router.push('/chat/result')
+  }
+
+  if(firstMessage.error) {
+    console.error('api 호출 오류', firstMessage.error);
+    setLoading(false);
+    setGptAnswer('무언가 오류가 있는 모양이군? 다시 시도해보게.');
+  }
 
   return (
     <div >
