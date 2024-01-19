@@ -53,5 +53,3 @@ const BoardDetailPage = () => {
 };
 
 export default BoardDetailPage;
-
-export default BoardDetailPage;
