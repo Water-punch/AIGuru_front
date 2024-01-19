@@ -7,7 +7,7 @@ interface postDataType {
 }
 
 interface PostCardsProps {
-  dummyData: postDataType[];
+  dummyData: BoardDataType[];
 }
 
 interface BoardCreateOrEdit {
@@ -26,6 +26,7 @@ interface Props {
 }
 
 interface BoardDataType {
+  boardId: any;
   id: any;
   title: string;
   content: string;
@@ -38,4 +39,13 @@ interface BoardDataType {
 
 interface boardListProps {
   boardList: BoardDataType[];
+}
+
+interface BoardCardType {
+  id: any;
+  post: any;
+  // setPost: any;
+  // isLoaded: boolean;
+  // handleEdit: any;
+  // handleDelete: any;
 }

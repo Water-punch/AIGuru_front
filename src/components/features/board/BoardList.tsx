@@ -1,6 +1,7 @@
 import styled from "styled-components";
 //import { FaSearch } from "react-icons/fa";
 import BoardCard from "./BoardCard";
+//import PostCard from "./PostCard";
 //import { Link } from 'react-router-dom';
 import Link from "next/link";
 import { Pagination } from "@mui/material"; //
@@ -14,14 +15,14 @@ const BoardList = ({ boardList }: boardListProps) => {
   // 한 페이지 당 5개 보여주기 //
   const pageSize = 5;
   // 제목으로 검색 구현도 할 예정이므로
-  // const filteredBoardList = boardList.filter((board: BoardDataType) =>
-  //   board.title.includes(searchInput)
-  // );
+  const filteredBoardList = boardList.filter((board: BoardDataType) =>
+    board.title.includes(searchInput)
+  );
   // const pageCount = Math.ceil(boardList.length / pageSize);
-  // const currentBoardList = filteredBoardList.slice(
-  //   (currentPage - 1) * pageSize,
-  //   currentPage * pageSize
-  // );
+  const currentBoardList = filteredBoardList.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   const BoardLayout = styled.div`
     display: flex;
@@ -91,8 +92,9 @@ const BoardList = ({ boardList }: boardListProps) => {
       </Search>
       <BoardHead>게시판</BoardHead>
       <BoardBox>
-        {/* {currentBoardList.map((board: BoardDataType, idx) => (
-          <BoardCard
+        {currentBoardList.map((board, idx) => (
+          <PostCard
+            key={board.idx}
             id={board.id}
             title={board.title}
             content={board.content}
@@ -102,7 +104,7 @@ const BoardList = ({ boardList }: boardListProps) => {
             commentCount={board.commentCount}
             createdAt={board.createdAt}
           />
-        ))} */}
+        ))}
       </BoardBox>
       <div>
         <Link href="postpage">

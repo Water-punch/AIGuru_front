@@ -2,6 +2,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 const BoardCard = ({
+  idx,
   id,
   title,
   content,

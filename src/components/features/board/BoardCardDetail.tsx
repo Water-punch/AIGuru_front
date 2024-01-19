@@ -1,12 +1,21 @@
-import styled from "styled-components";
 //import { AiOutlineEllipsis } from "react-icons/ai";
 //import { FaHeart, FaCommentAlt } from "react-icons/fa";
-import PostModal from "./PostModal";
-import { useState } from "react";
+//import PostModal from "./PostModal";
+import { useState, useEffect } from "react";
 //import BoardAnswer from "./BoardAnswer";
 //import { Link } from "react-router-dom";
 import Link from "next/link";
-const BoardCardDetail = () => {
+import styled from "styled-components";
+
+import axios from "axios";
+
+const BoardCardDetail = ({
+  id,
+  post,
+}: // isLoaded,
+// handleEdit,
+// handleDelete,
+BoardCardType) => {
   // 처음엔 모달이 닫혀있다가 누르면 버튼이 열리게 //
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleClick = () => {
@@ -15,16 +24,18 @@ const BoardCardDetail = () => {
   let [like, setLike] = useState(0);
   let [count, setCount] = useState(0);
 
+  // get 요청 코드
+  // axios ...
   return (
     <>
       <Container>
         <div className="boardwrap">
-          <Header> 0000 게시판!! </Header>
+          <Header>통합 게시판 </Header>
           <div className="boardview">
             <div className="boardheader">
               <div className="title">
-                INFP는 왜 그럼..?
-                <ModalContainer onClick={handleClick}>
+                {post.title}
+                {/* <ModalContainer onClick={handleClick}>
                   <EditDelete />
                 </ModalContainer>
                 {isModalOpen && (
@@ -32,34 +43,30 @@ const BoardCardDetail = () => {
                     onClose={() => setIsModalOpen(false)}
                     isOpen={isModalOpen}
                   />
-                )}
+                )} */}
               </div>
-              <div className="nickname">인프피 아닙니다</div>
+              <div className="nickname">{post.nickName}</div>
+              <div className="createdate">{post.createdAt}</div>
             </div>
             <div className="boardcontent">
-              <div className="content">
-                INFP는 아이엔에프피 인프피라고 불리지요 잉뿌삐라고 자신들은
-                귀여운 성격을 가진것이라 말 하지만 사실은 아니지요 본문 내용이
-                이정도 길이까지만 나오게 하면 어떨까요? 본문 두줄에 글자 길이는
-                이정도로?
-              </div>
+              <div className="content">{post.content}</div>
               <>
                 <div className="like">
                   <span>
-                    <Like
+                    {/* <Like
                       onClick={() => {
                         setLike(like + 1);
                       }}
                       style={{ fontSize: "20px" }}
-                    />
+                    /> */}
                   </span>
                   <span style={{ paddingBottom: "40" }}>{like}</span>
                   <span className="commenticon">
-                    <CommentIcon
+                    {/* <CommentIcon
                       onChange={() => {
                         setCount(count);
                       }}
-                    />
+                    /> */}
                   </span>
                   <span style={{ paddingBottom: "40", marginLeft: "10px" }}>
                     {count}
@@ -69,8 +76,8 @@ const BoardCardDetail = () => {
             </div>
           </div>
           <div className="answerview">
-            <BoardAnswer />
-            <BoardAnswer />
+            {/* <BoardAnswer />
+            <BoardAnswer /> */}
             <div className="writranswer">
               <input
                 placeholder="댓글 쓰기"
@@ -81,7 +88,7 @@ const BoardCardDetail = () => {
                   paddingLeft: "10px",
                 }}
               />
-              <ButtonLink to="/PostlistPage">
+              {/* <ButtonLink to="/PostlistPage">
                 <button
                   style={{
                     height: "40px",
@@ -91,7 +98,7 @@ const BoardCardDetail = () => {
                 >
                   작성
                 </button>
-              </ButtonLink>
+              </ButtonLink> */}
             </div>
           </div>
         </div>
