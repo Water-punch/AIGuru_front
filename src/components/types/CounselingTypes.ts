@@ -1,4 +1,0 @@
-interface messageToGpt {
-    question: string,
-
-}

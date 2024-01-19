@@ -1,4 +1,4 @@
-import { CommentProps, CommentType } from "../../types/CommentTypes";
+import { CommentProps, CommentType } from '../../types/CommentTypes';
 
 //댓글 하나 출력
 const Comment = ({ commentData }: CommentProps) => {
