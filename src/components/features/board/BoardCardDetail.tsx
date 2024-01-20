@@ -1,21 +1,31 @@
 //import { AiOutlineEllipsis } from "react-icons/ai";
 //import { FaHeart, FaCommentAlt } from "react-icons/fa";
-//import PostModal from "./PostModal";
+import PostModal from "./PostModal";
 import { useState, useEffect } from "react";
 //import BoardAnswer from "./BoardAnswer";
 //import { Link } from "react-router-dom";
 import Link from "next/link";
 import styled from "styled-components";
 
+//백엔드 통신 관련 임시코드
 import axios from "axios";
+const serverUrl = "http://localhost:5001/api";
+
+import { useRouter } from "next/router";
 
 const BoardCardDetail = ({
   id,
   post,
-}: // isLoaded,
-// handleEdit,
-// handleDelete,
-BoardCardType) => {
+  setPost,
+  isLoaded,
+  handleEdit,
+  handleDelete,
+}: BoardCardType) => {
+  // 추천수, 댓글수
+  const userId = localStorage.getItem("userId");
+  const postId = post.id;
+  //좋아요
+
   // 처음엔 모달이 닫혀있다가 누르면 버튼이 열리게 //
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleClick = () => {
@@ -24,32 +34,46 @@ BoardCardType) => {
   let [like, setLike] = useState(0);
   let [count, setCount] = useState(0);
 
-  // get 요청 코드
+  const router = useRouter();
+  // delete 요청 코드
+  const onDelete = async () => {
+    try {
+      const { data } = await axios.delete(`${serverUrl}/boards/${postId}`);
+      console.log(data);
+      window.alert("게시글 삭제되었습니다.😎");
+      console.log(`게시글 삭제되었습니다.`);
+      router.push("/board/[" + 1 + "]");
+    } catch (error) {
+      console.log("delete error");
+      console.log(error);
+    }
+  };
   // axios ...
+  console.log("post.content : ", post.content);
   return (
     <>
       <Container>
         <div className="boardwrap">
-          <Header>통합 게시판 </Header>
+          <Header>통합 게시판</Header>
           <div className="boardview">
             <div className="boardheader">
               <div className="title">
                 {post.title}
-                {/* <ModalContainer onClick={handleClick}>
-                  <EditDelete />
+                <ModalContainer onClick={handleClick}>
+                  {Number(userId) === post.userId && <EditDeletIcon />}
                 </ModalContainer>
                 {isModalOpen && (
                   <PostModal
                     onClose={() => setIsModalOpen(false)}
                     isOpen={isModalOpen}
                   />
-                )} */}
+                )}
               </div>
               <div className="nickname">{post.nickName}</div>
               <div className="createdate">{post.createdAt}</div>
             </div>
             <div className="boardcontent">
-              <div className="content">{post.content}</div>
+              <pre style={{ whiteSpace: "pre-wrap" }}>{post.content}</pre>
               <>
                 <div className="like">
                   <span>
@@ -75,6 +99,20 @@ BoardCardType) => {
               </>
             </div>
           </div>
+
+          <button>수정</button>
+          <br />
+          <button
+            onClick={() => {
+              if (window.confirm("정말로 삭제하시겠습니까?")) {
+                onDelete();
+                alert("게시물이 삭제되었습니다😎");
+                window.location.href = "/PostlistPage";
+              }
+            }}
+          >
+            삭제
+          </button>
           <div className="answerview">
             {/* <BoardAnswer />
             <BoardAnswer /> */}
@@ -182,12 +220,12 @@ const Header = styled.div`
   font-weight: 700;
   border-bottom: 2px solid #4363c4;
 `;
-// const EditDelete = styled(AiOutlineEllipsis)`
-//   position: absolute;
-//   top: 10;
-//   right: 0;
-//   font-size: 25px;
-// `;
+const EditDeletIcon = styled.div`
+  position: absolute;
+  top: 10;
+  right: 0;
+  font-size: 25px;
+`;
 // const CommentIcon = styled(FaCommentAlt)`
 //   font-size: 20px;
 //   color: #64b5ff;

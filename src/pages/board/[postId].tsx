@@ -63,9 +63,11 @@ const PostviewPage = () => {
     <BoardCardDetail
       id={postId}
       post={post}
-
-      //isLoaded ={isLoaded}
-      //setIsLoaded={setIsLoaded}
+      setPost={setPost}
+      isLoaded={isLoaded}
+      setIsLoaded={setIsLoaded}
+      handleEdit={isLoaded}
+      handleDelete={isLoaded}
     />
   );
 };

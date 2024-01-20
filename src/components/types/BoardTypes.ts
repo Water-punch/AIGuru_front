@@ -20,9 +20,11 @@ interface BoardCreateOrEdit {
 
 interface Props {
   onEdit?: () => void;
-  onDelete?: () => void;
+  //onDelete?: () => void;
+  onDelete: any;
   onClose: any;
-  isOpen?: () => void;
+  isOpen: any;
+  //isOpen?: () => void;
 }
 
 interface BoardDataType {
@@ -44,8 +46,9 @@ interface boardListProps {
 interface BoardCardType {
   id: any;
   post: any;
-  // setPost: any;
-  // isLoaded: boolean;
-  // handleEdit: any;
-  // handleDelete: any;
+  setPost: any;
+  isLoaded: boolean;
+  setIsLoaded: any;
+  handleEdit: any;
+  handleDelete: any;
 }

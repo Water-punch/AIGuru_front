@@ -2,16 +2,15 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 //import { Link } from "react-router-dom";
 import Link from "next/link";
+
 const PostModal = ({ onEdit, onDelete, onClose, isOpen }: Props) => {
-  const handlemodalSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handlemodalSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    //event: React.MouseEvent<HTMLButtonElement
     event.preventDefault();
+    //게시글 수정 api콜 작성
     onClose();
   };
 
-  PostModal.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-  };
   return (
     <>
       {isOpen && (
@@ -37,6 +36,10 @@ const PostModal = ({ onEdit, onDelete, onClose, isOpen }: Props) => {
       )}
     </>
   );
+};
+PostModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 const Container = styled.div`
   position: absolute;

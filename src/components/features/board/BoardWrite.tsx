@@ -64,9 +64,11 @@ const BoardWrite = () => {
             `게시글을 작성했습니다.\n title: ${title}\n, content: ${content}`
           );
           console.log(post);
-          // 글 작성하고 나서 상세페이지로 이동
+          // 글 작성하고 나서 게시판 목록으로 이동
+          router.push("/board/");
           //router.push("/board/[postId]");
-          router.push("/board/[" + 1 + "]");
+          //router.push("/board/[" + 1 + "]");
+          //router.push("/board/[postId]");
         }
       } catch (e) {
         //   toast.error("등록이 실패하였습니다😭", {
