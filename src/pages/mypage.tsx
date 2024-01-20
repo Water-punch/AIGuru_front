@@ -1,6 +1,11 @@
+import { useEffect } from "react";
+import { useReadComments } from "../hooks/api/comment";
 
 const MyPage = () => {
 
+  const readComments = useReadComments()
+  console.log(readComments.data)
+  
   return (
     <div>
       MyPage

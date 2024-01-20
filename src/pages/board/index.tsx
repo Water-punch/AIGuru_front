@@ -5,9 +5,7 @@ import Link from 'next/link';
 
 const BoardPage = () => {
 
-  const handleData = () => {
-    // get요청
-  }
+
   
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-board.jpg')]">
