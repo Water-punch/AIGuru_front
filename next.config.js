@@ -1,21 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // reactStrictMode: true,
-  // output: 'standalone',
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:5001/:path*'
-      }
-    ]
-  }
+  reactStrictMode: true,
+  output: 'standalone',
 };
 
 const webpack = require('webpack')
 
 module.exports = {
   // 다른 설정들...
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/api/:path*',
+  //       destination: 'http://localhost:5001/:path*'
+  //     }
+  //   ]
+  // },
 
   // webpack 설정 추가
   webpack: (config, { isServer }) => {

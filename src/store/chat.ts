@@ -1,19 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { UserDataType } from '../components/types/UserTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { ChatResultType } from '../components/types/ChatTypes';
+import { ChatResponseType, } from '../components/types/ChatTypes';
 
 
-const initialState: ChatResultType = {
-  result: '',
+const initialState: ChatResponseType = {
+  response: [[0, 'title'] , [['input', 'output']]]
 };
 
 export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    saveResult: (state, action: PayloadAction<ChatResultType>) => {
-      state.result = action.payload.result;
+    saveResult: (state, action: PayloadAction<ChatResponseType>) => {
+      state.response = action.payload.response;
     },
   },
 });

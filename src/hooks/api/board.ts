@@ -1,6 +1,5 @@
 import { ChatResponseType, SendingMessageType } from "@/src/components/types/ChatTypes";
 import { useBaseMutation, useBaseQuery } from "./reactQueryConfig";
-import { error } from "console";
 
 // // 커스텀 훅 작성 가이드
 // // 게시글 작성
@@ -31,5 +30,9 @@ import { error } from "console";
 
 // if(postContent.error) {
 //   alert('게시글 등록에 실패했습니다.')
-//   console.log(error)
+//   console.log(postContent.error)
 // }
+
+export const useReadBoards = () => {
+  return useBaseQuery('/boards', 'readboards')
+}
