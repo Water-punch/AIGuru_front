@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { saveResult } from '@/src/store/chat';
 import { useRouter } from 'next/router';
 import { ChatResponseType } from '@/src/components/types/ChatTypes';
-import { useSendFirstMessage } from '@/src/hooks/api/chat';
+import { useSendFirstMessage, useTemporaryApi } from '@/src/hooks/api/chat';
 import { scriptForInput } from '@/src/utils/const/scripts';
 
 const gurusMessage =
@@ -43,6 +43,10 @@ const AIcounselingPage = () => {
     setLoading(false);
     setGptAnswer('무언가 오류가 있는 모양이군? 다시 시도해보게.');
   }
+
+  // const handleSubmit = () => {
+  //   const firstMessage = useTemporaryApi({question: userInput})
+  // }
 
   return (
     <div >
