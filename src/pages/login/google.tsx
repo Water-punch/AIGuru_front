@@ -16,7 +16,7 @@ const GoogleLoginPage = () => {
       
       <Link href="/login">
         <div className="flex items-center justify-center  text-center">
-          다른 방법으로 시작하기
+          다른 방법으로 로그인
         </div>
       </Link>
     </div>

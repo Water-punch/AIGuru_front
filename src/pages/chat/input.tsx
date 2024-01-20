@@ -1,15 +1,12 @@
 import ConversationBox from '@/src/components/common/ConversationBox';
 import { useEffect, useState } from 'react';
 import AnswerLoadingPage from '../../components/features/chat/AnswerLoading';
-import { useBaseMutation } from '@/src/hooks/api/reactQueryConfig';
 import { useDispatch } from 'react-redux';
 import { saveResult } from '@/src/store/chat';
-import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
-import { useMutation } from '@tanstack/react-query';
-import * as Api from '../../utils/api'
 import { ChatResponseType } from '@/src/components/types/ChatTypes';
-import { useSendFirstMessage } from '@/src/hooks/api/chat';
+import { useSendFirstMessage, useTemporaryApi } from '@/src/hooks/api/chat';
+import { scriptForInput } from '@/src/utils/const/scripts';
 
 const gurusMessage =
   '그렇구만.. 대강 감이 오는구만. 어디 한 번 상세하게 고민을 읊어보게나.';
@@ -33,14 +30,10 @@ const AIcounselingPage = () => {
   }
 
   if(firstMessage.isSuccess && firstMessage.data) {
-    const apiRes = firstMessage.data;
-    const history = apiRes.response;
+    const history = firstMessage.data.data.response;
     localStorage.setItem(`chat${history[0][0]}`, JSON.stringify(history));
-
-    const answer = history[1][1] || '...(고민을 다시 입력해보자.)'
     console.log(history)
-    console.log(history[1][1])
-    dispatch(saveResult({ result : answer }))
+    dispatch(saveResult({ response : history }))
     setLoading(false);
     router.push('/chat/result')
   }
@@ -51,6 +44,10 @@ const AIcounselingPage = () => {
     setGptAnswer('무언가 오류가 있는 모양이군? 다시 시도해보게.');
   }
 
+  // const handleSubmit = () => {
+  //   const firstMessage = useTemporaryApi({question: userInput})
+  // }
+
   return (
     <div >
       {loading? (
@@ -58,26 +55,27 @@ const AIcounselingPage = () => {
         ):(
         <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
           <div className="mt-20">
-            <ConversationBox text={gurusMessage} />
+            <ConversationBox text={scriptForInput.text} isGuru={scriptForInput.isGuru} />
           </div>
-          <div className="flex flex-col gap-5 mt-10 form">
+          <img src="/images/guru.png" alt='guru' className="h-[300px] mt-20"></img>
+          <div className="flex flex-row gap-1 mt-10 form fixed bottom-[100px]">
             <textarea
-              className="min-h-[100px]"
+              className="border-2 border-[#0c0b0b] rounded-md min-w-[500px] min-h-[70px] bg-white/70"
               placeholder="고민을 입력하세요."
               onChange={e => setUserInput(e.target.value)}
             />
 
-            <div className="flex flex-row">
-              <input type="file" accept="image/*" placeholder="📎" />
+            <div className="flex flex-col gap-1 justify-center">
+              <label htmlFor='file-upload' className='border-2 border-[#0c0b0b] bg-white rounded-md flex justify-center'> 📎 </label>
+              <input id="file-upload" className='hidden' type="file" accept="image/*" placeholder="📎" />
               <button
                 onClick={handleSubmit}
-                className="max-w-10 border-2 border-[#0c0b0b] bg-[#efe8dfcc]"
+                className="max-w-10 border-2 border-[#0c0b0b] bg-white rounded-md"
               >
-                전송
+                🔺
               </button>
             </div>
           </div>
-          <img src="/images/guru.png" alt='guru' className="h-[300px] mt-20"></img>
         </div>
       )}
     </div> 

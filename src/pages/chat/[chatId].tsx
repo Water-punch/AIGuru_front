@@ -1,20 +1,18 @@
 import Link from 'next/link';
 import ConversationBox from '@/src/components/common/ConversationBox';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/src/store';
 
-const CounselingResult = () => {
+const ExtraChatPage = () => {
   const history = useSelector((state: RootState) => state.chat.response)
   const chatId = history[0][0]
-  const scriptForResult = { 
-    text: history[1][-1][1] || '...(고민을 다시 입력해보자.)', 
-    isGuru: true 
-  }
+  const gurusMessage = history[1][-1][1] || '...(고민을 다시 입력해보자.)'
+  const dispatch = useDispatch()
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
       <div className="mt-20">
-        <ConversationBox text={scriptForResult.text} isGuru={scriptForResult.isGuru}/>
+        <ConversationBox text={gurusMessage} />
       </div>
 
       <div className="flex flex-col gap-2 mt-10 mb-10">
@@ -39,4 +37,4 @@ const CounselingResult = () => {
   );
 };
 
-export default CounselingResult;
+export default ExtraChatPage;
