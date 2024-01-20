@@ -1,48 +1,22 @@
-// import { Link } from "react-router-dom";
-import styled from "styled-components";
-import QuillEditor from "../../components/features/board/QuillEditor";
+import { useRouter } from "next/router"
 
-const BoardCreate = () => {
-  return (
-    <BoardForm onSubmit={handleSubmit}>
-      <input placeholder=" 글 제목" type="text" name="title" />
-      <br />
-      <hr />
-      <QuillEditor name="content" />
-    </BoardForm>
-  );
-};
-const BoardForm = styled.form`
-  @media only screen and (min-width: 1441px) {
-    //해상도 1440보다 큰 모니터
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 90vh;
-    font-size: 40px;
-    gap: 10px;
-  }
-  @media only screen and (max-width: 1440px) {
-    height: 800px;
-    font-size: 20px;
-  }
-  input {
-    width: 825px;
-    height: 40px;
-    margin-top: -100px;
-    margin-bottom: -70px;
-    border-radius: 10px;
-    border-width: thin;
-    font-size: 18px;
-    padding-left: 10px;
-  }
-  hr {
-    width: 100%;
-    border: none;
-    border-top: 1px solid black;
-    margin-top: 20px;
-    margin-bottom: 15px;
-  }
-`;
-export default BoardCreate;
+const BoardWritingPage = () => {
+    const router = useRouter()
+
+    const handleSubmit = () => {
+
+        // post 요청, res로 postId 받아오기
+
+        router.push('/board/[postId]')
+    }
+
+    return (
+        <div>
+            <div>BoardWritingPage</div>
+            <button onClick={handleSubmit}>완료</button>
+        </div>
+
+    )
+}
+
+export default BoardWritingPage
