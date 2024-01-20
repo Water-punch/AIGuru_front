@@ -1,13 +1,15 @@
-import NavButtons from "./NavButtons"
+import NavButtons from './NavButtons';
+import { FC, PropsWithChildren } from 'react'
 
-const Layout = (props: { children: React.ReactNode }) => {
+interface LayoutProps extends PropsWithChildren {}
 
-    return (
-        <>
-        <NavButtons />
-        {props.children}
-        </>
-    )
-}
+const Layout: FC<LayoutProps> = ({ children }) => {
+  return (
+    <>
+      <NavButtons />
+      {children}
+    </>
+  );
+};
 
-export default Layout
+export default Layout;
