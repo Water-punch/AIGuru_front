@@ -1,34 +1,72 @@
-// 상세조회 - 모달로 열려야..?
+import BoardCardDetail from "../../components/features/board/BoardCardDetail";
+// import PostCard from "../../components/features/board/PostCard";
+//import { useParams, useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
+//import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+//백엔드 통신 관련 임시코드
+import axios from "axios";
+const serverUrl = "http://localhost:5001/api";
+const api = axios.create({
+  baseURL: serverUrl,
+  headers: { "Content-Type": "application/json" },
+  // withCredentials: true,
+});
 
-import { dummyData } from "@/src/components/features/board/dummyData"
-import Link from "next/link"
-import { useRouter } from "next/router"
+const PostviewPage = () => {
+  const router = useRouter();
+  const { postId } = router.query;
 
-const BoardDetailPage = () => {
-    const router = useRouter()
-    const { postId } = router.query
+  const id = 10;
+  const [post, setPost] = useState({});
+  // 게시글이 없으면 isLoaded되지 않도록
+  const [isLoaded, setIsLoaded] = useState(false);
 
-    //postId를 통해서 상세게시물 조회 API 호출 - 임시로 dummyData에서 찾음
-    const id = Number(postId)
-    const foundPost = dummyData.find((post) => post.postId === id)
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const { data } = await axios.get(`${serverUrl}/boards/${postId}`);
+        console.log(data);
+        setPost(data);
+        setIsLoaded(true);
+      } catch (error) {
+        console.log("getPost error");
+        console.log(error);
+      }
+    };
+    getPost();
+  }, [postId]);
+  ////////게시글 삭제
+  // const handleDelete = async () => {
+  //   const config = {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   };
+  //   try {
+  //     await axios.delete(
+  //       `${process.env.REACT_APP_API_URL}/board/integrated/${id}`,
+  //       config
+  //     );
+  //     navigate('/PostlistPage');
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  ////////게시글 수정
+  // const handleEdit = async () => {
+  //   navigate(`/PostEditPage/${id}`, {
+  //     state: { title: post.title, content: post.content },
+  //   });
+  // };
+  return (
+    <BoardCardDetail
+      id={postId}
+      post={post}
 
-    return (
-        <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-board.jpg')]">
-
-            <div className="bg-white flex flex-col gap-4 my-20">
-                <div>
-                    {foundPost.title}
-                </div>
-                <div>
-                    {foundPost.date}
-                </div>
-                <div>
-                    {foundPost.content}
-                </div>
-            </div>
-        </div>
-        
-    )
-}
-
-export default BoardDetailPage
+      //isLoaded ={isLoaded}
+      //setIsLoaded={setIsLoaded}
+    />
+  );
+};
+export default PostviewPage;

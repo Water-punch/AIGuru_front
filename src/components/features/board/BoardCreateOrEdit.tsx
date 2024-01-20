@@ -1,14 +1,29 @@
 // import { Link } from "react-router-dom";
+import Link from "next/link";
 import styled from "styled-components";
-import QuillEditor from "../../components/features/board/QuillEditor";
+import QuillEditor from "./QuillEditor";
 
-const BoardCreate = () => {
+const BoardCreateOrEdit = ({
+  title,
+  setTitle,
+  content,
+  setContent,
+  handleSubmit,
+}: BoardCreateOrEdit) => {
   return (
     <BoardForm onSubmit={handleSubmit}>
-      <input placeholder=" 글 제목" type="text" name="title" />
+      <input
+        placeholder=" 글 제목"
+        type="text"
+        name="title"
+        value={title}
+        onChange={(e) => {
+          setTitle(e.target.value);
+        }}
+      />
       <br />
       <hr />
-      <QuillEditor name="content" />
+      <QuillEditor value={content} onChange={setContent} />
     </BoardForm>
   );
 };
@@ -45,4 +60,4 @@ const BoardForm = styled.form`
     margin-bottom: 15px;
   }
 `;
-export default BoardCreate;
+export default BoardCreateOrEdit;
