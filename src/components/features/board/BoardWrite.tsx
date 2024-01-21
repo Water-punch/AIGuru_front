@@ -82,7 +82,14 @@ const BoardWrite = () => {
   return (
     <div>
       <div>글쓰기</div>
+
       <input
+        style={{
+          width: '700px',
+          height: '35px',
+          marginTop: '20px',
+          paddingLeft: '10px',
+        }}
         type="text"
         placeholder="제목을 입력하세요"
         onChange={e => setTitle(e.target.value)}

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 //import BoardAnswer from "./BoardAnswer";
 //import { Link } from "react-router-dom";
 import Link from 'next/link';
-import styled from 'styled-components';
+//import styled from 'styled-components';
 
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
@@ -38,9 +38,9 @@ const BoardCardDetail = ({
 
   const router = useRouter();
   // delete 요청 코드
-  const onDelete = async (postId: any) => {
+  const onDelete = async () => {
     try {
-      console.log('postId(onDelete) : ', postId);
+      //console.log('postId(onDelete) : ', postId);
       console.log('post.boardId(onDelete) : ', post.boardId);
       const { data } = await axios.delete(
         `${serverUrl}/boards/${post.boardId}`,
@@ -81,7 +81,7 @@ const BoardCardDetail = ({
           <button
             onClick={() => {
               if (window.confirm('정말로 삭제하시겠습니까?')) {
-                onDelete(postId);
+                onDelete();
                 alert('게시물이 삭제되었습니다😎');
                 //window.location.href = '/board';
               }
@@ -185,6 +185,7 @@ const BoardCardDetail = ({
     </>
   );
 };
+/*
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -285,5 +286,5 @@ const ModalContainer = styled.div`
 // const Like = styled(FaHeart)`
 //   color: #64b5ff;
 //   margin-right: 10px;
-// `;
+// `;*/
 export default BoardCardDetail;
