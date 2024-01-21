@@ -55,7 +55,7 @@ const PostviewPage = () => {
   // };
   ////////게시글 수정
   // const handleEdit = async () => {
-  //   navigate(`/PostEditPage/${id}`, {
+  //   navigate(`/PostEditPage/${postId}`, {
   //     state: { title: post.title, content: post.content },
   //   });
   // };

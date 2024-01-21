@@ -7,6 +7,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 //import styled from 'styled-components';
 
+import BoardEdit from './BoardEdit';
+
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
 const serverUrl = 'http://localhost:5001/api';
@@ -37,6 +39,26 @@ const BoardCardDetail = ({
   let [count, setCount] = useState(0);
 
   const router = useRouter();
+  //수정
+  const onEdit = async () => {
+    console.log('onEdit 진입');
+    const data = {
+      name: '문지은',
+      age: 27,
+    };
+    console.log('data(onEdit) : ', data);
+    <Link
+      href={{
+        pathname: '/board/edit',
+        query: {
+          detail: JSON.stringify(data),
+        },
+      }}
+      as="/board/edit"
+    ></Link>;
+    console.log('onEdit 진입 222222222222222222222');
+  };
+
   // delete 요청 코드
   const onDelete = async () => {
     try {
@@ -76,7 +98,18 @@ const BoardCardDetail = ({
             <Link href="/board/">목록</Link>
           </button>
           <br />
-          <button>수정</button>
+          <Link
+            href={{
+              pathname: '/board/edit',
+              query: {
+                detail: JSON.stringify(post),
+              },
+            }}
+            as="/board/edit"
+          >
+            수정
+          </Link>
+
           <br />
           <button
             onClick={() => {
@@ -141,7 +174,7 @@ const BoardCardDetail = ({
             <Link href="/board/">목록</Link>
           </button>
           <br />
-          <button>수정</button>
+          <button onClick={onEdit}>수정</button>
           <br />
           <button
             onClick={() => {
