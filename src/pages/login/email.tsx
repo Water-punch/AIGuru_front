@@ -2,43 +2,82 @@ import { RootState } from '@/src/store';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/src/store/user';
+import { useEmailLogin } from '@/src/hooks/api/user';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import * as Api from '../../utils/api'
+import { setAccessToken } from '@/src/store/token';
 
 const EmailLoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
-  const givenUserId = useSelector((state: RootState) => state.user.userId);
+  const userState = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
 
+   const emailLogin = useEmailLogin({email: email, password: password})
+ 
   const handleSubmit = () => {
-    // API call
-    // 성공할 경우: dispatch(login(받아온 userData))
+    emailLogin.mutate();
   };
 
+
   useEffect(() => {
-    if (givenUserId !== '') {
-      // 로그인 성공 로직
+    console.log(userState);
+  }, [userState]);
+
+
+  useEffect(() => {
+    if (emailLogin.isSuccess && emailLogin.data) {
+      const userData = emailLogin.data.data;
+      const accessToken = emailLogin.data.headers['Authorization'];
+      dispatch(setAccessToken(accessToken))
+      dispatch(login(userData));
+      console.log(emailLogin.data)
+      alert('로그인 성공');
+      router.push('/');
     }
-  }, [givenUserId]);
+
+    if (emailLogin.error) {
+      alert('로그인에 실패했습니다.');
+    }
+  }, [emailLogin.isSuccess, emailLogin.data, emailLogin.error, dispatch]);
 
   return (
-    <div className="form">
-      <div className="form flex flex-col gap-4 my-10 max-w-250">
-        <input
-          type="text"
-          placeholder="email을 입력해주세요."
-          onChange={e => setEmail(e.target.value)}
-          className="border-2 border-black"
-        />
-        <input
-          type="text"
-          placeholder="비밀번호를 입력해주세요."
-          onChange={e => setPassword(e.target.value)}
-          className="border-2 border-black"
-        />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
+      <div className="my-20">
+        간편하게 로그인하고 다양한 서비스를 사용해보세요!
       </div>
-      <button onClick={handleSubmit}>로그인</button>
+      <div className="flex flex-col items-center">
+        <div className="form flex flex-col gap-4 my-10 w-60">
+          <input
+            type="text"
+            placeholder="email을 입력해주세요."
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="border-2 border-black"
+            autoComplete='off'
+          />
+          <input
+            type="password"
+            placeholder="비밀번호를 입력해주세요."
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="border-2 border-black"
+            autoComplete='off'
+          />
+          <button type='submit' className="flex items-center justify-center h-10 w-15 mb-2 rounded-md shadow bg-white text-center" onClick={handleSubmit}> 로그인</button>
+        </div>
+
+        <Link href="/login">
+          <div className="flex items-center justify-center  text-center">
+            다른 방법으로 로그인
+          </div>
+        </Link>
+      </div>
     </div>
+    
   );
 };
 

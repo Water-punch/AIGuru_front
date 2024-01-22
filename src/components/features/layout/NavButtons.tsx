@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import MyPageButton from './MyPageButton';
 
 const NavButtons = () => {
   const router = useRouter();
@@ -22,12 +23,7 @@ const NavButtons = () => {
               className="rounded-full h-[33px] w-[33px]"
             ></img>
           </Link>
-          <Link href="/mypage">
-            <img
-              src="/images/user.png"
-              className="rounded-full h-[30px] w-[30px]"
-            ></img>
-          </Link>
+          <MyPageButton />
         </div>
       ) : router.pathname.includes('board') ? (
         <div className="flex flex-row gap-6">
@@ -49,12 +45,7 @@ const NavButtons = () => {
               className="rounded-full h-[33px] w-[33px]"
             ></img>
           </Link>
-          <Link href="/mypage">
-            <img
-              src="/images/user.png"
-              className="rounded-full h-[30px] w-[30px]"
-            ></img>
-          </Link>
+          <MyPageButton />
         </div>
       ) : (
         <div className="flex flex-row gap-6">
@@ -64,12 +55,7 @@ const NavButtons = () => {
               className="rounded-full h-[30px] w-[30px]"
             ></img>
           </Link>
-          <Link href="/mypage">
-            <img
-              src="/images/user.png"
-              className="rounded-full h-[30px] w-[30px]"
-            ></img>
-          </Link>
+          <MyPageButton />
         </div>
       )}
     </div>

@@ -1,16 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { UserDataType } from '../components/types/UserTypes';
+import { LoginResponseType } from '../components/types/UserTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: UserDataType = {
-  userId: '',
-  userInfo: {
-    email: '',
-    login_type: '',
-    membership: {
-      usingService: 'non-member',
-      remainChances: 0,
-    },
+const defaultDate = new Date('1999-12-31');
+
+const initialState: LoginResponseType = {
+  user: {
+    userId: '',
+    logintype: '',
+    // mebership: {
+    //   userId: '',
+    //   start_at: defaultDate,
+    //   end_at: defaultDate,
+    //   usingService: '',
+    //   remainChances: 5,
+    //   created_at: defaultDate,
+    //   updated_at: defaultDate,
+    //   deleted_at: defaultDate,
+    // }
   },
 };
 
@@ -18,9 +25,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<UserDataType>) => {
-      state.userId = action.payload.userId;
-      state.userInfo = action.payload.userInfo;
+    login: (state, action: PayloadAction<LoginResponseType>) => {
+      state.user = action.payload.user;
     },
     logout: state => {
       Object.assign(state, initialState);

@@ -11,12 +11,34 @@ export interface SendingMessageType {
   imageUrl?: string;
 }
 
-type ChatInfoType = [number, string];
+type ChatInfoType = [number, string, string?];
 type ChatHistoryType = [string, string];
-type HistoryType = [ChatInfoType, ChatHistoryType]
+export type HistoryType = [ChatInfoType, ChatHistoryType[]]
 
 // Gpt로 Post요청 시 res.body에 담길 데이터 타입
-// 백엔드 history 배열의 구조는?
 export interface ChatResponseType {
-  response: HistoryType[]
+  response: HistoryType
 }
+
+// 추가질문 시 req.body에 넣을 데이터 타입
+export interface AdditionalMessageType {
+  question: string;
+  history: HistoryType;
+  imageUrl?: string;
+}
+
+export interface ConversationBoxType {
+  text: string;
+  isGuru?: boolean;
+}
+
+export interface ConversationBoxesType {
+  chatData: HistoryType;
+}
+
+export interface ChatListDataType {
+  chatId: string;
+  title: string;
+}
+
+export type ChatListType = ChatListDataType[]
