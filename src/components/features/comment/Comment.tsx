@@ -1,8 +1,8 @@
 import { CommentProps, CommentType } from '../../types/CommentTypes';
 
 //댓글 하나 출력
-const Comment = ({ commentData }: CommentProps) => {
-  const { boardId, content, anonymous_number } = commentData;
+const Comment = (commentData: CommentProps) => {
+  const { content, anonymous_number } = commentData;
 
   return (
     <div className="bg-gray-100 p-4 m-2 rounded-md">
