@@ -11,8 +11,9 @@ const BoardEditingPage = ({ post }: BoardCardTypeMini) => {
   console.log('데이터 전달 받기(BoardEditingPage)');
   //console.log(JSON.parse(router.query.detail));
   //const post = JSON.parse(router.query.detail);
+  const parsed = JSON.parse(router.query.detail);
   console.log('데이터 전달 받기(BoardEditingPage) 22222222222222');
-  return <BoardEdit post={router.query.detail} />;
+  return <BoardEdit post={parsed} />;
 };
 
 export default BoardEditingPage;

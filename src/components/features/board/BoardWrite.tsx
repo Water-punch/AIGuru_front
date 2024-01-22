@@ -52,7 +52,7 @@ const BoardWrite = () => {
       // axios ...
       try {
         const response = await axios.post(`${serverUrl}/api/boards`, {
-          userId: post.userId,
+          // userId: post.userId,
           title: post.title,
           content: post.content,
           tag: '',

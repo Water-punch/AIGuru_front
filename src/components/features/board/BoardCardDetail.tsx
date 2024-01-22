@@ -64,9 +64,14 @@ const BoardCardDetail = ({
     try {
       //console.log('postId(onDelete) : ', postId);
       console.log('post.boardId(onDelete) : ', post.boardId);
-      const { data } = await axios.delete(
-        `${serverUrl}/boards/${post.boardId}`,
-      );
+      const response = await axios.delete(`${serverUrl}/boards/`, {
+        boardId: post.boardId,
+        title: post.title,
+        content: post.content,
+        tag: '',
+      });
+      if (response.status === 201) {
+      }
       console.log(data);
       window.alert('게시글 삭제되었습니다.😎');
       console.log(`게시글 삭제되었습니다.`);

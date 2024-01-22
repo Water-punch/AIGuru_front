@@ -7,19 +7,35 @@ interface PostDataType {
 }
 
 interface PostCardsProps {
-  dummyData: BoardDataType[];
+  dummyData: BoardDataTypeList;
+}
+
+interface BoardDataTypeList {
+  count: number;
+  list: BoardDataType[];
+  // boardId: any;
+  // id: any;
+  // title: string;
+  // content: string;
+  // nickName: string;
+  // viewCount: any;
+  // likeCount: number;
+  // commentCount: number;
+  // createdAt: any;
 }
 
 interface BoardDataType {
   boardId: any;
-  id: any;
+  //id: any;
   title: string;
-  content: string;
-  nickName: string;
-  viewCount: any;
-  likeCount: number;
-  commentCount: number;
+  tag: string;
+  //content: string;
+  //nickName: string;
+  views: any;
+  //likeCount: number;
+  //commentCount: number;
   createdAt: any;
+  updatedAt: any;
 }
 
 interface BoardCardType {
@@ -30,4 +46,8 @@ interface BoardCardType {
   setIsLoaded: any;
   handleEdit: any;
   handleDelete: any;
+}
+
+interface boardListProps {
+  boardList: BoardDataType[];
 }

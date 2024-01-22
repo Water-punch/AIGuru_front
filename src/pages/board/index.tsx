@@ -13,7 +13,10 @@ const serverUrl = 'http://localhost:5001/api';
 //   // withCredentials: true,
 // });
 const BoardPage = () => {
-  const [boardList, setBoardList] = useState([]);
+  const [boardList, setBoardList] = useState<BoardDataTypeList>({
+    count: 0,
+    list: [],
+  });
   // const handleData = () => {
   //   //아마도 검색버튼 클릭했을떄 게시글 출력하는 함수??
   //   // get요청
@@ -61,7 +64,7 @@ const BoardPage = () => {
         <BoardList boardList={boardList} />
       </div> */}
       <div>
-        <PostCards dummyData={boardList} />
+        <PostCards count={boardList.count} list={boardList.list} />
       </div>
       <br />
       <br />
