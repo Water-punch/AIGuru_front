@@ -7,7 +7,7 @@ const ConversationBox = ({ text, isGuru }: ConversationBoxType) => {
   const typingDelay = 50;
   let person = '';
   if (isGuru) person = 'AI 구루'
-  else person = '나'
+  else person = '당신'
 
   useEffect(() => {
     const timer = setInterval(() => {

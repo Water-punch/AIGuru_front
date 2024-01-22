@@ -5,6 +5,7 @@ import { login } from '@/src/store/user';
 import { useEmailLogin } from '@/src/hooks/api/user';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import * as Api from '../../utils/api'
 import { setAccessToken } from '@/src/store/token';
 
 const EmailLoginPage = () => {
@@ -13,18 +14,19 @@ const EmailLoginPage = () => {
   const router = useRouter();
 
   const userState = useSelector((state: RootState) => state.user.user);
-  console.log(userState)
   const dispatch = useDispatch();
 
-  const emailLogin = useEmailLogin({email: email, password: password})
-  
+   const emailLogin = useEmailLogin({email: email, password: password})
+ 
   const handleSubmit = () => {
     emailLogin.mutate();
   };
 
+
   useEffect(() => {
-    console.log(userState); 
+    console.log(userState);
   }, [userState]);
+
 
   useEffect(() => {
     if (emailLogin.isSuccess && emailLogin.data) {
@@ -41,7 +43,6 @@ const EmailLoginPage = () => {
       alert('로그인에 실패했습니다.');
     }
   }, [emailLogin.isSuccess, emailLogin.data, emailLogin.error, dispatch]);
-
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">

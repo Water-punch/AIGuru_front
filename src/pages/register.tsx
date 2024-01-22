@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRegister } from '../hooks/api/user';
 import { useRouter } from 'next/router';
+import * as Api from '../utils/api'
 
 const RegisterPage = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ const RegisterPage = () => {
 
   const register = useRegister({email: email, password: password, logintype: 'EMAIL'})
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     register.mutate()
   }
 
@@ -20,9 +21,7 @@ const RegisterPage = () => {
   }
 
   if (register.error) {
-    alert('회원가입 중 오류가 발생했습니다.')
     console.log(register.error)
-    // router.push('/')
   }
 
   return (
@@ -43,20 +42,20 @@ const RegisterPage = () => {
           />
           {confirm !== password ? (
             <input
-              type="text"
+              type="password"
               placeholder="비밀번호를 다시 한 번 입력해주세요."
               onChange={e => setConfirm(e.target.value)}
               className="border-2 border-[#cf0404]"
             />
           ) : (
             <input
-              type="text"
+              type="password"
               placeholder="비밀번호를 다시 한 번 입력해주세요."
               onChange={e => setConfirm(e.target.value)}
               className="border-2 border-black"
             />
           )} 
-          <button className="border-1" onClick={handleSubmit}>회원가입</button>
+          <button className="border-2" onClick={handleSubmit}>회원가입</button>
       </div>
     </div>
   );

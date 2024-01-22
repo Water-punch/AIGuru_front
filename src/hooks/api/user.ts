@@ -10,3 +10,6 @@ export const useEmailLogin = (bodyData: LoginRequestType) => {
   return useBaseMutation('/user/login/email', bodyData, 'post')
 }
 
+// export const useLogout = () => {
+//   return useBaseMutation('/user/logout', , 'post')
+// }
