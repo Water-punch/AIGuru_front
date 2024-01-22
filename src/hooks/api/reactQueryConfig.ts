@@ -27,16 +27,16 @@ export const useBaseQuery = <T = any> (endpoint: string, queryKey: string) => {
 // 서버 데이터 변경: post, put, delete
 // 헤더에도 접근할 수 있게 mutationFn의 return값을 { data: response.data, headers: response.headers } 구조로 변경
 // useBaseMutation.data = { data: response.data, headers: response.headers }
-export const useBaseMutation = <T = any>(endpoint: string, bodyData: FormData | Object, method: 'post' | 'put' | 'delete', queryKey?: string) => {
+export const useBaseMutation = <T = any>(endpoint: string,  method: 'post' | 'put' | 'delete', bodyData?: FormData | Object, queryKey?: string) => {
   const queryClient = useQueryClient();
   const mutationFn = useCallback(async (): Promise<ApiResponse<T>> => {
     let response;
     switch (method) {
       case 'post':
-        response = await Api.post<T>(endpoint, bodyData);
+        response = await Api.post<T>(endpoint, bodyData ?? {});
         break;
       case 'put':
-        response = await Api.put<T>(endpoint, bodyData);
+        response = await Api.put<T>(endpoint, bodyData ?? {});
         break;
       case 'delete':
         response = await Api.del<T>(endpoint);

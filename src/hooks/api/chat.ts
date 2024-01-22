@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 export const useSendFirstMessage = (bodyData: SendingMessageType) => {
-  return useBaseMutation<ChatResponseType>('/chat/first', bodyData , 'post')
+  return useBaseMutation<ChatResponseType>('/chat/first', 'post', bodyData )
 }
 
 export const useTemporaryApi = async (bodyData: SendingMessageType): Promise<ChatResponseType | undefined> => {
