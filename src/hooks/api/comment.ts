@@ -27,7 +27,7 @@ export const useMyComment = (page: number) => {
 };
 
 // 게시글에 작성된 댓글 목록 조회
-export const useBoardComment = (boardId: number) => {
+export const useBoardComment = (boardId: any) => {
   return useBaseQuery(`/comments/${boardId}?page=1&limit=20`, 'boardComment');
 };
 

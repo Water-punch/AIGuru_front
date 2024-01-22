@@ -1,13 +1,12 @@
 export interface CommentProps {
-  boardId: number;
+  boardId: string;
   content: string;
 }
 
 export interface CommentType {
-  commentData: CommentProps
+  commentData: CommentProps;
 }
 
 export interface CommentsProps {
-  commentsData: CommentProps[]
+  commentsData: CommentProps[];
 }
-

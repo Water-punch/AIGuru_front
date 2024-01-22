@@ -1,15 +1,17 @@
-import Link from "next/link";
-import { CommentProps, CommentsProps } from "../../types/CommentTypes";
-import Comment from "./Comment";
-import { useEffect, useState } from "react";
-import { useWriteComment } from "@/src/hooks/api/comment";
+import Link from 'next/link';
+import { CommentProps, CommentsProps } from '../../types/CommentTypes';
+import Comment from './Comment';
+import { useEffect, useState } from 'react';
+import { useWriteComment } from '@/src/hooks/api/comment';
+import { useRouter } from 'next/router';
 
 const Comments = ({ commentsData }: CommentsProps) => {
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState('');
+  const router = useRouter();
+  const boardId = router.query;
   const writeComment = useWriteComment({
-    boardId: 1,
+    boardId: boardId.postId,
     content: userInput,
-    anonymous_number: 10,
   });
 
   const handleSubmit = async () => {
@@ -30,7 +32,7 @@ const Comments = ({ commentsData }: CommentsProps) => {
         <input
           type="text"
           placeholder="댓글을 입력해 주세요"
-          onChange={(e) => setUserInput(e.target.value)}
+          onChange={e => setUserInput(e.target.value)}
         ></input>
         <button onClick={handleSubmit}>작성</button>
       </div>
