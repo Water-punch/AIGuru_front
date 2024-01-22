@@ -1,6 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
 
 const api = axios.create({
   baseURL: 'http://localhost:5001/api',
@@ -11,11 +9,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
   req => {
-    const token = useSelector((state: RootState) => state.token.accessToken)
-
-    if (token) {
-      req.headers['Authorization'] = `Bearer ${token}`;
-    }
+    // if (token) {
+    //   req.headers['Authorization'] = `Bearer ${token}`;
+    // }
 
     if (req.data && req.data instanceof FormData) {
       req.headers['Content-Type'] = 'multipart/form-bodyData';
@@ -55,20 +51,24 @@ api.interceptors.request.use(
 //   }
 // )
 
-async function get<T = any>(endpoint: string): Promise<AxiosResponse<T>> {
-  return await api.get<T>(endpoint);
+async function get<T = any>(endpoint: string, token?: string): Promise<AxiosResponse<T>> {
+  const headers = token ? { Authorization: `Bearer ${token}`} : {}
+  return await api.get<T>(endpoint, { headers });
 }
 
-async function post<T = any>(endpoint: string, bodyData: FormData | Object) {
-  return await api.post<T>(endpoint, bodyData);
+async function post<T = any>(endpoint: string, bodyData: FormData | Object, token?: string) {
+  const headers = token ? { Authorization: `Bearer ${token}`} : {}
+  return await api.post<T>(endpoint, bodyData, { headers });
 }
 
-async function put<T = any>(endpoint: string, bodyData: FormData | Object) {
-  return await api.put<T>(endpoint, bodyData)
+async function put<T = any>(endpoint: string, bodyData: FormData | Object, token?: string) {
+  const headers = token ? { Authorization: `Bearer ${token}`} : {}
+  return await api.put<T>(endpoint, bodyData, { headers })
 }
 
-async function del<T = any>(endpoint: string) {
-  return await api.delete<T>(endpoint)
+async function del<T = any>(endpoint: string, token?: string) {
+  const headers = token ? { Authorization: `Bearer ${token}`} : {}
+  return await api.delete<T>(endpoint, { headers })
 }
 
 export { get, post, put, del };

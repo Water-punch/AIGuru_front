@@ -5,8 +5,10 @@ import { useDispatch } from 'react-redux';
 import { saveResult } from '@/src/store/chat';
 import { useRouter } from 'next/router';
 import { ChatResponseType } from '@/src/components/types/ChatTypes';
-import { useSendFirstMessage, useTemporaryApi } from '@/src/hooks/api/chat';
+import { useSendFirstMessage } from '@/src/hooks/api/chat';
 import { scriptForInput } from '@/src/utils/const/scripts';
+import axios from 'axios';
+import ChattingListBar from '@/src/components/features/layout/ChattingListBar';
 
 const gurusMessage =
   '그렇구만.. 대강 감이 오는구만. 어디 한 번 상세하게 고민을 읊어보게나.';
@@ -14,42 +16,58 @@ const gurusMessage =
 const AIcounselingPage = () => {
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [gptAnswer, setGptAnswer] = useState('');
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const firstMessage = useSendFirstMessage({question: userInput})
-  console.log(firstMessage)
+  // const firstMessage = useSendFirstMessage({question: userInput})
+  // console.log(firstMessage)
+
+  // const handleSubmit = async () => {
+  //   firstMessage.mutate()
+  // }
+
+  // if(firstMessage.isPending) {
+  //   setLoading(true)
+  // }
+
+  // if(firstMessage.isSuccess && firstMessage.data) {
+  //   const history = firstMessage.data.data.response;
+  //   localStorage.setItem(`chat${history[0][0]}`, JSON.stringify(history));
+  //   console.log(history)
+  //   dispatch(saveResult({ response : history }))
+  //   setLoading(false);
+  //   router.push('/chat/result')
+  // }
+
+  // if(firstMessage.error) {
+  //   console.error('api 호출 오류', firstMessage.error);
+  //   setLoading(false);
+  //   setGptAnswer('무언가 오류가 있는 모양이군? 다시 시도해보게.');
+  // }
 
   const handleSubmit = async () => {
-    firstMessage.mutate()
-  }
+    const serverUrl = 'http://localhost:5000';
+    try {
+        setLoading(true);
+        const response = await axios.post(`${serverUrl}/chat/first`, {
+            question: userInput
+        });
+        const history = response.data.response;
+        localStorage.setItem(`chat${history[0][0]}`, JSON.stringify(history));
+        console.log(history)
+        dispatch(saveResult({ response : history }))
+        setLoading(false);
+        router.push('/chat/result')
 
-  if(firstMessage.isPending) {
-    setLoading(true)
-  }
-
-  if(firstMessage.isSuccess && firstMessage.data) {
-    const history = firstMessage.data.data.response;
-    localStorage.setItem(`chat${history[0][0]}`, JSON.stringify(history));
-    console.log(history)
-    dispatch(saveResult({ response : history }))
-    setLoading(false);
-    router.push('/chat/result')
-  }
-
-  if(firstMessage.error) {
-    console.error('api 호출 오류', firstMessage.error);
-    setLoading(false);
-    setGptAnswer('무언가 오류가 있는 모양이군? 다시 시도해보게.');
-  }
-
-  // const handleSubmit = () => {
-  //   const firstMessage = useTemporaryApi({question: userInput})
-  // }
+    } catch (error) {
+        console.error('api 호출 오류', error);
+        setLoading(false);
+    }
+}
 
   return (
     <div >
+      <ChattingListBar />
       {loading? (
         <AnswerLoadingPage/>
         ):(
@@ -58,7 +76,7 @@ const AIcounselingPage = () => {
             <ConversationBox text={scriptForInput.text} isGuru={scriptForInput.isGuru} />
           </div>
           <img src="/images/guru.png" alt='guru' className="h-[300px] mt-20"></img>
-          <div className="flex flex-row gap-1 mt-10 form fixed bottom-[100px]">
+          <div className="flex flex-row gap-1 mt-10 form fixed bottom-[50px]">
             <textarea
               className="border-2 border-[#0c0b0b] rounded-md min-w-[500px] min-h-[70px] bg-white/70"
               placeholder="고민을 입력하세요."

@@ -2,17 +2,19 @@ import Link from 'next/link';
 import ConversationBox from '@/src/components/common/ConversationBox';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store';
+import ChattingListBar from '@/src/components/features/layout/ChattingListBar';
 
 const CounselingResult = () => {
   const history = useSelector((state: RootState) => state.chat.response)
   const chatId = history[0][0]
   const scriptForResult = { 
-    text: history[1][-1][1] || '...(고민을 다시 입력해보자.)', 
+    text: history[1][history[1].length - 1][1] || '...(고민을 다시 입력해보자.)', 
     isGuru: true 
   }
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
+      <ChattingListBar />
       <div className="mt-20">
         <ConversationBox text={scriptForResult.text} isGuru={scriptForResult.isGuru}/>
       </div>
@@ -34,7 +36,7 @@ const CounselingResult = () => {
           </div>
         </Link>
       </div>
-      <img src="/images/guru.png" alt='guru' className="h-[300px] mt-20"></img>
+      <img src="/images/guru.png" alt='guru' className="h-[300px] mt-20 fixed bottom-[50px]"></img>
     </div>
   );
 };

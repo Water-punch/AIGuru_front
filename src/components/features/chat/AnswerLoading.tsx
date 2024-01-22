@@ -1,13 +1,12 @@
 import ConversationBox from '@/src/components/common/ConversationBox';
+import { scriptForLoading } from '@/src/utils/const/scripts';
 import { motion } from 'framer-motion';
-
-const gurusMessage = '오오 영감이 떠오른다!';
 
 const AnswerLoadingPage = () => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
       <div className='mt-20'>
-        <ConversationBox text={gurusMessage} />
+        <ConversationBox text={scriptForLoading.text} isGuru={scriptForLoading.isGuru}/>
       </div>
 
       <motion.div 
