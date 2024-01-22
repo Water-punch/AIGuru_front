@@ -39,13 +39,7 @@ api.interceptors.request.use(
 
 //         // 새 토큰 저장 로직 
 
-//         // 원래 요청에 새 토큰을 설정, 재시도
-//         originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-//         return api(originalRequest);
-//       } catch (refreshError) {
-//         // 리프레시 토큰 요청 실패 처리
-//         return Promise.reject(refreshError);
-//       }
+//         //
 //     }
 //     return Promise.reject(error);
 //   }
