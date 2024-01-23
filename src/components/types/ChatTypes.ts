@@ -1,7 +1,7 @@
 // 상황문답 결과 타입
 export interface TestResultType {
   classification: string;
-  situation: string;
+  situation?: string;
 }
 
 // Gpt로 Post요청 시 req.body에 넣을 데이터 타입

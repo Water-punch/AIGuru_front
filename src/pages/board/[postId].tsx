@@ -15,8 +15,9 @@ const api = axios.create({
 
 const PostviewPage = () => {
   const router = useRouter();
-  const { postId } = router.query;
+  const postId = router.query.postId;
 
+  
   const id = 10;
   const [post, setPost] = useState({});
   // 게시글이 없으면 isLoaded되지 않도록

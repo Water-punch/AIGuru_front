@@ -22,19 +22,18 @@ const EmailLoginPage = () => {
     emailLogin.mutate();
   };
 
-
   useEffect(() => {
     console.log(userState);
   }, [userState]);
-
 
   useEffect(() => {
     if (emailLogin.isSuccess && emailLogin.data) {
       const userData = emailLogin.data.data;
       const accessToken = emailLogin.data.headers['Authorization'];
-      dispatch(setAccessToken(accessToken))
-      dispatch(login(userData));
-      console.log(emailLogin.data)
+      localStorage.setItem(`user${userData.userId}`, JSON.stringify(userData));
+      dispatch(setAccessToken({ accessToken: accessToken }))
+      dispatch(login({ user: userData }));
+      console.log(userData)
       alert('로그인 성공');
       router.push('/');
     }
