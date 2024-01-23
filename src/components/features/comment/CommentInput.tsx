@@ -14,6 +14,9 @@ const CommentInput = () => {
 
   const handleSubmit = async () => {
     writeComment.mutate();
+    if(writeComment.isSuccess && writeComment.data) {
+      console.log('댓글 작성 성공')
+    }
   };
 
   return (

@@ -4,6 +4,7 @@ import {
 } from '@/src/components/types/ChatTypes';
 import { useBaseMutation, useBaseQuery } from './reactQueryConfig';
 import { CommentProps, PostCommentType } from '@/src/components/types/CommentTypes';
+import { useState } from 'react';
 
 // 커스텀 훅 작성 가이드
 // // 전체 댓글 읽기
@@ -32,7 +33,19 @@ export const useMyComment = (page: number) => {
 // };
 
 export const useBoardComment = (boardId: any, query?: string) => {
-  return useBaseQuery(`/comments/${boardId}${query}`, 'boardComment');
+  const [trigger, setTrigger] = useState(false);
+  const { isLoading, error, data } = useBaseQuery(`/comments/${boardId}${query}`, 'boardComment', trigger)
+  
+  const executeQuery = () => {
+    setTrigger(true);
+  }
+
+  return {
+    isLoading,
+    error,
+    data,
+    executeQuery,
+  }
 };
 
 // 게시글 신고 접수
