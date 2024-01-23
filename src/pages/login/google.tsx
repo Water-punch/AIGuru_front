@@ -1,13 +1,24 @@
 import { useGoogleLogin } from '@/src/hooks/api/user';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 const GoogleLoginPage = () => {
   const googleLogin = useGoogleLogin()
 
   const handleLogin = () => {
-    googleLogin
+    googleLogin.executeQuery();
+    console.log(googleLogin.data)
   }
   
+  useEffect(() => {
+    if (googleLogin.data) {
+      const url = googleLogin.data.headers.Location;
+      if (url) {
+        window.location.href = url; 
+      }
+    }
+  }, [googleLogin.data]);
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">

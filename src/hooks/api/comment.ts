@@ -3,7 +3,11 @@ import {
   SendingMessageType,
 } from '@/src/components/types/ChatTypes';
 import { useBaseMutation, useBaseQuery } from './reactQueryConfig';
-import { CommentProps } from '@/src/components/types/CommentTypes';
+import {
+  CommentProps,
+  PostCommentType,
+} from '@/src/components/types/CommentTypes';
+import { useState } from 'react';
 
 // 커스텀 훅 작성 가이드
 // // 전체 댓글 읽기
@@ -12,7 +16,7 @@ export const useReadComments = () => {
 };
 
 // 댓글 작성하기
-export const useWriteComment = (bodyData: CommentProps) => {
+export const useWriteComment = (bodyData: PostCommentType) => {
   return useBaseMutation('/comments', 'post', bodyData);
 };
 
@@ -27,8 +31,28 @@ export const useMyComment = (page: number) => {
 };
 
 // 게시글에 작성된 댓글 목록 조회
-export const useBoardComment = (boardId: any) => {
-  return useBaseQuery(`/comments/${boardId}?page=1&limit=20`, 'boardComment');
+// export const useBoardComment = (boardId: any, page?: number, limit?: number) => {
+//   return useBaseQuery(`/comments/${boardId}?page=${page}&limit=${limit}`, 'boardComment');
+// };
+
+export const useBoardComment = (boardId: any, query?: string) => {
+  const [trigger, setTrigger] = useState(false);
+  const { isLoading, error, data } = useBaseQuery(
+    `/comments/${boardId}${query}`,
+    'boardComment',
+    trigger,
+  );
+
+  const executeQuery = () => {
+    setTrigger(true);
+  };
+
+  return {
+    isLoading,
+    error,
+    data,
+    executeQuery,
+  };
 };
 
 // 게시글 신고 접수

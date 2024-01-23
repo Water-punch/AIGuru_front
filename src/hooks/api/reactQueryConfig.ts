@@ -4,18 +4,19 @@ import { useCallback } from "react"
 import { AxiosResponse } from "axios"
 
 type ApiResponse<T> = {
-  data: T;
+  data: any;
   headers: any;
 };
 
 // 서버 데이터 요청: get
-export const useBaseQuery = <T = any> (endpoint: string, queryKey: string) => {
-  const { isLoading, error, data } = useQuery<T>({
+export const useBaseQuery = <T = any> (endpoint: string, queryKey: string, enabled?: boolean) => {
+  const { isLoading, error, data } = useQuery<ApiResponse<T>>({
     queryKey: [queryKey],
-    queryFn: async () => {
+    queryFn: async (): Promise<ApiResponse<T>> => {
       const response = await Api.get<T>(endpoint)
-      return response.data;
-    }
+      return { data: response.data, headers: response.headers };
+    },
+    enabled,
   })
   return {
     isLoading,
