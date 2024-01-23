@@ -1,6 +1,7 @@
 import { ChatResponseType, SendingMessageType } from "@/src/components/types/ChatTypes";
 import { useBaseMutation, useBaseQuery } from "./reactQueryConfig";
 import { LoginRequestType, RegisterRequestType } from "@/src/components/types/UserTypes";
+import { useState } from "react";
 
 export const useRegister = (bodyData: RegisterRequestType) => {
   return useBaseMutation('/user/register', 'post', bodyData)
@@ -15,7 +16,19 @@ export const useEditUser = () => {
 }
 
 export const useGoogleLogin = () => {
-  return useBaseQuery('/user/login/google', 'googleLogin')
+  const [trigger, setTrigger] = useState(false);
+  const { isLoading, error, data } = useBaseQuery('/user/login/google', 'googleLogin', trigger)
+
+  const executeQuery = () => {
+    setTrigger(true);
+  }
+
+  return {
+    isLoading,
+    error,
+    data,
+    executeQuery,
+  }
 }
 
 export const useKakaoLogin = () => {
