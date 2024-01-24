@@ -1,12 +1,17 @@
 import BoardCardDetail from '../../components/features/board/BoardCardDetail';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+
+// import { useSelector } from 'react-redux';
+
+// import { RootState } from '@/src/store';
 import Comments from '@/src/components/features/comment/Comments';
 import { useBoardComment } from '@/src/hooks/api/comment';
 
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
 import CommentInput from '@/src/components/features/comment/CommentInput';
+
 const serverUrl = 'http://localhost:5001/api';
 const api = axios.create({
   baseURL: serverUrl,
@@ -20,6 +25,12 @@ const PostviewPage = () => {
   console.log(postId)
   const [comments, setComments] = useState({count:0, list: []});
   const [post, setPost] = useState({});
+
+  //ㄹ그인여부 본인게시글
+  // const userState = useSelector((state: RootState) => state.user.user);
+  // if(userState.userId && userState.userId===post.id){
+
+  // }
   // 게시글이 없으면 isLoaded되지 않도록
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1)

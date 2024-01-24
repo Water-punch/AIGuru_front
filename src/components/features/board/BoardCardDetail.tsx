@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 //import BoardAnswer from "./BoardAnswer";
 //import { Link } from "react-router-dom";
 import Link from 'next/link';
-//import styled from 'styled-components';
+import styled from 'styled-components';
 
 import BoardEdit from './BoardEdit';
 
@@ -14,7 +14,13 @@ import axios from 'axios';
 const serverUrl = 'http://localhost:5001/api';
 
 import { useRouter } from 'next/router';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store';
+const api = axios.create({
+  baseURL: serverUrl,
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,
+});
 const BoardCardDetail = ({
   id,
   post,
@@ -23,6 +29,10 @@ const BoardCardDetail = ({
   handleEdit,
   handleDelete,
 }: BoardCardType) => {
+  //로그인여부 본인게시글
+  const userState = useSelector((state: RootState) => state.user.user);
+  const [isUser, setIsUser] = useState(false);
+
   console.log('post(BoardCardDetail) : ', post);
   // 추천수, 댓글수
   //const userId = localStorage.getItem("userId");
@@ -40,49 +50,71 @@ const BoardCardDetail = ({
 
   const router = useRouter();
   //수정
-  const onEdit = async () => {
-    console.log('onEdit 진입');
-    const data = {
-      name: '문지은',
-      age: 27,
-    };
-    console.log('data(onEdit) : ', data);
-    <Link
-      href={{
-        pathname: '/board/edit',
-        query: {
-          detail: JSON.stringify(data),
-        },
-      }}
-      as="/board/edit"
-    ></Link>;
-    console.log('onEdit 진입 222222222222222222222');
-  };
+  // const onEdit = async () => {
+  //   console.log('onEdit 진입');
+  //   const data = {
+  //     name: '문지은',
+  //     age: 27,
+  //   };
+  //   console.log('data(onEdit) : ', data);
+  //   <Link
+  //     href={{
+  //       pathname: '/board/edit',
+  //       query: {
+  //         detail: JSON.stringify(data),
+  //       },
+  //     }}
+  //     as="/board/edit"
+  //   ></Link>;
+  //   console.log('onEdit 진입 222222222222222222222');
+  // };
 
   // delete 요청 코드
   const onDelete = async () => {
     try {
       //console.log('postId(onDelete) : ', postId);
       console.log('post.boardId(onDelete) : ', post.boardId);
-      const response = await axios.delete(`${serverUrl}/boards/`, {
-        boardId: post.boardId,
-        title: post.title,
-        content: post.content,
-        tag: '',
+      const response = await api.delete(`${serverUrl}/boards/${post.boardId}`, {
+        //boardId: post.boardId,
+        // title: post.title,
+        // content: post.content,
+        // tag: '',
       });
-      if (response.status === 201) {
+      if (response.status === 200) {
+        //console.log(data);
+        window.alert('게시글 삭제되었습니다.😎');
+        console.log(
+          `=====================게시글 삭제하면 무조건 여기로 오나================`,
+        );
+        console.log(`게시글 삭제되었습니다.`);
+        //router.push(`/board/${post.boardId}`);
+        router.push(`/board`);
+        //router.push('/board/[' + 1 + ']');
+      } else {
+        console.log(`delete error`);
+        router.push(`/board/${post.boardId}`);
       }
-      console.log(data);
-      window.alert('게시글 삭제되었습니다.😎');
-      console.log(`게시글 삭제되었습니다.`);
-      //router.push('/board/[' + 1 + ']');
     } catch (error) {
-      console.log('delete error');
+      console.log('delete error(catch)');
       console.log(error);
     }
   };
   // axios ...
   console.log('post.content : ', post.content);
+  console.log('post.userId : ', post.userId);
+  console.log('userState.userId : ', userState.userId);
+
+  useEffect(() => {
+    console.log(userState, post);
+    if (userState && userState.userId === post.userId) {
+      setIsModalOpen(true);
+      setIsUser(true);
+      // console.log('setIsUser(true): ', isUser);
+      // console.log('setIsModalOpen(true): ', isModalOpen);
+    }
+  }, [post, userState]);
+  console.log('isUser : ', isUser);
+  console.log('isModalOpen : ', isModalOpen);
   return (
     <>
       <div
@@ -103,38 +135,50 @@ const BoardCardDetail = ({
             <Link href="/board/">목록</Link>
           </button>
           <br />
-          <Link
-            href={{
-              pathname: '/board/edit',
-              query: {
-                detail: JSON.stringify(post),
-              },
-            }}
-            as="/board/edit"
-          >
-            수정
-          </Link>
+          {!isUser ? (
+            <div></div>
+          ) : (
+            <div>
+              <Link
+                href={{
+                  pathname: '/board/edit',
+                  query: {
+                    detail: JSON.stringify(post),
+                  },
+                }}
+                as="/board/edit"
+              >
+                수정
+              </Link>
 
-          <br />
-          <button
-            onClick={() => {
-              if (window.confirm('정말로 삭제하시겠습니까?')) {
-                onDelete();
-                alert('게시물이 삭제되었습니다😎');
-                //window.location.href = '/board';
-              }
-            }}
-          >
-            삭제
-          </button>
+              <br />
+              <button
+                onClick={() => {
+                  if (window.confirm('정말로 삭제하시겠습니까?')) {
+                    onDelete();
+                    //alert('게시물이 삭제되었습니다😎');
+                    //window.location.href = '/board';
+                  }
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          )}
           <br />
           <div className="boardview">
             <div className="@apply h-70 p-100 border-b-1 border-solid border-black;">
               <div className="@apply h-4 flex items-center text-22;">
                 {post.title}
-                {/* <ModalContainer onClick={handleClick}>
-                  {Number(userId) === post.userId && <EditDeletIcon />}
-                </ModalContainer>
+                {/* 모달창 관련 코드  
+                <div
+                  className="flex items-center justify-center w-24 h-24 cursor-pointer"
+                  onClick={handleClick}
+                >
+                  {isUser && (
+                    <div className="absolute top-10 right-0 text-2xl" />
+                  )}
+                </div>
                 {isModalOpen && (
                   <PostModal
                     onClose={() => setIsModalOpen(false)}
@@ -179,14 +223,24 @@ const BoardCardDetail = ({
             <Link href="/board/">목록</Link>
           </button>
           <br />
-          <button onClick={onEdit}>수정</button>
+          <Link
+            href={{
+              pathname: '/board/edit',
+              query: {
+                detail: JSON.stringify(post),
+              },
+            }}
+            as="/board/edit"
+          >
+            수정
+          </Link>
           <br />
           <button
             onClick={() => {
               if (window.confirm('정말로 삭제하시겠습니까?')) {
                 onDelete();
-                alert('게시물이 삭제되었습니다😎');
-                window.location.href = '/PostlistPage';
+                //alert('게시물이 삭제되었습니다😎');
+                //window.location.href = '/board';
               }
             }}
           >
@@ -321,8 +375,9 @@ const ModalContainer = styled.div`
   height: 24px;
   cursor: pointer;
 `;
+*/
 // const Like = styled(FaHeart)`
 //   color: #64b5ff;
 //   margin-right: 10px;
-// `;*/
+// `;
 export default BoardCardDetail;
