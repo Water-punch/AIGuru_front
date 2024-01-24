@@ -4,8 +4,13 @@ import BoardCardDetail from '../../components/features/board/BoardCardDetail';
 import { useRouter } from 'next/router';
 //import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+
+// import { useSelector } from 'react-redux';
+
+// import { RootState } from '@/src/store';
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
+
 const serverUrl = 'http://localhost:5001/api';
 const api = axios.create({
   baseURL: serverUrl,
@@ -19,6 +24,12 @@ const PostviewPage = () => {
 
   const id = 10;
   const [post, setPost] = useState({});
+
+  //ㄹ그인여부 본인게시글
+  // const userState = useSelector((state: RootState) => state.user.user);
+  // if(userState.userId && userState.userId===post.id){
+
+  // }
   // 게시글이 없으면 isLoaded되지 않도록
   const [isLoaded, setIsLoaded] = useState(false);
 
