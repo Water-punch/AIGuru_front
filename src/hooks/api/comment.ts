@@ -14,7 +14,7 @@ export const useReadComments = () => {
 
 // 댓글 작성하기
 export const useWriteComment = (bodyData: PostCommentType) => {
-  return useBaseMutation('/comments', 'post', bodyData);
+  return useBaseMutation('/comments', 'post', bodyData, 'boardComment');
 };
 
 // 댓글 삭제하기

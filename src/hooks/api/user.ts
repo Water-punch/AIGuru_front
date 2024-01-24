@@ -15,6 +15,20 @@ export const useEditUser = () => {
   return useBaseMutation('/user/edit', 'put')
 }
 
+// export const useLogout = () => {
+//   return useBaseMutation('/user/logout', , 'post')
+// }
+
+export const useUserBoadrd = (query: string) => {
+
+  return useBaseQuery(`/boards/my${query}`, 'userboard')
+}
+
+export const useUserComment = (query: string) => {
+
+  return useBaseQuery(`/comments/my${query}`, 'userComment')
+}
+
 export const useGoogleLogin = () => {
   const [trigger, setTrigger] = useState(false);
   const { isLoading, error, data } = useBaseQuery('/user/login/google', 'googleLogin', trigger)
@@ -32,9 +46,19 @@ export const useGoogleLogin = () => {
 }
 
 export const useKakaoLogin = () => {
-  return useBaseQuery('/user/login/kakao', 'kakaoLogin')
+  const [trigger, setTrigger] = useState(false);
+  const { isLoading, error, data } = useBaseQuery('/user/login/kakao', 'kakaoLogin', trigger)
+
+  const executeQuery = () => {
+    setTrigger(true);
+  }
+
+  return {
+    isLoading,
+    error,
+    data,
+    executeQuery,
+  }
 }
 
-// export const useLogout = () => {
-//   return useBaseMutation('/user/logout', , 'post')
-// }
+

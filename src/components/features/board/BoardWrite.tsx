@@ -56,6 +56,7 @@ const BoardWrite = () => {
     console.log(boardWrite.error)
   }
 
+  console.log(content)
   // const handleSubmit = useCallback(
   //   async (event: React.MouseEvent<HTMLButtonElement>) => {
   //     event.preventDefault();
