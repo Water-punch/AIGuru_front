@@ -19,7 +19,7 @@ export const useWriteComment = (bodyData: PostCommentType) => {
 
 // 댓글 삭제하기
 export const useDeleteComment = (commentId: string) => {
-  return useBaseMutation(`/comments/${commentId}`, 'delete');
+  return useBaseMutation(`/comments/${commentId}`, 'delete', undefined, 'boardComment');
 };
 
 // 자신이 작성한 댓글 목록 조회

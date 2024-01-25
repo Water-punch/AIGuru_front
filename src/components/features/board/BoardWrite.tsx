@@ -22,40 +22,36 @@ const BoardWrite = () => {
   const router = useRouter();
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
-  const [decodedImages, setDecodedImages] = useState<ArrayBuffer[]>([]);
-  const [imgUrls, setImgUrls] = useState([]);
+  let newContent = ''
   // content에서 이미지의 src를 추출 및 디코딩하는 커스텀훅
   const imgHook = useHandleImage()
-  const userId = localStorage.getItem('userId');
-
-  const post = {
-    userId: userId,
-    title: title,
-    content: content.replace(/<\/?p[^>]*>/g, ''),
-    //content가 <p> 감싸져서 나오는 것 없애기위해 추가해주었다.
-  };
-
+ 
   const boardWrite = useWriteBoard({
-    title: post.title,
-    content: post.content,
+    title: title,
+    content: newContent,
     tag: 'love',
   })
 
+  console.log(content)
+
   const handleWrite = async () => {
     // S3이미지 전송까지만
-    // if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
 
-    //   const parse = await imgHook.parse(content)
-    //   console.log(parse.filenames)
-    //   if(parse.filenames) {
-    //     const preUrls = await imgHook.getUrl(parse.filenames)  
-    //     console.log(preUrls)
-    //     const imgUrls = await imgHook.imgToS3(preUrls, parse.decodedImages)
-    //     console.log(imgUrls)
-    //   }
-    // }
-    
-    boardWrite.mutate()
+      const parse = await imgHook.parse(content, title)
+      console.log(parse.filenames)
+      if(parse.filenames) {
+        const preUrls = await imgHook.getUrl(parse.filenames)  
+        console.log(preUrls)
+        const imgUrls = await imgHook.imgToS3(preUrls, parse.decodedImages)
+        console.log(imgUrls)
+        if(imgUrls) {
+          newContent = imgHook.change(content, imgUrls)
+          console.log(newContent)
+          // boardWrite.mutate()
+        }
+      }
+    }
   }
 
   if (boardWrite.isSuccess && boardWrite.data) {

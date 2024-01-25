@@ -4,8 +4,11 @@ import { dummyData } from '@/src/components/features/board/dummyData';
 //import BoardList from '@/src/components/features/board/BoardList.jsx';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
+import Pagination from '@/src/components/features/board/Pagination';
+import { RootState } from '@/src/store';
 const serverUrl = 'http://localhost:5001/api';
 // const api = axios.create({
 //   baseURL: serverUrl,
@@ -17,11 +20,8 @@ const BoardPage = () => {
     count: 0,
     list: [],
   });
-  // const handleData = () => {
-  //   //아마도 검색버튼 클릭했을떄 게시글 출력하는 함수??
-  //   // get요청
-  // };
   const [currentpage, setCurrentpage] = useState(1);
+  const pageState = useSelector((state: RootState) => state.page)
 
   //Pagination  Component
   const nextPage = () => {
@@ -38,11 +38,28 @@ const BoardPage = () => {
     },
   };
 
-  const getBoardlist = async () => {
-    console.log('currentpage : ', currentpage);
+  // const getBoardlist = async () => {
+  //   console.log('currentpage : ', currentpage);
+  //   try {
+  //     const response = await axios.get(
+  //       `${serverUrl}/boards?page=${currentpage}`,
+  //       config,
+  //     );
+  //     console.log('status:', response.status);
+  //     console.log('data:', response.data);
+  //     setBoardList(response.data);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error('error');
+  //     console.error(error);
+  //   }
+  // };
+
+    const getBoardlist = async () => {
+    console.log('currentpage : ', pageState);
     try {
       const response = await axios.get(
-        `${serverUrl}/boards?page=${currentpage}`,
+        `${serverUrl}/boards?page=${pageState}`,
         config,
       );
       console.log('status:', response.status);
@@ -54,9 +71,11 @@ const BoardPage = () => {
       console.error(error);
     }
   };
+
   useEffect(() => {
     getBoardlist();
-  }, [currentpage]);
+  }, [pageState]);
+
   console.log('boardList.count : ', boardList.count);
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-board.jpg')]">
@@ -80,12 +99,13 @@ const BoardPage = () => {
         ) : null}
 
         <div> {currentpage}</div>
-        {/* 현 페이지 표시  */}
+
 
         <Link href={`board/?page=${currentpage + 1}`}>
           <button onClick={nextPage}>다음 페이지</button>
         </Link>
       </div>
+      <Pagination totalContents={boardList.count} currentPage={1} contentsPerPage={15} />
       <br />
       <br />
       <br />
