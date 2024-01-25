@@ -10,12 +10,13 @@ type ApiResponse<T> = {
 
 // 서버 데이터 요청: get
 export const useBaseQuery = <T = any> (endpoint: string, queryKey: string, enabled?: boolean) => {
+  const queryFn = async () : Promise<ApiResponse<T>> => {
+    const response = await Api.get<T>(endpoint)
+    return { data: response.data, headers: response.headers };
+  }
   const { isLoading, error, data } = useQuery<ApiResponse<T>>({
     queryKey: [queryKey],
-    queryFn: async (): Promise<ApiResponse<T>> => {
-      const response = await Api.get<T>(endpoint)
-      return { data: response.data, headers: response.headers };
-    },
+    queryFn: queryFn,
     enabled,
   })
   return {

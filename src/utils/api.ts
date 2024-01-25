@@ -9,9 +9,6 @@ const api = axios.create({
 
 api.interceptors.request.use(
   req => {
-    // if (token) {
-    //   req.headers['Authorization'] = `Bearer ${token}`;
-    // }
 
     if (req.data && req.data instanceof FormData) {
       req.headers['Content-Type'] = 'multipart/form-bodyData';
@@ -45,7 +42,7 @@ api.interceptors.request.use(
 //   }
 // )
 
-async function get<T = any>(endpoint: string, token?: string): Promise<AxiosResponse<T>> {
+async function get<T = any>(endpoint: string, token?: string) {
   const headers = token ? { Authorization: `Bearer ${token}`} : {}
   return await api.get<T>(endpoint, { headers });
 }
