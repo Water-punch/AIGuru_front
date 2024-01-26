@@ -14,22 +14,32 @@ const CommentInput = () => {
 
   const handleSubmit = async () => {
     writeComment.mutate();
-    if(writeComment.isSuccess && writeComment.data) {
-      console.log('댓글 작성 성공')
-    }
+    console.log('동작 확인');
   };
+  useEffect(() => {
+    if (writeComment.isSuccess && writeComment.data) {
+      console.log('댓글 작성 성공');
+      setUserInput('');
+    }
+  }, [writeComment.data, writeComment.isSuccess]);
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row gap-10">
       <input
+        className="bg-white p-4 m-1 border-2 border-red-300 w-5/6"
         type="text"
         placeholder="댓글을 입력해 주세요"
+        value={userInput}
         onChange={e => setUserInput(e.target.value)}
       ></input>
-      <button onClick={handleSubmit}>작성</button>
+      <button
+        className="rounded border-2 w-1/12 border-gray-300"
+        onClick={handleSubmit}
+      >
+        작성
+      </button>
     </div>
-  )
+  );
+};
 
-}
-
-export default CommentInput
+export default CommentInput;

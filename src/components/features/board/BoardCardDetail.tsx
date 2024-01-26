@@ -196,7 +196,7 @@ const BoardCardDetail = ({
             {/* <BoardAnswer />
             <BoardAnswer /> */}
             <div className="writranswer">
-              <input
+              {/* <input
                 placeholder="댓글 쓰기"
                 style={{
                   width: '700px',
@@ -204,7 +204,7 @@ const BoardCardDetail = ({
                   marginTop: '20px',
                   paddingLeft: '10px',
                 }}
-              />
+              /> */}
               {/* <ButtonLink to="/PostlistPage">
                 <button
                   style={{

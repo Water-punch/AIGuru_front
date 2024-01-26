@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 const Comments = ({ count, list }: CommentsProps) => {
   const commentsData = list;
 
+  //useEffect(() => {}, [Comments]);
+
   return (
     <div className="flex flex-col">
       {commentsData.map((data: CommentProps, idx: number) => (
