@@ -97,9 +97,9 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
   console.log('isModalOpen : ', isModalOpen);
   return (
     <>
-      <div className="flex flex-col justify-between w-180 h-80 left-1/2 absolute translate-x-[-50%] translate-y-[-50%] box-border">
+      <div className="flex flex-col justify-between w-180 h-[100%] left-1/2 box-border">
         <div className="boardwrap">
-          <div className="text-blue-500 bg-white w-860 h-40 flex items-center p-10 text-35 font-bold border-b-2 border-blue-500">
+          <div className="text-blue-500 bg-white w-860 h-40 flex justify-center items-center p-10 text-35 font-bold border-b-2 border-blue-500">
             통합 게시판
           </div>
           <button>
@@ -137,7 +137,7 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
             </div>
           )}
           <br />
-          <div className="boardview">
+          <div className="boardview border-2 border-black">
             <div className="h-70 p-100 border-b-1 border-solid border-black;">
               <div className=" h-4 flex items-center text-22;">
                 {post && post.title}

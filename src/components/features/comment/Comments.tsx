@@ -6,11 +6,15 @@ const Comments = ({ count, list }: CommentsProps) => {
   const commentsData = list
 
   return (
-    <div className="flex flex-col">
-      {commentsData.map((data: CommentProps, idx: number) => (
-        <Comment key={idx} {...data} />
-      ))}
-    </div>
+    <div>
+      <div className="flex flex-col">
+        {commentsData.map((data: CommentProps, idx: number) => (
+          <div key={idx}>
+            <Comment {...data} />
+          </div>
+        ))}
+      </div>
+    </div>  
   );
 };
 

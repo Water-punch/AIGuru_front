@@ -72,14 +72,14 @@ const PostviewPage = () => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-3">
       <div>{post && <BoardCardDetail id={postId} post={post} />}</div>
       <div>
         {hasComments && (
           <Comments count={comments.count} list={comments.list} />
         )}
-        <CommentInput />
       </div>
+      <CommentInput />
     </div>
   );
 };
