@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useRouter } from "next/router";
+import HandleBoards from "../components/features/user/HandleBoards";
+import HandleComments from "../components/features/user/HandleComments";
+import HandleServices from "../components/features/user/HandleServices";
+import HandleUsers from "../components/features/user/HandleUsers";
 
 const limit = 15
 
@@ -12,19 +16,25 @@ const MyPage = () => {
   const [boardPage, setboardPage] = useState(1)
   const commentQuery = `?page=${commentPage}&limit=${limit}`
   const boardQuery = `?page=${boardPage}&limit=${limit}`
+  const [selectedComponent, setSelectedComponent] = useState(null);
 
-  const handleSwitch = () => {
-
-  }
+  const handleSelectComponent = (component: any) => {
+    setSelectedComponent(component);
+  };
   
   return (
-    <div>
-      <div>
+    <div className="flex">
+      <div className="fixed left-0 top-0 h-screen w-[30vw] border-white border shadow-lg bg-pink-500 p-5 ml-50">
         <div>{user.userId} 임시로 보여주는 userId</div>
         <div className="flex flex-col gap-5 w-20">
-          {/* <button className="border border-black" onClick={}>댓글 모아보기</button>
-          <button className="border border-black" onClick={}>작성한 글 관리하기</button> */}
+          <button className="border border-black" onClick={() => handleSelectComponent(<HandleUsers />)}>유저 정보</button>
+          <button className="border border-black" onClick={() => handleSelectComponent(<HandleBoards />)}>작성한 게시글</button>
+          <button className="border border-black" onClick={() => handleSelectComponent(<HandleComments />)}>작성한 댓글</button>
+          <button className="border border-black" onClick={() => handleSelectComponent(<HandleServices />)}>서비스</button>
         </div>
+      </div>
+      <div className="ml-auto mt-20">
+        {selectedComponent}
       </div>
     </div>
   );

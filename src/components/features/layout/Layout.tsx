@@ -7,13 +7,19 @@ import { login } from '@/src/store/user';
 
 interface LayoutProps extends PropsWithChildren {}
 
-const privatePath = ['/mypage', '/board/write', '/board/edit', '/board/[postId]', '/chat/[chatId]']
+
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const router = useRouter()
   console.log(router.pathname)
   const validation = useValidation()
   const dispatch = useDispatch()
+
+  const privatePath = ['/mypage', `/board/${router.query.postId}`, '/chat/']
+
+  const IsPrivatePath = () => {
+    
+  }
 
   const checkLogin = () => {
     if(privatePath.includes(router.pathname)) {

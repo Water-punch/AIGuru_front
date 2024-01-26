@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useLogout, useValidation } from "@/src/hooks/api/user"
+import { RootState } from "@/src/store"
 
 const MyPageButton = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -11,6 +12,7 @@ const MyPageButton = () => {
   const [text, setText] = useState('로그인')
   const router = useRouter();
   const dispatch = useDispatch();
+  const userState = useSelector((state: RootState) => state.user.user)
   const validation = useValidation();
   const userLogout = useLogout();
 
@@ -18,10 +20,10 @@ const MyPageButton = () => {
     validation.executeQuery();
     console.log('validation 실행')
     setIsOpen(true)
-    if (validation.data) {
-      dispatch(login({ user: validation.data?.data }));
-      setIsLogin(true)
-    } 
+    // if (validation.data) {
+    //   dispatch(login({ user: validation.data?.data }));
+    //   setIsLogin(true)
+    // } 
   };
 
   const handleLogout = () => {
@@ -42,6 +44,16 @@ const MyPageButton = () => {
     }
     setIsOpen(false)
   }
+
+  useEffect(() => {
+    if (userState && userState.logintype !== '안함') {
+      setIsLogin(true)
+    }
+    if (validation.data) {
+      dispatch(login({ user: validation.data?.data }));
+      setIsLogin(true)
+    }
+  }, [validation.data]);
   
   return (
     <div>

@@ -36,7 +36,7 @@ export const useLogout = () => {
 }
 
 export const useUserBoadrd = (query: string) => {
-
+  
   return useBaseQuery(`/boards/my${query}`, 'userboard')
 }
 

@@ -16,6 +16,7 @@ const CommentInput = () => {
     });
     if(writeComment.isSuccess && writeComment.data) {
       console.log('댓글 작성 성공')
+      setUserInput('')
     }
   };
 
@@ -25,6 +26,7 @@ const CommentInput = () => {
         type="text"
         placeholder="댓글을 입력해 주세요"
         onChange={e => setUserInput(e.target.value)}
+        value={userInput}
       ></input>
       <button onClick={handleSubmit}>작성</button>
     </div>
