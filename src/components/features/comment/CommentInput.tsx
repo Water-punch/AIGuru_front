@@ -7,13 +7,13 @@ const CommentInput = () => {
   const router = useRouter();
   const boardId = router.query;
 
-  const writeComment = useWriteComment({
-    boardId: boardId.postId,
-    content: userInput,
-  });
+  const writeComment = useWriteComment();
 
   const handleSubmit = async () => {
-    writeComment.mutate();
+    writeComment.mutate({
+      boardId: boardId.postId,
+      content: userInput,
+    });
     if(writeComment.isSuccess && writeComment.data) {
       console.log('댓글 작성 성공')
     }

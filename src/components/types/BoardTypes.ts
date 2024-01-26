@@ -26,10 +26,10 @@ interface BoardDataTypeList {
 
 interface BoardDataType {
   boardId: any;
-  //id: any;
+  userId: any;
   title: string;
   tag: string;
-  //content: string;
+  content: string;
   //nickName: string;
   views: any;
   //likeCount: number;
@@ -40,12 +40,7 @@ interface BoardDataType {
 
 interface BoardCardType {
   id: any;
-  post: any;
-  setPost: any;
-  isLoaded: boolean;
-  setIsLoaded: any;
-  handleEdit: any;
-  handleDelete: any;
+  post: BoardDataType;
 }
 
 interface boardListProps {

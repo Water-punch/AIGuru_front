@@ -6,8 +6,8 @@ const defaultDate = new Date('1999-12-31');
 
 const initialState: LoginResponseType = {
   user: {
-    userId: '',
-    logintype: '',
+    userId: '0',
+    logintype: '안함',
     // mebership: {
     //   userId: '',
     //   start_at: defaultDate,

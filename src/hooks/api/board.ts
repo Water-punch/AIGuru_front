@@ -13,8 +13,8 @@ interface WriteBoardType {
   tag: string;
 }
 
-export const useWriteBoard = (bodyData: WriteBoardType) => {
-  return useBaseMutation(`/boards`, 'post', bodyData)
+export const useWriteBoard = () => {
+  return useBaseMutation(`/boards`, 'post')
 }
 
 

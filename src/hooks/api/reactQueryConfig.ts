@@ -29,9 +29,9 @@ export const useBaseQuery = <T = any> (endpoint: string, queryKey: string, enabl
 // 서버 데이터 변경: post, put, delete
 // 헤더에도 접근할 수 있게 mutationFn의 return값을 { data: response.data, headers: response.headers } 구조로 변경
 // useBaseMutation.data = { data: response.data, headers: response.headers }
-export const useBaseMutation = <T = any>(endpoint: string,  method: 'post' | 'put' | 'delete', bodyData?: FormData | Object, queryKey?: string) => {
+export const useBaseMutation = <T = any>(endpoint: string,  method: 'post' | 'put' | 'delete', queryKey?: string) => {
   const queryClient = useQueryClient();
-  const mutationFn = useCallback(async (): Promise<ApiResponse<T>> => {
+  const mutationFn = useCallback(async (bodyData?: Object,): Promise<ApiResponse<T>> => {
     let response;
     switch (method) {
       case 'post':
@@ -47,9 +47,9 @@ export const useBaseMutation = <T = any>(endpoint: string,  method: 'post' | 'pu
         throw new Error(`post, put, delete에서 method를 선택해주세요. 현재 선택 method:${method}`)
     }
     return { data: response.data, headers: response.headers }
-  }, [endpoint, bodyData, method])
+  }, [endpoint, method])
   
-  const { isPending, isSuccess, error, data, mutate, } = useMutation<ApiResponse<T>>({
+  const { isPending, isSuccess, error, data, mutate, } = useMutation<ApiResponse<T>, Error, Object>({
     mutationFn: mutationFn,
     onSuccess: () => {
       if (queryKey) {

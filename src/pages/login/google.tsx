@@ -3,27 +3,14 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 
 const GoogleLoginPage = () => {
-  // const googleLogin = useGoogleLogin()
 
   const handleLogin = async () => {
-    // googleLogin.executeQuery();
-    // console.log(googleLogin.data)
     try {
       location.href = 'http://localhost:5001/api/user/login/google'
     } catch (err) {
       console.log(err)
     }
   }
-  
-  // useEffect(() => {
-  //   if (googleLogin.data) {
-  //     const url = googleLogin.data.headers.Location;
-  //     if (url) {
-  //       window.location.href = url; 
-  //     }
-  //   }
-  // }, [googleLogin.data]);
-
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">

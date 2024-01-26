@@ -2,9 +2,13 @@ import Link from 'next/link';
 
 const KakaoLoginPage = () => {
 
-  const REST_API_KEY = '88fc59891f43aaa04117bd6762a9f864';
-  const REDIRECT_URI = '';
-  const link = ``
+  const handleLogin = async () => {
+    try {
+      location.href = 'http://localhost:5001/api/user/login/kakao'
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
@@ -12,12 +16,10 @@ const KakaoLoginPage = () => {
         간편하게 로그인하고 다양한 서비스를 사용해보세요!
       </div>
 
-      <Link href="/login/google">
-        <div className="flex items-center justify-center h-10 w-60 mb-2 rounded-md shadow bg-yellow-500 text-center">
-          <img src="/images/kakao.png" className="h-full mr-2"></img>
-          카카오 계정으로 로그인
-        </div>
-      </Link>
+      <button className="flex items-center justify-center h-10 w-60 mb-2 rounded-md shadow bg-yellow-500 text-center" onClick={handleLogin}>
+        <img src="/images/kakao.png" className="h-full mr-2"></img>
+        카카오 계정으로 로그인
+      </button>
       
       <Link href="/login">
         <div className="flex items-center justify-center  text-center">

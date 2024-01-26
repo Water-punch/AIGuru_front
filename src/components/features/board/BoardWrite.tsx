@@ -26,11 +26,7 @@ const BoardWrite = () => {
   // content에서 이미지의 src를 추출 및 디코딩하는 커스텀훅
   const imgHook = useHandleImage()
  
-  const boardWrite = useWriteBoard({
-    title: title,
-    content: newContent,
-    tag: 'love',
-  })
+  const boardWrite = useWriteBoard()
 
   console.log(content)
 
@@ -48,7 +44,7 @@ const BoardWrite = () => {
         if(imgUrls) {
           newContent = imgHook.change(content, imgUrls)
           console.log(newContent)
-          // boardWrite.mutate()
+          boardWrite.mutate({ title: title, content: newContent, tag: 'love'})
         }
       }
     }

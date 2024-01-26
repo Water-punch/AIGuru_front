@@ -9,10 +9,10 @@ const RegisterPage = () => {
   const [confirm, setConfirm] = useState('');
   const router = useRouter()
 
-  const register = useRegister({email: email, password: password, logintype: 'EMAIL'})
+  const register = useRegister()
 
   const handleSubmit = () => {
-    register.mutate()
+    register.mutate({email: email, password: password, logintype: 'EMAIL'})
   }
 
   if (register.isSuccess) {

@@ -5,8 +5,6 @@ import { useState, useEffect } from 'react';
 //import BoardAnswer from "./BoardAnswer";
 //import { Link } from "react-router-dom";
 import Link from 'next/link';
-import styled from 'styled-components';
-
 import BoardEdit from './BoardEdit';
 
 //백엔드 통신 관련 임시코드
@@ -24,21 +22,10 @@ const api = axios.create({
 const BoardCardDetail = ({
   id,
   post,
-  setPost,
-  isLoaded,
-  handleEdit,
-  handleDelete,
 }: BoardCardType) => {
   //로그인여부 본인게시글
   const userState = useSelector((state: RootState) => state.user.user);
   const [isUser, setIsUser] = useState(false);
-
-  console.log('post(BoardCardDetail) : ', post);
-  // 추천수, 댓글수
-  //const userId = localStorage.getItem("userId");
-  const postId = post.id;
-  console.log('post.boardId(BoardCardDetail) : ', post.boardId);
-  //좋아요
 
   // 처음엔 모달이 닫혀있다가 누르면 버튼이 열리게 //
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -99,14 +86,10 @@ const BoardCardDetail = ({
       console.log(error);
     }
   };
-  // axios ...
-  console.log('post.content : ', post.content);
-  console.log('post.userId : ', post.userId);
-  console.log('userState.userId : ', userState.userId);
 
   useEffect(() => {
     console.log(userState, post);
-    if (userState && userState.userId === post.userId) {
+    if (userState && post && userState.userId === post.userId) {
       setIsModalOpen(true);
       setIsUser(true);
       // console.log('setIsUser(true): ', isUser);
@@ -169,7 +152,7 @@ const BoardCardDetail = ({
           <div className="boardview">
             <div className="@apply h-70 p-100 border-b-1 border-solid border-black;">
               <div className="@apply h-4 flex items-center text-22;">
-                {post.title}
+                {post && post.title}
                 {/* 모달창 관련 코드  
                 <div
                   className="flex items-center justify-center w-24 h-24 cursor-pointer"
@@ -186,14 +169,11 @@ const BoardCardDetail = ({
                   />
                 )} */}
               </div>
-              <div className="flex text-sm mt-5 text-gray-600 font-bold">
-                {post.nickName}
-              </div>
-              <div className="createdate">{post.createdAt}</div>
+              <div className="createdate">{post && post.createdAt}</div>
             </div>
             <div className="@apply h-240 flex flex-col items-start p-10 mt-10 border-b-10 border-solid border-black tracking-wide">
               {/* <div className="content">{post.content}</div> */}
-              <pre style={{ whiteSpace: 'pre-wrap' }}>{post.content}</pre>
+              <pre style={{ whiteSpace: 'pre-wrap' }}>{post && post.content}</pre>
               <>
                 <div className="@apply flex items-center justify-center mt-auto ml-30 pb-10;">
                   <span>

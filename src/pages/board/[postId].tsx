@@ -1,10 +1,8 @@
 import BoardCardDetail from '../../components/features/board/BoardCardDetail';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-
-// import { useSelector } from 'react-redux';
-
-// import { RootState } from '@/src/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store';
 import Comments from '@/src/components/features/comment/Comments';
 import { useBoardComment } from '@/src/hooks/api/comment';
 
@@ -24,13 +22,11 @@ const PostviewPage = () => {
   const postId = router.query.postId;
   console.log(postId)
   const [comments, setComments] = useState({count:0, list: []});
-  const [post, setPost] = useState({});
-
+  const [post, setPost] = useState<BoardDataType>();
+  
   //ㄹ그인여부 본인게시글
-  // const userState = useSelector((state: RootState) => state.user.user);
-  // if(userState.userId && userState.userId===post.id){
+  const userState = useSelector((state: RootState) => state.user.user);
 
-  // }
   // 게시글이 없으면 isLoaded되지 않도록
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1)
@@ -38,6 +34,18 @@ const PostviewPage = () => {
   const commentQuery = `?$page=${page}&limit=${limit}`
   const boardComment = useBoardComment(postId, commentQuery)
 
+  const getPost = async () => {
+    try {
+      const { data } = await axios.get(`${serverUrl}/boards/${postId}`);
+      console.log(data);
+      setPost(data);
+      setIsLoaded(true);
+    } catch (error) {
+      console.log('getPost error');
+      console.log(error);
+    }
+  };
+  
   useEffect(() => {
     if (postId) {
       boardComment.executeQuery()
@@ -50,33 +58,23 @@ const PostviewPage = () => {
   }, [postId, page, boardComment]);
 
   useEffect(() => {
-    const getPost = async () => {
-      try {
-        const { data } = await axios.get(`${serverUrl}/boards/${postId}`);
-        console.log(data);
-        setPost(data);
-        setIsLoaded(true);
-      } catch (error) {
-        console.log('getPost error');
-        console.log(error);
-      }
-    };
     getPost();
   }, [postId]);
   
   const hasComments = comments && comments.count !== undefined && comments.list !== undefined;
 
+  if(post && userState) {
+    console.log('로그인한 유저와 작성자 id 일치 확인', userState.userId===post.userId)
+  }
+  
+
   return (
     <div>
-      <BoardCardDetail
+      { post &&
+        <BoardCardDetail
         id={postId}
         post={post}
-        setPost={setPost}
-        isLoaded={isLoaded}
-        setIsLoaded={setIsLoaded}
-        handleEdit={isLoaded}
-        handleDelete={isLoaded}
-      />
+      />}
       {hasComments&& <Comments count={comments.count} list={comments.list} /> }
       <CommentInput />
     </div>

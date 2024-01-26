@@ -1,56 +1,69 @@
-import { setAccessToken } from "@/src/store/token"
-import { logout } from "@/src/store/user"
+import { login, logout } from "@/src/store/user"
 import { motion } from "framer-motion"
-import Link from "next/link"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "@/src/store"
+import { useLogout, useValidation } from "@/src/hooks/api/user"
 
 const MyPageButton = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isLogin, setIsLogin] = useState(false)
-  const router = useRouter()
-  const dispatch = useDispatch()
-  const userState = useSelector((state: RootState) => state.user.user);
+  const [isLogin, setIsLogin] = useState(false);
+  const [text, setText] = useState('로그인')
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const validation = useValidation();
+  const userLogout = useLogout();
 
-  // if (userState.userId) {
-  //   setIsLogin(true)
-  // }
+  const handleValidation = () => {
+    validation.executeQuery();
+    console.log('validation 실행')
+    setIsOpen(true)
+    if (validation.data) {
+      dispatch(login({ user: validation.data?.data }));
+      setIsLogin(true)
+    } 
+  };
 
   const handleLogout = () => {
-    setIsLogin(!isLogin)
+    setIsLogin(false)
     dispatch(logout())
-    dispatch(setAccessToken(null))
+    router.push('/')
+  }
+
+  const handleNavigate = (path: string) => {
+    if (path === '/login') {
+      router.push(path)
+    } else if (path === '/mypage') {
+      if (isLogin) {
+        router.push(path)
+      } else {
+        alert('로그인이 필요합니다.')
+      }
+    }
+    setIsOpen(false)
   }
   
   return (
-    <div onClick={()=> setIsOpen(!isOpen)}>
-      <img
-          src="/images/user.png"
-          className="rounded-full h-[30px] w-[30px]"
-        />
-      {!isOpen ? (
-        <div></div>
-        ) : (
-          <div>
-            <div className="flex flex-col gap-2">
-              {isLogin ? (
-                <div>
-                  <button onClick={handleLogout}>
-                    로그아웃
-                  </button>
-                  <Link href="/mypage">마이페이지</Link>
-                </div>
+    <div>
+      <button onClick={handleValidation}>
+        <img
+            src="/images/user.png"
+            className="rounded-full h-[30px] w-[30px]"
+          />
+      </button>
+        {isOpen && (
+          <div className="flex flex-col gap-2 h-15 w-25 border-2 border-black bg-white absolute z-10 right-0" onMouseLeave={() => setIsOpen(false)}>
+            {!isLogin ? 
+              (
+                <button onClick={() => handleNavigate('/login')}>로그인</button>
               ) : (
-                <Link href="/login">로그인</Link>
-              )}
-              
-            </div>
-
+                <button onClick={handleLogout}>로그아웃</button>
+              )
+            }
+            <button onClick={() => handleNavigate('/mypage')}>마이페이지</button> 
           </div>
-        ) }
-    </div>
+        )}  
+    </div> 
   )
 }
 

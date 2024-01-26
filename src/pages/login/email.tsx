@@ -16,10 +16,10 @@ const EmailLoginPage = () => {
   const userState = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
 
-   const emailLogin = useEmailLogin({email: email, password: password})
+   const emailLogin = useEmailLogin()
  
   const handleSubmit = () => {
-    emailLogin.mutate();
+    emailLogin.mutate({email: email, password: password});
   };
 
   useEffect(() => {

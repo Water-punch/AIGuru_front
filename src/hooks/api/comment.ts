@@ -13,13 +13,13 @@ export const useReadComments = () => {
 };
 
 // 댓글 작성하기
-export const useWriteComment = (bodyData: PostCommentType) => {
-  return useBaseMutation('/comments', 'post', bodyData, 'boardComment');
+export const useWriteComment = () => {
+  return useBaseMutation('/comments', 'post', 'boardComment');
 };
 
 // 댓글 삭제하기
 export const useDeleteComment = (commentId: string) => {
-  return useBaseMutation(`/comments/${commentId}`, 'delete', undefined, 'boardComment');
+  return useBaseMutation(`/comments/${commentId}`, 'delete', 'boardComment');
 };
 
 // 자신이 작성한 댓글 목록 조회
