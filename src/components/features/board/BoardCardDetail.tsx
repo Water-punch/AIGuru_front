@@ -19,10 +19,7 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
-const BoardCardDetail = ({
-  id,
-  post,
-}: BoardCardType) => {
+const BoardCardDetail = ({ id, post }: BoardCardType) => {
   //로그인여부 본인게시글
   const userState = useSelector((state: RootState) => state.user.user);
   const [isUser, setIsUser] = useState(false);
@@ -100,16 +97,7 @@ const BoardCardDetail = ({
   console.log('isModalOpen : ', isModalOpen);
   return (
     <>
-      <div
-        className="@apply flex flex-col justify-between;
-        width: 80px;
-        height: 80px;
-        left: 50%;
-        @apply absolute;
-        @apply left-1/2 top-53%;
-        @apply transform -translate-x-1/100 -translate-y-1/100;
-        @apply box-border;"
-      >
+      <div className="flex flex-col justify-between w-180 h-80 left-1/2 absolute translate-x-[-50%] translate-y-[-50%] box-border">
         <div className="boardwrap">
           <div className="text-blue-500 bg-white w-860 h-40 flex items-center p-10 text-35 font-bold border-b-2 border-blue-500">
             통합 게시판
@@ -150,8 +138,8 @@ const BoardCardDetail = ({
           )}
           <br />
           <div className="boardview">
-            <div className="@apply h-70 p-100 border-b-1 border-solid border-black;">
-              <div className="@apply h-4 flex items-center text-22;">
+            <div className="h-70 p-100 border-b-1 border-solid border-black;">
+              <div className=" h-4 flex items-center text-22;">
                 {post && post.title}
                 {/* 모달창 관련 코드  
                 <div
@@ -169,13 +157,16 @@ const BoardCardDetail = ({
                   />
                 )} */}
               </div>
+              <br />
               <div className="createdate">{post && post.createdAt}</div>
             </div>
-            <div className="@apply h-240 flex flex-col items-start p-10 mt-10 border-b-10 border-solid border-black tracking-wide">
+            <div className=" h-240 flex flex-col items-start p-10 mt-10 border-b-10 border-solid border-black tracking-wide">
               {/* <div className="content">{post.content}</div> */}
-              <pre style={{ whiteSpace: 'pre-wrap' }}>{post && post.content}</pre>
+              <pre style={{ whiteSpace: 'pre-wrap' }}>
+                {post && post.content}
+              </pre>
               <>
-                <div className="@apply flex items-center justify-center mt-auto ml-30 pb-10;">
+                <div className=" flex items-center justify-center mt-auto ml-30 pb-10;">
                   <span>
                     {/* <Like
                       onClick={() => {
@@ -185,7 +176,7 @@ const BoardCardDetail = ({
                     /> */}
                   </span>
                   <span style={{ paddingBottom: '40' }}>{like}</span>
-                  <span className="@apply ml-200;">
+                  <span className=" ml-200;">
                     {/* <CommentIcon
                       onChange={() => {
                         setCount(count);
@@ -230,7 +221,7 @@ const BoardCardDetail = ({
             {/* <BoardAnswer />
             <BoardAnswer /> */}
             <div className="writranswer">
-              <input
+              {/* <input
                 placeholder="댓글 쓰기"
                 style={{
                   width: '700px',
@@ -238,7 +229,7 @@ const BoardCardDetail = ({
                   marginTop: '20px',
                   paddingLeft: '10px',
                 }}
-              />
+              /> */}
               {/* <ButtonLink to="/PostlistPage">
                 <button
                   style={{
