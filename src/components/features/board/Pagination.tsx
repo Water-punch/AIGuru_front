@@ -19,10 +19,28 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
   const nowBlock = Math.ceil(currentPage / page_num_per_block);
   // 한 블록에서 페이지 시작 번호 : 현재블록 *  한 블록 당 페이지 개수 - ( 한 블록 당 페이지 개수 -1)
   const start_page = nowBlock * page_num_per_block - (page_num_per_block - 1);
-  const left_start_page =
-    (nowBlock - 1) * page_num_per_block - (page_num_per_block - 1);
-  const right_start_page =
-    (nowBlock + 1) * page_num_per_block - (page_num_per_block - 1);
+  let left_start_page = 1;
+  if (nowBlock == 1) {
+    console.log('현재 블럭은 첫번째 블럭입니다 : ', nowBlock);
+  } else {
+    left_start_page =
+      (nowBlock - 1) * page_num_per_block - (page_num_per_block - 1);
+  }
+
+  //마지막 블럭 게산
+  const lastBlock = Math.ceil(maxPageNum / page_num_per_block);
+  let right_start_page = maxPageNum;
+  //lastBlock * page_num_per_block - (page_num_per_block - 1);
+  // (nowBlock + 1) * page_num_per_block - (page_num_per_block - 1);
+
+  if (nowBlock == lastBlock) {
+    console.log('현재 블럭은 마지막 블럭입니다 : ', nowBlock);
+  } else {
+    console.log('현재 블럭 : ', nowBlock);
+    console.log('마지막 블럭 : ', lastBlock);
+    right_start_page =
+      (nowBlock + 1) * page_num_per_block - (page_num_per_block - 1);
+  }
 
   const pageNumbers: number[] = [];
   for (let i = start_page; i <= start_page + 4; i++) {
@@ -94,6 +112,15 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
     setCurrentNumbers(updatePageNumbers(number));
     paginate(number);
     console.log('해당 블럭 스타트 페이지로 이동 : ', number);
+    // if (number <= 1 || number > maxPageNum) {
+    //   console.log('첫번쨰 블럭이거나 마지막 블럭입니다 : ', number);
+    //   //event.preventDefault();
+    // } else {
+    //   setCurrentPage(number);
+    //   setCurrentNumbers(updatePageNumbers(number));
+    //   paginate(number);
+    //   console.log('해당 블럭 스타트 페이지로 이동 : ', number);
+    // }
   };
 
   return (
@@ -128,13 +155,23 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
                   key={number}
                   // className='border-none rounded-md px-8 py-8 m-0 bg-black text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
                 >
-                  <Link
-                    href={`/board?page=${number}`}
-                    onClick={() => handleClick(number)}
-                    className='border-none rounded-md px-8 py-8 m-0 bg-black text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
-                  >
-                    {number}
-                  </Link>
+                  {currentPage == number ? (
+                    <Link
+                      href={`/board?page=${number}`}
+                      onClick={() => handleClick(number)}
+                      className='border-none rounded-md px-8 py-8 m-0 bg-gray-400 text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
+                    >
+                      {number}
+                    </Link>
+                  ) : (
+                    <Link
+                      href={`/board?page=${number}`}
+                      onClick={() => handleClick(number)}
+                      className='border-none rounded-md px-8 py-8 m-0 bg-black text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
+                    >
+                      {number}
+                    </Link>
+                  )}
                 </li>
               </>
             );
