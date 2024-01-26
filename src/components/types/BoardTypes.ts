@@ -46,3 +46,10 @@ interface BoardCardType {
 interface boardListProps {
   boardList: BoardDataType[];
 }
+
+interface pageProps {
+  totalContents: number;
+  currentPage: number;
+  paginate: any;
+  contentsPerPage: number;
+}

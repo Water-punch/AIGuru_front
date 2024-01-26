@@ -3,8 +3,10 @@ import PostCards from '@/src/components/features/board/PostCards';
 import { dummyData } from '@/src/components/features/board/dummyData';
 //import BoardList from '@/src/components/features/board/BoardList.jsx';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState, useReducer } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useRouter } from 'next/router';
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
 import Pagination from '@/src/components/features/board/Pagination';
@@ -20,8 +22,15 @@ const BoardPage = () => {
     count: 0,
     list: [],
   });
+
+  const router = useRouter();
+  const { page } = router.query;
+  //const [products, setProducts] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  /*
   const [currentpage, setCurrentpage] = useState(1);
-  const pageState = useSelector((state: RootState) => state.page)
+  const pageState = useSelector((state: RootState) => state.page);
 
   //Pagination  Component
   const nextPage = () => {
@@ -30,13 +39,15 @@ const BoardPage = () => {
   const prePage = () => {
     setCurrentpage(currentpage - 1);
   };
-
+*/
   const config = {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     },
   };
+
+  //const dispatch = useDispatch();
 
   // const getBoardlist = async () => {
   //   console.log('currentpage : ', currentpage);
@@ -55,11 +66,12 @@ const BoardPage = () => {
   //   }
   // };
 
-    const getBoardlist = async () => {
-    console.log('currentpage : ', pageState);
+  const getBoardlist = async () => {
+    //console.log('currentpage(pageState) : ', pageState);
+    console.log('page : ', page);
     try {
       const response = await axios.get(
-        `${serverUrl}/boards?page=${pageState}`,
+        `${serverUrl}/boards?page=${page}`,
         config,
       );
       console.log('status:', response.status);
@@ -74,9 +86,21 @@ const BoardPage = () => {
 
   useEffect(() => {
     getBoardlist();
-  }, [pageState]);
+  }, []);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  console.log('paginate : ', paginate);
+  console.log('useEffect(page) 11111111111111111: ', page);
+  useEffect(() => {
+    console.log('useEffect(page) 22222222222222222: ', page);
+    // 페이지 변경 시
+    if (!page) return;
+    setCurrentPage(Number(page)); // 현재 페이지 상태 변경 -> Pagination리렌더링
+    getBoardlist(); // 컨텐츠 데이터 새롭게 불러와 상태 변경 -> ProductList리렌더링
+  }, [page]);
 
   console.log('boardList.count : ', boardList.count);
+
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-board.jpg')]">
       <div className="my-20">검색창을 위한 영역</div>
@@ -91,7 +115,7 @@ const BoardPage = () => {
       <br />
       <br />
       <br />
-      <div className="pagination_box">
+      {/* <div className="pagination_box">
         {currentpage != 1 ? (
           <Link href={`board/?page=${currentpage - 1}`}>
             <button onClick={prePage}>이전 페이지</button>
@@ -100,12 +124,16 @@ const BoardPage = () => {
 
         <div> {currentpage}</div>
 
-
         <Link href={`board/?page=${currentpage + 1}`}>
           <button onClick={nextPage}>다음 페이지</button>
         </Link>
-      </div>
-      <Pagination totalContents={boardList.count} currentPage={1} contentsPerPage={15} />
+      </div> */}
+      <Pagination
+        totalContents={boardList.count}
+        contentsPerPage={15}
+        currentPage={currentPage}
+        paginate={paginate}
+      />
       <br />
       <br />
       <br />
