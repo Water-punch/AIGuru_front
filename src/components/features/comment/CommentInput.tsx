@@ -7,13 +7,13 @@ const CommentInput = () => {
   const router = useRouter();
   const boardId = router.query;
 
-  const writeComment = useWriteComment({
-    boardId: boardId.postId,
-    content: userInput,
-  });
+  const writeComment = useWriteComment();
 
   const handleSubmit = async () => {
-    writeComment.mutate();
+    writeComment.mutate({
+      boardId: boardId.postId,
+      content: userInput,
+    });
     console.log('동작 확인');
   };
   useEffect(() => {
@@ -31,7 +31,6 @@ const CommentInput = () => {
         placeholder="댓글을 입력해 주세요"
         value={userInput}
         onChange={e => setUserInput(e.target.value)}
-        value={userInput}
       ></input>
       <button
         className="rounded border-2 w-1/12 border-gray-300"
