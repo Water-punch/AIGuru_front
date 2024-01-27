@@ -1,7 +1,7 @@
 // 댓글 한 개에 담긴 데이터들의 타입
 export interface CommentProps {
   boardId: any;
-  commentId: number;
+  commentId: string;
   userId: string;
   content: string;
   anonymous_number: number;
