@@ -66,14 +66,47 @@ const BoardPage = () => {
   //   }
   // };
 
-  const getBoardlist = async () => {
+  //검색기능구현
+  const [searchInput, setSearchInput] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const handleInputChange = (event: React.ChangeEvent<HTMLButtonElement>) => {
+    const { value } = event.target; //event.target에서 name과 value만 가져오기
+    console.log('value(event.target) : ', value);
+    setSearchInput(value);
+  };
+
+  const getKeyword = () => {
+    setSearchKeyword(searchInput);
+    setCurrentPage(1);
+  };
+  const getBoardlist = async (searchKeyword: String) => {
     //console.log('currentpage(pageState) : ', pageState);
-    console.log('page : ', page);
+    console.log('page(getBoardlist) : ', page);
+    console.log('currentPage(getBoardlist) : ', currentPage);
     try {
+      // let response = await axios.get(
+      //   `${serverUrl}/boards?page=${page}`,
+      //   config,
+      // );
+      //let response;
       const response = await axios.get(
-        `${serverUrl}/boards?page=${page}`,
+        `${serverUrl}/boards?keyword=${searchKeyword}&page=${currentPage}`,
         config,
       );
+      console.log('searchKeyword : ', searchKeyword);
+
+      // if (!searchKeyword || searchKeyword === '') {
+      //   console.log('searchKeyword(nokeyword) : ', searchKeyword);
+      //   response = await axios.get(`${serverUrl}/boards?page=${page}`, config);
+      // } else {
+      //   console.log('searchKeyword(yeskeyword) : ', searchKeyword);
+      //   response = await axios.get(
+      //     `${serverUrl}/boards?keyword=${searchKeyword}&page=${page}`,
+      //     config,
+      //   );
+      // }
+
+      console.log('searchKeyword 22222222222222: ', searchKeyword);
       console.log('status:', response.status);
       console.log('data:', response.data);
       setBoardList(response.data);
@@ -85,8 +118,8 @@ const BoardPage = () => {
   };
 
   useEffect(() => {
-    getBoardlist();
-  }, []);
+    getBoardlist(searchKeyword);
+  }, [searchKeyword]);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   console.log('paginate : ', paginate);
@@ -96,14 +129,26 @@ const BoardPage = () => {
     // 페이지 변경 시
     if (!page) return;
     setCurrentPage(Number(page)); // 현재 페이지 상태 변경 -> Pagination리렌더링
-    getBoardlist(); // 컨텐츠 데이터 새롭게 불러와 상태 변경 -> ProductList리렌더링
+    getBoardlist(searchKeyword); // 컨텐츠 데이터 새롭게 불러와 상태 변경 -> ProductList리렌더링
   }, [page]);
 
   console.log('boardList.count : ', boardList.count);
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-board.jpg')]">
-      <div className="my-20">검색창을 위한 영역</div>
+      <div className="my-20">
+        {' '}
+        <input
+          type="text"
+          name="sv"
+          id=""
+          placeholder="검색어를 입력하세요"
+          value={searchInput}
+          onChange={handleInputChange}
+        />
+        {/* <button onClick={getBoardlist(searchKeyword)}>검색</button> */}
+        <button onClick={getKeyword}>검색</button>
+      </div>
       {/* <div>
         <BoardList boardList={boardList} />
       </div> */}
