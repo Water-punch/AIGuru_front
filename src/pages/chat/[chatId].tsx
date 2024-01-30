@@ -69,6 +69,7 @@ const ExtraChatPage = () => {
           <textarea
             className="border-2 border-[#0c0b0b] rounded-md w-[50vw] max-w-[700px] min-h-[70px] bg-white/70"
             placeholder="고민을 입력하세요."
+            value={userInput}
             onChange={e => setUserInput(e.target.value)}
           />
 

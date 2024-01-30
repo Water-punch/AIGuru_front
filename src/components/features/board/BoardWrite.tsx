@@ -31,9 +31,7 @@ const BoardWrite = () => {
   console.log(content)
 
   const handleWrite = async () => {
-    // S3이미지 전송까지만
     if (typeof window !== 'undefined') {
-
       const parse = await imgHook.parse(content, title)
       console.log(parse.filenames)
       if(parse.filenames) {
@@ -46,6 +44,9 @@ const BoardWrite = () => {
           console.log(newContent)
           boardWrite.mutate({ title: title, content: newContent, tag: 'love'})
         }
+      }
+      else {
+        boardWrite.mutate({ title: title, content: content, tag: 'love'})
       }
     }
   }

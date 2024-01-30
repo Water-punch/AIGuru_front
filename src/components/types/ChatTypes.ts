@@ -1,7 +1,7 @@
 // 상황문답 결과 타입
 export interface TestResultType {
-  classification: string;
-  situation?: string;
+  classification?: string;
+  situation: string;
 }
 
 // Gpt로 Post요청 시 req.body에 넣을 데이터 타입
@@ -12,13 +12,20 @@ export interface SendingMessageType {
 }
 
 type ChatInfoType = [number, string, string?];
-type ChatHistoryType = [string, string];
+export type ChatHistoryType = [string, string];
 export type HistoryType = [ChatInfoType, ChatHistoryType[]]
 
 // Gpt로 Post요청 시 res.body에 담길 데이터 타입
 export interface ChatResponseType {
   response: HistoryType
 }
+
+export interface ChatListDataType {
+  chatId: string;
+  title: string;
+}
+
+export type ChatListType = ChatListDataType[]
 
 // 추가질문 시 req.body에 넣을 데이터 타입
 export interface AdditionalMessageType {
@@ -36,9 +43,13 @@ export interface ConversationBoxesType {
   chatData: HistoryType;
 }
 
-export interface ChatListDataType {
-  chatId: string;
-  title: string;
+export interface SurveyAnswerType {
+  answer: string;
+  add: string;
 }
 
-export type ChatListType = ChatListDataType[]
+export interface SurveyQuestionType {
+  question: string;
+  options: SurveyAnswerType[]
+}
+

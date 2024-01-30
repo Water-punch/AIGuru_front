@@ -17,7 +17,9 @@ export const useWriteBoard = () => {
   return useBaseMutation(`/boards`, 'post')
 }
 
-
+export const useEditBoard = () => {
+  return useBaseMutation(`/boards`, 'put')
+}
 
 // // Base64 인코딩된 데이터를 ArrayBuffer로 변환하는 함수
 // const base64ToArrayBuffer = (base64: string) => {
@@ -50,17 +52,20 @@ const parseAndDecodeImages = async (content: string, title: string) => {
   const filenames: string[] = [];
 
   images.forEach((img, idx) => {
-      const base64Data = img.src.split(',')[1]; // src에서 Base64 데이터만 추출
-      const matches = /data:image\/([a-zA-Z]+);base64/.exec(img.src);
-      const mimeType = matches && matches[1] ? `image/${matches[1]}` : 'unknown';
+
+    if (img.src.startsWith('http://') || !img.src.startsWith('data:image/')) {
+      return;
+    }
+
+    const base64Data = img.src.split(',')[1]; // src에서 Base64 데이터만 추출
+    const matches = /data:image\/([a-zA-Z]+);base64/.exec(img.src);
+    const mimeType = matches && matches[1] ? `image/${matches[1]}` : 'unknown';
     const blob = base64ToBlob(base64Data, mimeType);
     decodedImages.push(blob); // Blob 객체로 저장
 
       // 이미지 데이터의 확장자 추출
-      
-      const extension = matches && matches[1] ? matches[1] : 'unknown';
-      filenames.push(`${title}${idx}.${extension}`);
-
+    const extension = matches && matches[1] ? matches[1] : 'unknown';
+    filenames.push(`${title}${idx}.${extension}`);
   });
 
   return { decodedImages, filenames };

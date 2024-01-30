@@ -71,7 +71,7 @@ const BoardPage = () => {
     console.log('page : ', page);
     try {
       const response = await axios.get(
-        `${serverUrl}/boards?page=${page}`,
+        `${serverUrl}/boards?page=${1}&limit=${10}`,
         config,
       );
       console.log('status:', response.status);

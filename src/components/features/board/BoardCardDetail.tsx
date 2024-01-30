@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 //import { Link } from "react-router-dom";
 import Link from 'next/link';
 import BoardEdit from './BoardEdit';
+import React from 'react';
+import DOMPurify from 'dompurify';
 
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
@@ -19,10 +21,12 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
+
 const BoardCardDetail = ({ id, post }: BoardCardType) => {
   //로그인여부 본인게시글
   const userState = useSelector((state: RootState) => state.user.user);
   const [isUser, setIsUser] = useState(false);
+  const cleanContent = DOMPurify.sanitize(post.content)
 
   // 처음엔 모달이 닫혀있다가 누르면 버튼이 열리게 //
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,47 +37,19 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
   let [count, setCount] = useState(0);
 
   const router = useRouter();
-  //수정
-  // const onEdit = async () => {
-  //   console.log('onEdit 진입');
-  //   const data = {
-  //     name: '문지은',
-  //     age: 27,
-  //   };
-  //   console.log('data(onEdit) : ', data);
-  //   <Link
-  //     href={{
-  //       pathname: '/board/edit',
-  //       query: {
-  //         detail: JSON.stringify(data),
-  //       },
-  //     }}
-  //     as="/board/edit"
-  //   ></Link>;
-  //   console.log('onEdit 진입 222222222222222222222');
-  // };
-
+  
   // delete 요청 코드
   const onDelete = async () => {
     try {
-      //console.log('postId(onDelete) : ', postId);
       console.log('post.boardId(onDelete) : ', post.boardId);
-      const response = await api.delete(`${serverUrl}/boards/${post.boardId}`, {
-        //boardId: post.boardId,
-        // title: post.title,
-        // content: post.content,
-        // tag: '',
-      });
+      const response = await api.delete(`${serverUrl}/boards/${post.boardId}`);
       if (response.status === 200) {
-        //console.log(data);
         window.alert('게시글 삭제되었습니다.😎');
         console.log(
           `=====================게시글 삭제하면 무조건 여기로 오나================`,
         );
         console.log(`게시글 삭제되었습니다.`);
-        //router.push(`/board/${post.boardId}`);
         router.push(`/board`);
-        //router.push('/board/[' + 1 + ']');
       } else {
         console.log(`delete error`);
         router.push(`/board/${post.boardId}`);
@@ -161,10 +137,7 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
               <div className="createdate">{post && post.createdAt}</div>
             </div>
             <div className=" h-240 flex flex-col items-start p-10 mt-10 border-b-10 border-solid border-black tracking-wide">
-              {/* <div className="content">{post.content}</div> */}
-              <pre style={{ whiteSpace: 'pre-wrap' }}>
-                {post && post.content}
-              </pre>
+              <div className="content" dangerouslySetInnerHTML={{ __html: cleanContent }}></div>
               <>
                 <div className=" flex items-center justify-center mt-auto ml-30 pb-10;">
                   <span>
@@ -217,138 +190,10 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
           >
             삭제
           </button>
-          <div className="answerview">
-            {/* <BoardAnswer />
-            <BoardAnswer /> */}
-            <div className="writranswer">
-              {/* <input
-                placeholder="댓글 쓰기"
-                style={{
-                  width: '700px',
-                  height: '35px',
-                  marginTop: '20px',
-                  paddingLeft: '10px',
-                }}
-              /> */}
-              {/* <ButtonLink to="/PostlistPage">
-                <button
-                  style={{
-                    height: "40px",
-                    width: "70px",
-                    marginLeft: "10px",
-                  }}
-                >
-                  작성
-                </button>
-              </ButtonLink> */}
-            </div>
-          </div>
         </div>
       </div>
     </>
   );
 };
-/*
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 800px;
-  height: 800px;
-  left: 50%;
-  position: absolute;
-  left: 50%;
-  top: 53%;
-  transform: translate(-50%, -50%);
-  box-sizing: border-box;
 
-  div.boardheader {
-    height: 70px;
-    padding: 10px;
-    border-bottom: 1px solid black;
-
-    .title {
-      height: 40px;
-      display: flex;
-      align-items: center;
-      font-size: 22px;
-    }
-    .nickname {
-      display: flex;
-      font-size: 12px;
-      margin-top: 5px;
-      color: #959595;
-      font-weight: 700;
-    }
-  }
-  div.boardcontent {
-    height: 240px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
-    margin-top: 10px;
-    border-bottom: 1px solid black;
-    letter-spacing: 2px;
-    .like {
-      align-items: center;
-      justify-content: center;
-      margin-top: auto;
-      margin-left: 30%;
-      padding-bottom: 10px;
-    }
-    .commenticon {
-      margin-left: 200px;
-    }
-  }
-  div.writranswer {
-    height: 70px;
-    button {
-      background-color: #64b5ff;
-      border-radius: 5px;
-      border: none;
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 18px;
-    }
-  }
-`;
-const Header = styled.div`
-  color: #4363c4;
-  background-color: #ffffff;
-  width: 860;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  font-size: 35px;
-  font-weight: 700;
-  border-bottom: 2px solid #4363c4;
-`;
-const EditDeletIcon = styled.div`
-  position: absolute;
-  top: 10;
-  right: 0;
-  font-size: 25px;
-`;
-// const CommentIcon = styled(FaCommentAlt)`
-//   font-size: 20px;
-//   color: #64b5ff;
-// `;
-const ButtonLink = styled(Link)`
-  text-decoration: none;
-`;
-const ModalContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-`;
-*/
-// const Like = styled(FaHeart)`
-//   color: #64b5ff;
-//   margin-right: 10px;
-// `;
 export default BoardCardDetail;

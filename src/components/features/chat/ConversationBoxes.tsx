@@ -1,7 +1,22 @@
+import { useEffect, useState } from "react";
 import ConversationBox from "../../common/ConversationBox";
-import { ChatResponseType } from "../../types/ChatTypes";
+import { ChatHistoryType, ChatResponseType } from "../../types/ChatTypes";
 
 const ConversationBoxes = ({ response } : ChatResponseType) => {
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [displayedChats, setDisplayedChats] = useState<ChatHistoryType[]>([]);
+
+  useEffect(() => {
+    if(response && Array.isArray(response[1]) && currentIdx < response[1].length) {
+      const timer = setTimeout(() => {
+        setDisplayedChats(chats => [...chats, response[1][currentIdx]]);
+        setCurrentIdx(idx => idx + 1);
+      }, 500)
+
+      return () => clearTimeout(timer);
+    }
+  }, [currentIdx, response])
+
   if(!response || !Array.isArray(response[1])) {
     return (
       <div>
@@ -13,12 +28,12 @@ const ConversationBoxes = ({ response } : ChatResponseType) => {
 
   return (
     <div>
-      {chatHistory.map((chat, idx) => (
+      {displayedChats.map((chat, idx) => (
         <div key={idx}>
-          <div className="my-2">
+          <div className="my-5 flex-1 justify-start">
             <ConversationBox text={chat[0]} isGuru={false} />
           </div>
-          <div className="my-2">
+          <div className="my-5 flex-1 justify-end">
             <ConversationBox text={chat[1]} isGuru={true} />
           </div>
         </div>
