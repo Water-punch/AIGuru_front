@@ -1,5 +1,6 @@
-import { useDeleteComment } from '@/src/hooks/api/comment';
+import { useDeleteComment, useReportComment } from '@/src/hooks/api/comment';
 import { CommentProps } from '../../types/CommentTypes';
+import { useRouter } from 'next/router';
 
 //댓글 하나 출력
 const Comment = (commentData: CommentProps) => {
@@ -20,6 +21,18 @@ const Comment = (commentData: CommentProps) => {
     if (deleteComment.isSuccess && deleteComment.data) {
       console.log('댓글 삭제 성공');
     }
+  };
+
+  const router = useRouter();
+
+  const handleReport = async () => {
+    console.log(`신고 화면으로 이동!`);
+    router.push({
+      pathname: `/board/report`,
+      query: {
+        commentId,
+      },
+    });
   };
 
   if (deletedAt) {
@@ -50,6 +63,7 @@ const Comment = (commentData: CommentProps) => {
 
           <p className="text-gray-700">{position}</p>
           <button onClick={handleDelete}>삭제</button>
+          <button onClick={handleReport}>신고</button>
         </div>
         <p className="text-gray-700">{content}</p>
       </div>

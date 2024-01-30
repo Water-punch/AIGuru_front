@@ -52,7 +52,7 @@ export const useBoardComment = (boardId: any, query?: string) => {
   };
 };
 
-// 게시글 신고 접수
-// export const useReportComment = (bodyData) => {
-//   return useBaseMutation('/comments/report', 'post', bodyData)
-// }
+//댓글 신고 접수
+export const useReportComment = () => {
+  return useBaseMutation('/comments/report', 'post', 'boardComment');
+};
