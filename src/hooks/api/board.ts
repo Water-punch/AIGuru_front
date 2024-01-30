@@ -21,17 +21,7 @@ export const useEditBoard = () => {
   return useBaseMutation(`/boards`, 'put')
 }
 
-// // Base64 인코딩된 데이터를 ArrayBuffer로 변환하는 함수
-// const base64ToArrayBuffer = (base64: string) => {
-//   const binaryString = window.atob(base64);
-//   const len = binaryString.length;
-//   const bytes = new Uint8Array(len);
-//   for (let i = 0; i < len; i++) {
-//       bytes[i] = binaryString.charCodeAt(i);
-//   }
-//   return bytes.buffer;
-// }
-
+// Base64 데이터: 이미지 파일을 64비트 인코딩한 데이터. FileReader()를 통해 변환할 수 있다. quill에서 툴바 옵션으로 넣은 image에 이 과정이 포함되어있다.
 // Base64 데이터를 Blob으로 변환하는 함수
 const base64ToBlob = (base64: string, mimeType: string) => {
   const binaryString = window.atob(base64);
@@ -50,10 +40,11 @@ const parseAndDecodeImages = async (content: string, title: string) => {
   const images = doc.querySelectorAll('img');
   const decodedImages: Blob[] = [];
   const filenames: string[] = [];
+  const base64ImageIndexes: number[] = [];
 
   images.forEach((img, idx) => {
 
-    if (img.src.startsWith('http://') || !img.src.startsWith('data:image/')) {
+    if (img.src.startsWith('https://') || !img.src.startsWith('data:image/')) {
       return;
     }
 
@@ -65,10 +56,16 @@ const parseAndDecodeImages = async (content: string, title: string) => {
 
       // 이미지 데이터의 확장자 추출
     const extension = matches && matches[1] ? matches[1] : 'unknown';
-    filenames.push(`${title}${idx}.${extension}`);
+    filenames.push(`${title}${base64Data.length}.${extension}`);
+
+    // Base64 인코딩된 이미지의 인덱스 저장
+    // [1번째 이미지의 img태그 인덱스, ...]
+    base64ImageIndexes.push(idx);
   });
 
-  return { decodedImages, filenames };
+  
+
+  return { decodedImages, filenames, base64ImageIndexes };
 }
 
 // presigned-url 요청 함수
@@ -101,14 +98,15 @@ const putImageToS3 = async (urls: string[], bodyData: Blob[]) => {
 }
 
 // HTML 컨텐츠에서 이미지를 파싱하고 src를 imgUrl로 변경하는 함수
-const updateImageSrcInContent = (content: string, imgUrls: string[]): string => {
+const updateImageSrcInContent = (content: string, imgUrls: string[], base64ImageIndexes: number[]): string => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(content, 'text/html');
   const images = doc.querySelectorAll('img');
 
-  images.forEach((img, index) => {
-    if (imgUrls[index]) {
-      img.src = imgUrls[index];
+  //정확히 해당하는 위치의 src만 변경한다.
+  base64ImageIndexes.forEach((index, urlIndex) => {
+    if (imgUrls[urlIndex]) {
+      images[index].src = imgUrls[urlIndex];
     }
   });
 

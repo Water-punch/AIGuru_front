@@ -16,7 +16,7 @@ const SurveyBox = () => {
   const handleAnswer = (option: SurveyAnswerType) => {
     setResult([...result, option.add]);
 
-    if (scenario === scenario0) {
+    if (scenario == scenario0) {
       if (option.answer === '아니오') {
         router.push('/chat/input');
       }
@@ -25,7 +25,7 @@ const SurveyBox = () => {
       }
     } 
 
-    if (scenario === scenario1) {
+    if (scenario == scenario1) {
       if (option.answer === '예') {
         setScenario(scenario2);
       }

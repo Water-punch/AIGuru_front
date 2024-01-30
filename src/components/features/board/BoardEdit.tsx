@@ -40,7 +40,7 @@ const BoardEdit = ({ post }: BoardCardTypeMini) => {
         const preUrls = await imgHook.getUrl(parse.filenames)  
         const imgUrls = await imgHook.imgToS3(preUrls, parse.decodedImages)
         if(imgUrls) {
-          newContent = imgHook.change(content, imgUrls)
+          newContent = imgHook.change(content, imgUrls, parse.base64ImageIndexes)
           setContent(newContent)
           boardEdit.mutate({ title: title, content: newContent, tag: 'love', boardId: boardId})
         }

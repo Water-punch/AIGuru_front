@@ -69,7 +69,8 @@ const BoardPage = () => {
   //검색기능구현
   const [searchInput, setSearchInput] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
-  const handleInputChange = (event: React.ChangeEvent<HTMLButtonElement>) => {
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target; //event.target에서 name과 value만 가져오기
     console.log('value(event.target) : ', value);
     setSearchInput(value);
@@ -144,7 +145,7 @@ const BoardPage = () => {
           id=""
           placeholder="검색어를 입력하세요"
           value={searchInput}
-          onChange={handleInputChange}
+          onChange={(event) => handleInputChange(event)}
         />
         {/* <button onClick={getBoardlist(searchKeyword)}>검색</button> */}
         <button onClick={getKeyword}>검색</button>

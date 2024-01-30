@@ -10,7 +10,7 @@ const NavButtons = () => {
   const position = router.pathname;
   const validation = useValidation();
   const dispatch = useDispatch();
-
+  
   const handleNavigation = (path: string) => {
     validation.executeQuery();
     

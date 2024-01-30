@@ -21,7 +21,7 @@ export const useWriteComment = () => {
 };
 
 // 댓글 삭제하기
-export const useDeleteComment = (commentId: number) => {
+export const useDeleteComment = (commentId: string) => {
   return useBaseMutation(`/comments/${commentId}`, 'delete', 'boardComment');
 };
 
