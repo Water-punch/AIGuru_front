@@ -9,6 +9,7 @@ import { useBoardComment } from '@/src/hooks/api/comment';
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
 import CommentInput from '@/src/components/features/comment/CommentInput';
+//import CommentAnalysis from '@/src/components/features/comment/CommentAnalysis';
 
 const serverUrl = 'http://localhost:5001/api';
 const api = axios.create({
@@ -30,6 +31,7 @@ const PostviewPage = () => {
   // 게시글이 없으면 isLoaded되지 않도록
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
+  const [commentPage, setCommentPage] = useState(1);
   const limit = 15;
   const commentQuery = `?$page=${page}&limit=${limit}`;
   const boardComment = useBoardComment(postId, commentQuery);
@@ -55,7 +57,7 @@ const PostviewPage = () => {
     if (boardComment.data) {
       console.log('댓글 요청 성공');
     }
-  }, [postId, page, boardComment]);
+  }, [postId, commentPage, boardComment]);
 
   useEffect(() => {
     getPost();
@@ -74,6 +76,7 @@ const PostviewPage = () => {
   return (
     <div className="flex flex-col gap-3">
       <div>{post && <BoardCardDetail id={postId} post={post} />}</div>
+      <div>{/* //<CommentAnalysis /> */}</div>
       <div>
         {hasComments && (
           <Comments count={comments.count} list={comments.list} />
