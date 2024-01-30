@@ -3,7 +3,9 @@ import Comment from './Comment';
 import { useEffect, useState } from 'react';
 
 const Comments = ({ count, list }: CommentsProps) => {
-  const commentsData = list
+  const commentsData = list;
+
+  //useEffect(() => {}, [Comments]);
 
   return (
     <div>
