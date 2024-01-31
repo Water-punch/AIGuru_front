@@ -9,7 +9,7 @@ import { useBoardComment } from '@/src/hooks/api/comment';
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
 import CommentInput from '@/src/components/features/comment/CommentInput';
-//import CommentAnalysis from '@/src/components/features/comment/CommentAnalysis';
+import CommentAnalysis from '@/src/components/features/comment/CommentAnalysis';
 
 const serverUrl = 'http://localhost:5001/api';
 const api = axios.create({
@@ -22,7 +22,12 @@ const PostviewPage = () => {
   const router = useRouter();
   const postId = router.query.postId;
   console.log(postId);
-  const [comments, setComments] = useState({ count: 0, list: [] });
+  const [comments, setComments] = useState({
+    count: 0,
+    list: [],
+    positiveCount: 0,
+    negativeCount: 0,
+  });
   const [post, setPost] = useState<BoardDataType>();
 
   //ㄹ그인여부 본인게시글
@@ -52,10 +57,10 @@ const PostviewPage = () => {
     if (postId) {
       boardComment.executeQuery();
       setComments(boardComment.data?.data);
-      console.log(comments);
     }
     if (boardComment.data) {
       console.log('댓글 요청 성공');
+      console.log(comments);
     }
   }, [postId, commentPage, boardComment]);
 
@@ -76,10 +81,24 @@ const PostviewPage = () => {
   return (
     <div className="flex flex-col gap-3">
       <div>{post && <BoardCardDetail id={postId} post={post} />}</div>
-      <div>{/* //<CommentAnalysis /> */}</div>
       <div>
         {hasComments && (
-          <Comments count={comments.count} list={comments.list} />
+          <CommentAnalysis
+            count={comments.count}
+            list={comments.list}
+            positiveCount={comments.positiveCount}
+            negativeCount={comments.negativeCount}
+          />
+        )}
+      </div>
+      <div>
+        {hasComments && (
+          <Comments
+            count={comments.count}
+            list={comments.list}
+            positiveCount={comments.positiveCount}
+            negativeCount={comments.negativeCount}
+          />
         )}
       </div>
       <CommentInput />
