@@ -28,37 +28,57 @@ const BoardEdit = ({ post }: BoardCardTypeMini) => {
   const router = useRouter();
   const [content, setContent] = useState(post.content);
   const [title, setTitle] = useState(post.title);
-  let newContent = ''
+  //태그항목추가
+  const selectList = ['free', 'divorce', 'love', 'marriage'];
+  const [selectedTag, setSelectedTag] = useState(post.tag);
+  const handleSelect = e => {
+    setSelectedTag(e.target.value);
+  };
+
+  console.log('수정컴포넌트 태그값 확인: ', post.tag);
+  let newContent = '';
   const imgHook = useHandleImage();
   const boardEdit = useEditBoard();
-  const boardId = post.boardId
+  const boardId = post.boardId;
 
   const handleEdit = async () => {
     if (typeof window !== 'undefined') {
-      const parse = await imgHook.parse(content, title)
-      if(parse.filenames) {
-        const preUrls = await imgHook.getUrl(parse.filenames)  
-        const imgUrls = await imgHook.imgToS3(preUrls, parse.decodedImages)
-        if(imgUrls) {
-          newContent = imgHook.change(content, imgUrls, parse.base64ImageIndexes)
-          setContent(newContent)
-          boardEdit.mutate({ title: title, content: newContent, tag: 'love', boardId: boardId})
+      const parse = await imgHook.parse(content, title);
+      if (parse.filenames) {
+        const preUrls = await imgHook.getUrl(parse.filenames);
+        const imgUrls = await imgHook.imgToS3(preUrls, parse.decodedImages);
+        if (imgUrls) {
+          newContent = imgHook.change(
+            content,
+            imgUrls,
+            parse.base64ImageIndexes,
+          );
+          setContent(newContent);
+          boardEdit.mutate({
+            title: title,
+            content: newContent,
+            tag: 'love',
+            boardId: boardId,
+          });
         }
-      }
-      else if(!parse) {
-        boardEdit.mutate({ title: title, content: content, tag: 'love', boardId: boardId })
+      } else if (!parse) {
+        boardEdit.mutate({
+          title: title,
+          content: content,
+          tag: 'love',
+          boardId: boardId,
+        });
       }
     }
-  }
+  };
 
   if (boardEdit.isSuccess && boardEdit.data) {
-    router.push(`/board/${boardId}`)
+    router.push(`/board/${boardId}`);
   }
 
   if (boardEdit.error) {
-    console.log(boardEdit.error)
+    console.log(boardEdit.error);
   }
-
 
   // const handleSubmit = useCallback(
   //   async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -129,6 +149,19 @@ const BoardEdit = ({ post }: BoardCardTypeMini) => {
         value={title}
         onChange={e => setTitle(e.target.value)}
       />
+      <div>
+        <select onChange={handleSelect} value={selectedTag}>
+          {selectList.map(item => (
+            <option value={item} key={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+        <hr />
+        <p>
+          Selected: <b>{selectedTag}</b>
+        </p>
+      </div>
       <ReactQuill
         style={{
           width: '82%',
