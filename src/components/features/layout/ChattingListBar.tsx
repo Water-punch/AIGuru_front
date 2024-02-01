@@ -21,13 +21,14 @@ const ChattingListBar = () => {
   }, [getChatList])
 
   const handleList = () => {
-    
+    getChatList.executeQuery();
+    setIsOpen(!isOpen)
   }
 
   return (
     <div>
       {!isOpen? (
-        <button className="fixed top-[2vh] left-[2vh] w-[7vh] h-[7vh] bg-[#ff607e] hover:bg-[#f33c5e] rounded-full border-2 border-red-700 flex justify-center items-center drop-shadow-2xl" onClick={() => setIsOpen(!isOpen)}>
+        <button className="fixed top-[2vh] left-[2vh] w-[7vh] h-[7vh] bg-[#ff607e] hover:bg-[#f33c5e] rounded-full border-2 border-red-700 flex justify-center items-center drop-shadow-2xl" onClick={handleList}>
         Chat History
         </button>
         ) : (

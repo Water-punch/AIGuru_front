@@ -17,7 +17,7 @@ const CounselingResult = () => {
     const historyJSON = localStorage.getItem(`firstMessage`)
     console.log(historyJSON)
     if (historyJSON) {
-      setChatId(JSON.parse(historyJSON)[0][1])
+      setChatId(JSON.parse(historyJSON)[0][0])
       setHistory(JSON.parse(historyJSON));
     } 
   }, [])

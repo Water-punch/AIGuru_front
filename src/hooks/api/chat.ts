@@ -31,11 +31,27 @@ export const useChatList = () => {
   };
 };
 
-export const useChatLog = (chatId: string) => {
-  return useBaseQuery(`/chat/${chatId}`, `chatLog${chatId}`)
+export const useChatLog = (query?: string) => {
+  const [trigger, setTrigger] = useState(false);
+  const { isLoading, error, data } = useBaseQuery(
+    `/chat/${query}`,
+    `chatLog${query}`,
+    trigger,
+  );
+
+  const executeQuery = () => {
+    setTrigger(true);
+  };
+
+  return {
+    isLoading,
+    error,
+    data,
+    executeQuery,
+  };
 }
 
-export const useAdditionalMessage = (chatId: string) => {
+export const useAdditionalMessage = (chatId: string | string[] | undefined) => {
   return useBaseMutation(`/chat/${chatId}`, 'post')
 }
 

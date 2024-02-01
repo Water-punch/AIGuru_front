@@ -1,3 +1,4 @@
+import withAuth from "@/src/hocs/withAuth";
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import Link from 'next/link';
@@ -25,19 +26,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // ------  결제 승인 ------
     // @docs https://docs.tosspayments.com/guides/payment-widget/integration#3-결제-승인하기
     const { data: payment } = await axios.post<Payment>(
-      "https://api.tosspayments.com/v1/payments/confirm",
+      'http://localhost:5001/api/purchase/success',
       {
         paymentKey,
         orderId,
         amount,
       },
-      {
-        headers: {
-          Authorization: `Basic ${Buffer.from(
-            `${process.env.TOSS_PAYMENTS_SECRET_KEY}:`
-          ).toString("base64")}`,
-        },
-      }
     );
     console.log(payment)
     return {
@@ -59,7 +53,7 @@ interface Props {
   payment: Payment;
 }
 
-export default function SuccessPage({ payment }: Props) {
+  function SuccessPage({ payment }: Props) {
   return (
     <main>
       <div className="result wrapper">
@@ -88,3 +82,5 @@ export default function SuccessPage({ payment }: Props) {
     </main>
   );
 }
+
+export default withAuth(SuccessPage)

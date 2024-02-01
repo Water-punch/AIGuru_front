@@ -4,6 +4,7 @@ import { RootState } from '@/src/store';
 import { saveInfo } from "@/src/store/payment";
 import { PaymentType } from "@/src/components/types/PaymentTypes";
 import { useRouter } from "next/router";
+import withAuth from "@/src/hocs/withAuth";
 
 const PaymentPage = () => {
   const userId = useSelector((state: RootState) => state.user.user.userId)
@@ -29,4 +30,4 @@ return (
   )
 };
 
-export default PaymentPage;
+export default withAuth(PaymentPage);

@@ -60,7 +60,6 @@ const AIcounselingPage = () => {
         })
       }
     }
-
     setUserInput('')
   }
 

@@ -11,8 +11,9 @@ import withAuth from "@/src/hocs/withAuth";
 // 실제 클라이언트 키
 const clientKey = 'test_ck_AQ92ymxN3426QgPMdwNgrajRKXvd'
 // 테스트용 클라이언트 키
+
 // const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
-const TOSS_TEST_KEY = "test_sk_yZqmkKeP8g7m5ewmEE0B8bQRxB9l"
+// const TOSS_TEST_KEY = "test_sk_yZqmkKeP8g7m5ewmEE0B8bQRxB9l"
 
 const CheckoutPage = () => {
   const userId = useSelector((state: RootState) => state.user.user.userId)
