@@ -2,6 +2,7 @@
 //import { FaHeart, FaCommentAlt } from "react-icons/fa";
 import PostModal from './PostModal';
 import { useState, useEffect } from 'react';
+
 //import BoardAnswer from "./BoardAnswer";
 //import { Link } from "react-router-dom";
 import Link from 'next/link';
@@ -23,6 +24,19 @@ const api = axios.create({
 });
 
 const BoardCardDetail = ({ id, post }: BoardCardType) => {
+  //게시글 신고 관련
+  console.log('게시글상세컴포넌트 태그값 확인: ', post.boardId);
+  const reportTargetBoardId = post.boardId;
+  const handleReport = async () => {
+    console.log(`신고 화면으로 이동!`);
+    router.push({
+      pathname: `/board/report`,
+      query: {
+        reportTargetBoardId,
+      },
+    });
+  };
+
   //로그인여부 본인게시글
   const userState = useSelector((state: RootState) => state.user.user);
   const [isUser, setIsUser] = useState(false);
@@ -151,6 +165,8 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
               ></div>
               <>
                 <div className=" flex items-center justify-center mt-auto ml-30 pb-10;">
+                  <button onClick={handleReport}>신고</button>
+                  <br />
                   <span>
                     {/* <Like
                       onClick={() => {
@@ -159,7 +175,11 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
                       style={{ fontSize: "20px" }}
                     /> */}
                   </span>
-                  <span style={{ paddingBottom: '40' }}>{like}</span>
+                  <span style={{ paddingBottom: '40' }}>
+                    <br />
+                    <br />
+                    {like}
+                  </span>
                   <span className=" ml-200;">
                     {/* <CommentIcon
                       onChange={() => {
@@ -167,7 +187,10 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
                       }}
                     /> */}
                   </span>
+
                   <span style={{ paddingBottom: '40', marginLeft: '10px' }}>
+                    <br />
+                    <br />
                     {count}
                   </span>
                 </div>
