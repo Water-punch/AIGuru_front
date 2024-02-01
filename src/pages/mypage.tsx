@@ -23,30 +23,30 @@ const MyPage = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="fixed left-0 top-0 h-screen w-[30vw] border-white border shadow-lg bg-pink-500 p-5 ml-50">
-        <div>{user.userId} 임시로 보여주는 userId</div>
-        <div className="flex flex-col gap-5 w-20">
+    <div className="">
+      <div className="fixed left-0 top-0 h-screen w-[20vw] border-white border shadow-lg bg-pink-400 p-5 ml-50">
+        <div className="mb-10">{user.userId} 임시로 보여주는 userId</div>
+        <div className="flex flex-col gap-7 w-15">
           <button
-            className="border border-black"
+            className="border border-black h-10"
             onClick={() => handleSelectComponent(<HandleUsers />)}
           >
             유저 정보
           </button>
           <button
-            className="border border-black"
+            className="border border-black h-10"
             onClick={() => handleSelectComponent(<HandleBoards />)}
           >
             작성한 게시글
           </button>
           <button
-            className="border border-black"
+            className="border border-black h-10"
             onClick={() => handleSelectComponent(<HandleComments />)}
           >
             작성한 댓글
           </button>
           <button
-            className="border border-black"
+            className="border border-black h-10"
             onClick={() => handleSelectComponent(<HandleServices />)}
           >
             서비스
