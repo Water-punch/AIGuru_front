@@ -26,13 +26,22 @@ api.interceptors.request.use(
   },
 );
 
-async function get<T = any>(endpoint: string, token?: string) {
-  const headers = token ? { Authorization: `Bearer ${token}`} : {}
+async function get<T = any>(endpoint: string, token?: string, cookie?: string) {
+  let headers: { [key: string]: string } = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  if (cookie) {
+    headers['Cookie'] = cookie;
+  }
   return await api.get<T>(endpoint, { headers });
 }
 
-async function post<T = any>(endpoint: string, bodyData: FormData | Object, token?: string) {
-  const headers = token ? { Authorization: `Bearer ${token}`} : {}
+async function post<T = any>(endpoint: string, bodyData: FormData | Object, cookie?: string) {
+  let headers: { [key: string]: string } = {};
+  if (cookie) {
+    headers['Cookie'] = cookie;
+  }
   return await api.post<T>(endpoint, bodyData, { headers });
 }
 

@@ -2,10 +2,13 @@
 //import { FaHeart, FaCommentAlt } from "react-icons/fa";
 import PostModal from './PostModal';
 import { useState, useEffect } from 'react';
+
 //import BoardAnswer from "./BoardAnswer";
 //import { Link } from "react-router-dom";
 import Link from 'next/link';
 import BoardEdit from './BoardEdit';
+import React from 'react';
+import DOMPurify from 'dompurify';
 
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
@@ -19,10 +22,41 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
+
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import 'dayjs/locale/ko';
 const BoardCardDetail = ({ id, post }: BoardCardType) => {
+  //한국시간으로 변경하는 로직
+  function changeUtcTimeToKst(date: any) {
+    // 플러그인 사용
+    dayjs.extend(utc);
+    dayjs.locale('ko');
+
+    return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
+  }
+
+  //게시글 신고 관련
+  console.log('게시글상세컴포넌트 태그값 확인: ', post.boardId);
+  const reportTargetBoardId = post.boardId;
+  const handleReport = async () => {
+    console.log(`신고 화면으로 이동!`);
+    router.push({
+      pathname: `/board/report`,
+      query: {
+        reportTargetBoardId,
+      },
+    });
+  };
+
   //로그인여부 본인게시글
   const userState = useSelector((state: RootState) => state.user.user);
   const [isUser, setIsUser] = useState(false);
+  const cleanContent = DOMPurify.sanitize(post.content);
+
+  //태그항목추가
+  const [tag, setTag] = useState(post.tag);
+  console.log('게시글상세컴포넌트 태그값 확인: ', tag);
 
   // 처음엔 모달이 닫혀있다가 누르면 버튼이 열리게 //
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,47 +67,19 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
   let [count, setCount] = useState(0);
 
   const router = useRouter();
-  //수정
-  // const onEdit = async () => {
-  //   console.log('onEdit 진입');
-  //   const data = {
-  //     name: '문지은',
-  //     age: 27,
-  //   };
-  //   console.log('data(onEdit) : ', data);
-  //   <Link
-  //     href={{
-  //       pathname: '/board/edit',
-  //       query: {
-  //         detail: JSON.stringify(data),
-  //       },
-  //     }}
-  //     as="/board/edit"
-  //   ></Link>;
-  //   console.log('onEdit 진입 222222222222222222222');
-  // };
 
   // delete 요청 코드
   const onDelete = async () => {
     try {
-      //console.log('postId(onDelete) : ', postId);
       console.log('post.boardId(onDelete) : ', post.boardId);
-      const response = await api.delete(`${serverUrl}/boards/${post.boardId}`, {
-        //boardId: post.boardId,
-        // title: post.title,
-        // content: post.content,
-        // tag: '',
-      });
+      const response = await api.delete(`${serverUrl}/boards/${post.boardId}`);
       if (response.status === 200) {
-        //console.log(data);
         window.alert('게시글 삭제되었습니다.😎');
         console.log(
           `=====================게시글 삭제하면 무조건 여기로 오나================`,
         );
         console.log(`게시글 삭제되었습니다.`);
-        //router.push(`/board/${post.boardId}`);
         router.push(`/board`);
-        //router.push('/board/[' + 1 + ']');
       } else {
         console.log(`delete error`);
         router.push(`/board/${post.boardId}`);
@@ -139,7 +145,7 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
           <br />
           <div className="boardview border-2 border-black">
             <div className="h-70 p-100 border-b-1 border-solid border-black;">
-              <div className=" h-4 flex items-center text-22;">
+              <div className="border-2 border-black h-8 flex items-center text-22;">
                 {post && post.title}
                 {/* 모달창 관련 코드  
                 <div
@@ -158,15 +164,21 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
                 )} */}
               </div>
               <br />
-              <div className="createdate">{post && post.createdAt}</div>
+
+              <div className="createdate border-2 border-black">
+                {post && changeUtcTimeToKst(post.createdAt)}
+              </div>
+              <p>{post.tag}</p>
             </div>
-            <div className=" h-240 flex flex-col items-start p-10 mt-10 border-b-10 border-solid border-black tracking-wide">
-              {/* <div className="content">{post.content}</div> */}
-              <pre style={{ whiteSpace: 'pre-wrap' }}>
-                {post && post.content}
-              </pre>
+            <div className="border-2 border-black h-240 flex flex-col items-start p-10 mt-10 border-b-10 border-solid border-black tracking-wide">
+              <div
+                className="content border-2 border-green-400"
+                dangerouslySetInnerHTML={{ __html: cleanContent }}
+              ></div>
               <>
                 <div className=" flex items-center justify-center mt-auto ml-30 pb-10;">
+                  <button onClick={handleReport}>신고</button>
+                  <br />
                   <span>
                     {/* <Like
                       onClick={() => {
@@ -175,7 +187,11 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
                       style={{ fontSize: "20px" }}
                     /> */}
                   </span>
-                  <span style={{ paddingBottom: '40' }}>{like}</span>
+                  <span style={{ paddingBottom: '40' }}>
+                    <br />
+                    <br />
+                    {like}
+                  </span>
                   <span className=" ml-200;">
                     {/* <CommentIcon
                       onChange={() => {
@@ -183,7 +199,10 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
                       }}
                     /> */}
                   </span>
+
                   <span style={{ paddingBottom: '40', marginLeft: '10px' }}>
+                    <br />
+                    <br />
                     {count}
                   </span>
                 </div>
@@ -194,161 +213,41 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
             <Link href="/board/">목록</Link>
           </button>
           <br />
-          <Link
-            href={{
-              pathname: '/board/edit',
-              query: {
-                detail: JSON.stringify(post),
-              },
-            }}
-            as="/board/edit"
-          >
-            수정
-          </Link>
-          <br />
-          <button
-            onClick={() => {
-              if (window.confirm('정말로 삭제하시겠습니까?')) {
-                onDelete();
-                //alert('게시물이 삭제되었습니다😎');
-                //window.location.href = '/board';
-              }
-            }}
-          >
-            삭제
-          </button>
-          <div className="answerview">
-            {/* <BoardAnswer />
-            <BoardAnswer /> */}
-            <div className="writranswer">
-              {/* <input
-                placeholder="댓글 쓰기"
-                style={{
-                  width: '700px',
-                  height: '35px',
-                  marginTop: '20px',
-                  paddingLeft: '10px',
+          {!isUser ? (
+            <div></div>
+          ) : (
+            <div>
+              <Link
+                href={{
+                  pathname: '/board/edit',
+                  query: {
+                    detail: JSON.stringify(post),
+                  },
                 }}
-              /> */}
-              {/* <ButtonLink to="/PostlistPage">
-                <button
-                  style={{
-                    height: "40px",
-                    width: "70px",
-                    marginLeft: "10px",
-                  }}
-                >
-                  작성
-                </button>
-              </ButtonLink> */}
+                as="/board/edit"
+              >
+                수정
+              </Link>
+
+              <br />
+
+              <button
+                onClick={() => {
+                  if (window.confirm('정말로 삭제하시겠습니까?')) {
+                    onDelete();
+                    //alert('게시물이 삭제되었습니다😎');
+                    //window.location.href = '/board';
+                  }
+                }}
+              >
+                삭제
+              </button>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
   );
 };
-/*
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 800px;
-  height: 800px;
-  left: 50%;
-  position: absolute;
-  left: 50%;
-  top: 53%;
-  transform: translate(-50%, -50%);
-  box-sizing: border-box;
 
-  div.boardheader {
-    height: 70px;
-    padding: 10px;
-    border-bottom: 1px solid black;
-
-    .title {
-      height: 40px;
-      display: flex;
-      align-items: center;
-      font-size: 22px;
-    }
-    .nickname {
-      display: flex;
-      font-size: 12px;
-      margin-top: 5px;
-      color: #959595;
-      font-weight: 700;
-    }
-  }
-  div.boardcontent {
-    height: 240px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
-    margin-top: 10px;
-    border-bottom: 1px solid black;
-    letter-spacing: 2px;
-    .like {
-      align-items: center;
-      justify-content: center;
-      margin-top: auto;
-      margin-left: 30%;
-      padding-bottom: 10px;
-    }
-    .commenticon {
-      margin-left: 200px;
-    }
-  }
-  div.writranswer {
-    height: 70px;
-    button {
-      background-color: #64b5ff;
-      border-radius: 5px;
-      border: none;
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 18px;
-    }
-  }
-`;
-const Header = styled.div`
-  color: #4363c4;
-  background-color: #ffffff;
-  width: 860;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  font-size: 35px;
-  font-weight: 700;
-  border-bottom: 2px solid #4363c4;
-`;
-const EditDeletIcon = styled.div`
-  position: absolute;
-  top: 10;
-  right: 0;
-  font-size: 25px;
-`;
-// const CommentIcon = styled(FaCommentAlt)`
-//   font-size: 20px;
-//   color: #64b5ff;
-// `;
-const ButtonLink = styled(Link)`
-  text-decoration: none;
-`;
-const ModalContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-`;
-*/
-// const Like = styled(FaHeart)`
-//   color: #64b5ff;
-//   margin-right: 10px;
-// `;
 export default BoardCardDetail;

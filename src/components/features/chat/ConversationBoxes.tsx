@@ -1,24 +1,43 @@
+import { useEffect, useState } from "react";
 import ConversationBox from "../../common/ConversationBox";
-import { ChatResponseType } from "../../types/ChatTypes";
+import { ChatHistoryType, ChatLogType, ChatResponseType } from "../../types/ChatTypes";
 
-const ConversationBoxes = ({ response } : ChatResponseType) => {
-  if(!response || !Array.isArray(response[1])) {
+const ConversationBoxes = ({ cursor, history } : ChatLogType) => {
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [displayedChats, setDisplayedChats] = useState<ChatHistoryType>([]);
+
+  useEffect(() => {
+    if(history && currentIdx < history.length) {
+      const timer = setTimeout(() => {
+        setDisplayedChats(prev => { 
+          const newChats = [...prev]
+          newChats.push(history[currentIdx])
+          return newChats
+        });
+        console.log(displayedChats)
+        setCurrentIdx(idx => idx + 1);
+      }, 500)
+
+      return () => clearTimeout(timer);
+    }
+  }, [currentIdx, history])
+
+  if(!history) {
     return (
       <div>
         <ConversationBox text={'대화 내역이 없다네..'} isGuru={true}/>
       </div>
     )
   }
-  const chatHistory = response[1]
 
   return (
     <div>
-      {chatHistory.map((chat, idx) => (
+      {displayedChats.map((chat, idx) => (
         <div key={idx}>
-          <div className="my-2">
-            <ConversationBox text={chat[0]} isGuru={false} />
+          <div className="my-5 flex-1 justify-start">
+            <ConversationBox text={chat} isGuru={false} />
           </div>
-          <div className="my-2">
+          <div className="my-5 flex-1 justify-end">
             <ConversationBox text={chat[1]} isGuru={true} />
           </div>
         </div>

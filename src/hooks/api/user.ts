@@ -32,7 +32,19 @@ export const useEditUser = () => {
 }
 
 export const useLogout = () => {
-  return useBaseMutation('/user/logout', 'post')
+  const [trigger, setTrigger] = useState(false);
+  const { isLoading, error, data } = useBaseQuery('/user/logout', 'logout', trigger)
+
+  const executeQuery = () => {
+    setTrigger(true);
+  }
+
+  return {
+    isLoading,
+    error,
+    data,
+    executeQuery,
+  }
 }
 
 export const useUserBoadrd = (query: string) => {
@@ -45,36 +57,6 @@ export const useUserComment = (query: string) => {
   return useBaseQuery(`/comments/my${query}`, 'userComment')
 }
 
-export const useGoogleLogin = () => {
-  const [trigger, setTrigger] = useState(false);
-  const { isLoading, error, data } = useBaseQuery('/user/login/google', 'googleLogin', trigger)
 
-  const executeQuery = () => {
-    setTrigger(true);
-  }
-
-  return {
-    isLoading,
-    error,
-    data,
-    executeQuery,
-  }
-}
-
-export const useKakaoLogin = () => {
-  const [trigger, setTrigger] = useState(false);
-  const { isLoading, error, data } = useBaseQuery('/user/login/kakao', 'kakaoLogin', trigger)
-
-  const executeQuery = () => {
-    setTrigger(true);
-  }
-
-  return {
-    isLoading,
-    error,
-    data,
-    executeQuery,
-  }
-}
 
 

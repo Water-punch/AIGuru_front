@@ -72,5 +72,3 @@ const Comment = (commentData: CommentProps) => {
 };
 
 export default Comment;
-
-//<button onClick={handleSubmit}>신고</button>

@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import Pagination from '@/src/components/features/board/Pagination';
 import { RootState } from '@/src/store';
+import withAuth from '@/src/hocs/withAuth';
 const serverUrl = 'http://localhost:5001/api';
 // const api = axios.create({
 //   baseURL: serverUrl,
@@ -69,7 +70,11 @@ const BoardPage = () => {
   //검색기능구현
   const [searchInput, setSearchInput] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
-  const handleInputChange = (event: React.ChangeEvent<HTMLButtonElement>) => {
+
+  //태그속성추가
+  const [tag, setTag] = useState('');
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target; //event.target에서 name과 value만 가져오기
     console.log('value(event.target) : ', value);
     setSearchInput(value);
@@ -90,7 +95,7 @@ const BoardPage = () => {
       // );
       //let response;
       const response = await axios.get(
-        `${serverUrl}/boards?keyword=${searchKeyword}&page=${currentPage}`,
+        `${serverUrl}/boards?tag=${tag}&keyword=${searchKeyword}&page=${currentPage}`,
         config,
       );
       console.log('searchKeyword : ', searchKeyword);
@@ -119,7 +124,7 @@ const BoardPage = () => {
 
   useEffect(() => {
     getBoardlist(searchKeyword);
-  }, [searchKeyword]);
+  }, [searchKeyword, tag]);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   console.log('paginate : ', paginate);
@@ -137,18 +142,31 @@ const BoardPage = () => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-board.jpg')]">
       <div className="my-20">
-        {' '}
         <input
           type="text"
           name="sv"
           id=""
           placeholder="검색어를 입력하세요"
           value={searchInput}
-          onChange={handleInputChange}
+          onChange={event => handleInputChange(event)}
         />
         {/* <button onClick={getBoardlist(searchKeyword)}>검색</button> */}
         <button onClick={getKeyword}>검색</button>
+        {/* <br />
+        <button onClick={getKeyword}>통합검색</button> */}
       </div>
+      <div className="my-10">
+        <select onChange={e => setTag(e.target.value)}>
+          <option value="" selected>
+            전체
+          </option>
+          <option value="free">일상고민</option>
+          <option value="divorce">이혼</option>
+          <option value="love">사랑</option>
+          <option value="marriage">결혼</option>
+        </select>
+      </div>
+
       {/* <div>
         <BoardList boardList={boardList} />
       </div> */}
@@ -188,4 +206,4 @@ const BoardPage = () => {
   );
 };
 
-export default BoardPage;
+export default withAuth(BoardPage);

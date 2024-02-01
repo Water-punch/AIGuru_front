@@ -49,7 +49,7 @@ export const useBaseMutation = <T = any>(endpoint: string,  method: 'post' | 'pu
     return { data: response.data, headers: response.headers }
   }, [endpoint, method])
   
-  const { isPending, isSuccess, error, data, mutate, } = useMutation<ApiResponse<T>, Error, Object>({
+  const { isPending, isSuccess, error, data, mutate, mutateAsync } = useMutation<ApiResponse<T>, Error, Object>({
     mutationFn: mutationFn,
     onSuccess: () => {
       if (queryKey) {
@@ -64,5 +64,6 @@ export const useBaseMutation = <T = any>(endpoint: string,  method: 'post' | 'pu
     error,
     data,
     mutate,
+    mutateAsync,
   }
 };

@@ -2,8 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { LoginResponseType } from '../components/types/UserTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-const defaultDate = new Date('1999-12-31');
-
 const initialState: LoginResponseType = {
   user: {
     userId: '0',

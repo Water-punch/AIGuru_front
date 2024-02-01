@@ -1,19 +1,57 @@
 import { ChatResponseType, SendingMessageType } from "@/src/components/types/ChatTypes";
 import { useBaseMutation, useBaseQuery } from "./reactQueryConfig";
 import axios from "axios";
+import { useState } from "react";
 
-
-export const useSendFirstMessage = (bodyData: SendingMessageType) => {
-  return useBaseMutation<ChatResponseType>('/chat/first', 'post', bodyData )
+export const useFirstLoginMessage = () => {
+  return useBaseMutation('/chat', 'post')
 }
 
-export const useTemporaryApi = async (bodyData: SendingMessageType): Promise<ChatResponseType | undefined> => {
-  try {
-    const serverUrl = 'http://localhost:5000';
-    const response = await axios.post<ChatResponseType>(`${serverUrl}/chat/first`, bodyData)
-    return response.data
-  } catch (error) {
-      console.error('api 호출 오류', error);
-  }
+export const useFirstGuestMessage = () => {
+  return useBaseMutation('/chat/free', 'post')
+}
+
+export const useChatList = () => {
+  const [trigger, setTrigger] = useState(false);
+  const { isLoading, error, data } = useBaseQuery(
+    `/chat`,
+    'chattingList',
+    trigger,
+  );
+
+  const executeQuery = () => {
+    setTrigger(true);
+  };
+
+  return {
+    isLoading,
+    error,
+    data,
+    executeQuery,
+  };
+};
+
+export const useChatLog = (query?: string) => {
+  const [trigger, setTrigger] = useState(false);
+  const { isLoading, error, data } = useBaseQuery(
+    `/chat/${query}`,
+    `chatLog${query}`,
+    trigger,
+  );
+
+  const executeQuery = () => {
+    setTrigger(true);
+  };
+
+  return {
+    isLoading,
+    error,
+    data,
+    executeQuery,
+  };
+}
+
+export const useAdditionalMessage = (chatId: string | string[] | undefined) => {
+  return useBaseMutation(`/chat/${chatId}`, 'post')
 }
 
