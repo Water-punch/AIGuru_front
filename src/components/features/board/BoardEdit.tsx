@@ -31,11 +31,13 @@ const BoardEdit = ({ post }: BoardCardTypeMini) => {
   //태그항목추가
   const selectList = ['free', 'divorce', 'love', 'marriage'];
   const [selectedTag, setSelectedTag] = useState(post.tag);
-  const handleSelect = e => {
+  const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedTag(e.target.value);
+    console.log('수정화면에서 태그수정 : ', selectedTag);
   };
 
   console.log('수정컴포넌트 태그값 확인: ', post.tag);
+  console.log('수정화면에서 수정된 태그값 확인 : ', selectedTag);
   let newContent = '';
   const imgHook = useHandleImage();
   const boardEdit = useEditBoard();
@@ -57,7 +59,7 @@ const BoardEdit = ({ post }: BoardCardTypeMini) => {
           boardEdit.mutate({
             title: title,
             content: newContent,
-            tag: 'love',
+            tag: selectedTag,
             boardId: boardId,
           });
         }
@@ -65,7 +67,7 @@ const BoardEdit = ({ post }: BoardCardTypeMini) => {
         boardEdit.mutate({
           title: title,
           content: content,
-          tag: 'love',
+          tag: selectedTag,
           boardId: boardId,
         });
       }
