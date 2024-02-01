@@ -2,6 +2,7 @@ import withAuth from "@/src/hocs/withAuth";
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import Link from 'next/link';
+import * as Api from '../../utils/api'
 
 // ------ Payment 객체 ------
 // @docs https://docs.tosspayments.com/reference#payment-객체
@@ -21,22 +22,38 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {
     query: { paymentKey, orderId, amount },
   } = context;
+  const cookie = context.req.headers.cookie || '';
+  console.log(context.query)
 
   try {
     // ------  결제 승인 ------
     // @docs https://docs.tosspayments.com/guides/payment-widget/integration#3-결제-승인하기
-    const { data: payment } = await axios.post<Payment>(
-      'http://localhost:5001/api/purchase/success',
-      {
-        paymentKey,
-        orderId,
-        amount,
-      },
-    );
-    console.log(payment)
+    const { data: payment } = await Api.post<Payment>(
+        'http://localhost:5001/api/purchase/success',
+        {
+          paymentKey,
+          orderId,
+          amount,
+        },
+        cookie
+      );
+
     return {
       props: { payment },
     };
+
+    // const { data: payment } = await axios.post<Payment>(
+    //   'http://localhost:5001/api/purchase/success',
+    //   {
+    //     paymentKey,
+    //     orderId,
+    //     amount,
+    //   },
+    // );
+    // console.log(payment)
+    // return {
+    //   props: { payment },
+    // };
   } catch (err: any) {
     console.error("err", err.response.data);
 

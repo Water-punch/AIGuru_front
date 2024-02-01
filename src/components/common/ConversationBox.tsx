@@ -43,12 +43,12 @@ const ConversationBox = ({ text, isGuru }: ConversationBoxType) => {
 
         <div>
           {person === 'AI 구루' &&
-            <div className="max-w-[600px] min-w-[300px] min-h-16 border-2 border-white flex justify-center items-center bg-white/70 break-words rounded-md drop-shadow-md">
+            <div className="w-[600px] min-h-16 border-2 border-white flex justify-center items-center bg-white/70 break-words rounded-md drop-shadow-md">
               {typedText}
             </div>
           }
           {person === '당신' &&
-            <div className="max-w-[600px] min-w-[300px] min-h-16 border-2 border-white flex justify-center items-center bg-[#df8181]/60 break-words rounded-md drop-shadow-md">
+            <div className="w-[600px] min-w-[300px] min-h-16 border-2 border-white flex justify-center items-center bg-[#df8181]/60 break-words rounded-md drop-shadow-md">
               {typedText}
             </div>
           }

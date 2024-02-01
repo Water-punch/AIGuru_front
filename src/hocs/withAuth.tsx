@@ -13,7 +13,7 @@ const withAuth = <P extends {}>(WrappedComponent: ComponentType<P>) => {
     useEffect(() => {
       const pathSegment = router.pathname.split('/')[1];
       const isNumeric = !isNaN(parseInt(pathSegment));
-      const needLoginInfoPaths = ['/chat/result', '/board', '/payment', '/payment/checkout', 'payment/success'];
+      const needLoginInfoPaths = ['/','/chat/result', '/board', '/payment', '/payment/checkout', 'payment/success'];
       const privatePaths = ['/mypage', '/board/write', '/board/edit']
 
       if (needLoginInfoPaths.includes(router.pathname) || privatePaths.includes(router.pathname) || isNumeric) {

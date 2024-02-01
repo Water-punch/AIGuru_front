@@ -18,7 +18,7 @@ const PostCard = (props: BoardDataType) => {
   return (
     <>
       <Link href={`/board/${boardId}`}>
-        <div className="flex justify-center min-w-40 min-h-10 bg-[#fde68a] ">
+        <div className="flex justify-center w-[400px] min-h-10 bg-[#fde68a] ">
           <div className="w-5/6 bg-white flex flex-col">
             <div>{title}</div>
             <div>{createdAt}</div>

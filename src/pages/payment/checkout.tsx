@@ -35,7 +35,8 @@ const CheckoutPage = () => {
     setCustomerKey(userId)
     setPrice(paymentInfo.price)
     setOrderName(paymentInfo.membership)
-    console.log('커스토머 키:',customerKey, '상품: ', orderName, '가격: ', price)
+
+    console.log(paymentInfo.price, paymentInfo.membership)
 
     if (paymentWidget == null) {
       return;
