@@ -2,6 +2,7 @@
 //import { FaHeart, FaCommentAlt } from "react-icons/fa";
 import PostModal from './PostModal';
 import { useState, useEffect } from 'react';
+
 //import BoardAnswer from "./BoardAnswer";
 //import { Link } from "react-router-dom";
 import Link from 'next/link';
@@ -23,10 +24,27 @@ const api = axios.create({
 });
 
 const BoardCardDetail = ({ id, post }: BoardCardType) => {
+  //게시글 신고 관련
+  console.log('게시글상세컴포넌트 태그값 확인: ', post.boardId);
+  const reportTargetBoardId = post.boardId;
+  const handleReport = async () => {
+    console.log(`신고 화면으로 이동!`);
+    router.push({
+      pathname: `/board/report`,
+      query: {
+        reportTargetBoardId,
+      },
+    });
+  };
+
   //로그인여부 본인게시글
   const userState = useSelector((state: RootState) => state.user.user);
   const [isUser, setIsUser] = useState(false);
-  const cleanContent = DOMPurify.sanitize(post.content)
+  const cleanContent = DOMPurify.sanitize(post.content);
+
+  //태그항목추가
+  const [tag, setTag] = useState(post.tag);
+  console.log('게시글상세컴포넌트 태그값 확인: ', tag);
 
   // 처음엔 모달이 닫혀있다가 누르면 버튼이 열리게 //
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,7 +55,7 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
   let [count, setCount] = useState(0);
 
   const router = useRouter();
-  
+
   // delete 요청 코드
   const onDelete = async () => {
     try {
@@ -115,7 +133,7 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
           <br />
           <div className="boardview border-2 border-black">
             <div className="h-70 p-100 border-b-1 border-solid border-black;">
-              <div className=" h-4 flex items-center text-22;">
+              <div className="border-2 border-black h-8 flex items-center text-22;">
                 {post && post.title}
                 {/* 모달창 관련 코드  
                 <div
@@ -134,12 +152,21 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
                 )} */}
               </div>
               <br />
-              <div className="createdate">{post && post.createdAt}</div>
+
+              <div className="createdate border-2 border-black">
+                {post && post.createdAt}
+              </div>
+              <p>{post.tag}</p>
             </div>
-            <div className=" h-240 flex flex-col items-start p-10 mt-10 border-b-10 border-solid border-black tracking-wide">
-              <div className="content" dangerouslySetInnerHTML={{ __html: cleanContent }}></div>
+            <div className="border-2 border-black h-240 flex flex-col items-start p-10 mt-10 border-b-10 border-solid border-black tracking-wide">
+              <div
+                className="content border-2 border-green-400"
+                dangerouslySetInnerHTML={{ __html: cleanContent }}
+              ></div>
               <>
                 <div className=" flex items-center justify-center mt-auto ml-30 pb-10;">
+                  <button onClick={handleReport}>신고</button>
+                  <br />
                   <span>
                     {/* <Like
                       onClick={() => {
@@ -148,7 +175,11 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
                       style={{ fontSize: "20px" }}
                     /> */}
                   </span>
-                  <span style={{ paddingBottom: '40' }}>{like}</span>
+                  <span style={{ paddingBottom: '40' }}>
+                    <br />
+                    <br />
+                    {like}
+                  </span>
                   <span className=" ml-200;">
                     {/* <CommentIcon
                       onChange={() => {
@@ -156,7 +187,10 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
                       }}
                     /> */}
                   </span>
+
                   <span style={{ paddingBottom: '40', marginLeft: '10px' }}>
+                    <br />
+                    <br />
                     {count}
                   </span>
                 </div>

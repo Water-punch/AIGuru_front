@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useReportBoard } from '@/src/hooks/api/board';
 import { useReportComment } from '@/src/hooks/api/comment';
 import { AxiosError } from 'axios';
 
@@ -10,9 +11,10 @@ const ReportPage = () => {
   const [userSelect, setUserSelect] = useState(-1);
 
   // query에서 boardId를 받아온 경우 게시글/ commentId를 받아온 경우 댓글
-  const boardId = router.query?.boardId;
+  const boardId = router.query?.reportTargetBoardId;
   const commentId = router.query?.commentId;
-
+  //const reportBoard = useReportPost();
+  const reportBoard = useReportBoard();
   const reportComment = useReportComment();
 
   const handleReport = async () => {
@@ -24,18 +26,21 @@ const ReportPage = () => {
     // boardId가 있으면 reportBoard로
     // commentId가 있으면 reportComment로
     if (boardId) {
-      // reportBoard.mutate({
-      //   boardId: boardId,
-      //   reportType: commentReportType[userSelect],
-      // });
+      console.log('boardId가 있으면 reportBoard로 : ', boardId);
+      reportBoard.mutate({
+        boardId: boardId,
+        reportType: boardReportType[userSelect],
+      });
     } else {
+      console.log('boardId가 없으면 reportComment로 : ', boardId);
       reportComment.mutate({
         commentId: commentId,
         reportType: commentReportType[userSelect],
       });
     }
-
-    console.log(reportComment);
+    console.log('boardId : ', boardId);
+    console.log('게시글신고관련로그확인 : ', reportBoard);
+    console.log('댓글신고관련로그확인 : ', reportComment);
   };
 
   useEffect(() => {
@@ -68,35 +73,34 @@ const ReportPage = () => {
 
   /* --- 게시글 신고 --- */
   //   // useReportBoard 선언?
-  //const reportBoard = useReportBoard();
 
-  // useEffect(() => {
-  //   if (reportBoard.error) {
-  //     const { error } = reportBoard;
-  //     if (error instanceof AxiosError) {
-  //       if (error.response?.status === 401) {
-  //         alert('로그인이 필요한 기능입니다!');
-  //       }
+  useEffect(() => {
+    if (reportBoard.error) {
+      const { error } = reportBoard;
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          alert('로그인이 필요한 기능입니다!');
+        }
 
-  //       if (error.response?.status === 409) {
-  //         alert('이미 접수된 신고 내역입니다!');
-  //       }
-  //     }
+        if (error.response?.status === 409) {
+          alert('이미 접수된 신고 내역입니다!');
+        }
+      }
 
-  //     router.back();
-  //   }
-  //   // 게시글 신고 성공
-  //   if (reportBoard.isSuccess && reportBoard.data) {
-  //     console.log(
-  //       '게시글 신고 성공!!!!! 백엔드에서 보낸 응답 ',
-  //       reportBoard.data.data.status,
-  //     );
-  //     alert('신고가 접수되었습니다!');
+      router.back();
+    }
+    // 게시글 신고 성공
+    if (reportBoard.isSuccess && reportBoard.data) {
+      console.log(
+        '게시글 신고 성공!!!!! 백엔드에서 보낸 응답 ',
+        reportBoard.data.data.status,
+      );
+      alert('신고가 접수되었습니다!');
 
-  //     // 뒤로 가기
-  //     router.back();
-  //   }
-  // }, [reportBoard]);
+      // 뒤로 가기
+      router.back();
+    }
+  }, [reportBoard]);
 
   const handleCancle = async () => {
     // 뒤로 가기
