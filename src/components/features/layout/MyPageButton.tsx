@@ -5,29 +5,19 @@ import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useLogout, useValidation } from "@/src/hooks/api/user"
 import { RootState } from "@/src/store"
+import withAuth from "@/src/hocs/withAuth"
 
 const MyPageButton = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isLogin, setIsLogin] = useState(false);
-  const [text, setText] = useState('로그인')
   const router = useRouter();
   const dispatch = useDispatch();
   const userState = useSelector((state: RootState) => state.user.user)
-  const validation = useValidation();
   const userLogout = useLogout();
-
-  const handleValidation = () => {
-    validation.executeQuery();
-    console.log('validation 실행')
-    setIsOpen(true)
-    // if (validation.data) {
-    //   dispatch(login({ user: validation.data?.data }));
-    //   setIsLogin(true)
-    // } 
-  };
 
   const handleLogout = () => {
     setIsLogin(false)
+    userLogout.executeQuery()
     dispatch(logout())
     router.push('/')
   }
@@ -46,18 +36,14 @@ const MyPageButton = () => {
   }
 
   useEffect(() => {
-    if (userState && userState.logintype !== '안함') {
+    if (userState.logintype !== '안함') {
       setIsLogin(true)
     }
-    if (validation.data) {
-      dispatch(login({ user: validation.data?.data }));
-      setIsLogin(true)
-    }
-  }, [validation.data]);
+  }, []);
   
   return (
     <div>
-      <button onClick={handleValidation}>
+      <button onClick={()=>setIsOpen(true)}>
         <img
             src="/images/user.png"
             className="rounded-full h-[30px] w-[30px]"
@@ -79,4 +65,4 @@ const MyPageButton = () => {
   )
 }
 
-export default MyPageButton
+export default withAuth(MyPageButton)

@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import ChattingListBar from '@/src/components/features/layout/ChattingListBar';
 import axios from 'axios';
 import AdditionalLoading from '@/src/components/features/chat/AdditionalAnswerLoading';
+import withAuth from '@/src/hocs/withAuth';
 
 const ExtraChatPage = () => {
   // const history = useSelector((state: RootState) => state.chat.response)
@@ -19,7 +20,7 @@ const ExtraChatPage = () => {
   const chatId = router.query.chatId
 
   console.log(`chat${chatId}`)
-  const [history, setHistory] = useState<HistoryType>([[0,''],[['','']]])
+  const [history, setHistory] = useState<HistoryType>([['',''],['','']])
 
   // 서버사이드 렌더링 환경에서 localStorage에 접근 못함, 클라이언트 사이드에서 실행하도록
   useEffect(() => {
@@ -89,4 +90,27 @@ const ExtraChatPage = () => {
   );
 };
 
-export default ExtraChatPage;
+export default withAuth(ExtraChatPage);
+
+import * as Api from '../../utils/api'
+import { GetServerSidePropsContext } from 'next';
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const cookie = context.req.headers.cookie || '';
+
+  try {
+    const res = await Api.get('/user/me', undefined, cookie)
+    console.log(res)
+    if (res.data) {
+      return { props: {} };
+    }
+  } catch(err) {
+    console.log(err)
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+}

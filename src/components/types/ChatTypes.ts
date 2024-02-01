@@ -11,9 +11,9 @@ export interface SendingMessageType {
   imageUrl?: string;
 }
 
-type ChatInfoType = [number, string, string?];
+type ChatInfoType = [string, string];
 export type ChatHistoryType = [string, string];
-export type HistoryType = [ChatInfoType, ChatHistoryType[]]
+export type HistoryType = [ChatInfoType, ChatHistoryType]
 
 // Gpt로 Post요청 시 res.body에 담길 데이터 타입
 export interface ChatResponseType {

@@ -2,29 +2,27 @@ import { useEffect, useState } from "react";
 import { ChatListType, HistoryType } from "../../types/ChatTypes";
 import Link from "next/link";
 import { motion } from 'framer-motion'
+import { useChatList } from "@/src/hooks/api/chat";
 
 const ChattingListBar = () => {
   const [chatList, setChatList] = useState<ChatListType>([]);
   const [isOpen, setIsOpen] = useState(false)
+  const getChatList = useChatList();
 
   const loadChatList = () => {
-    let newChatList = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      let key = localStorage.key(i);
-      if (key !== null && key.startsWith('chat')) {
-        let valueJSON = localStorage.getItem(key);
-        if (valueJSON) {
-          let value: HistoryType = JSON.parse(valueJSON);
-          newChatList.push({ chatId: String(value[0][0]), title: value[0][1] });
-        }
-      } 
-    }
-    return newChatList;
+    getChatList.executeQuery();
   };
 
   useEffect(() => {
-    setChatList(loadChatList());  
-  }, [localStorage.length])
+    if (getChatList.data) {
+      setChatList(getChatList.data.data)
+      console.log(getChatList.data.data)
+    }
+  }, [getChatList])
+
+  const handleList = () => {
+    
+  }
 
   return (
     <div>

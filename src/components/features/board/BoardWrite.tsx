@@ -4,7 +4,8 @@ import {
 } from '@/src/components/features/board/EditorSetting';
 import { useRouter } from 'next/router';
 import { useState, useCallback, useEffect } from 'react';
-import ReactQuill from 'react-quill';
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 import Link from 'next/link';
 
@@ -40,7 +41,7 @@ const BoardWrite = () => {
         const imgUrls = await imgHook.imgToS3(preUrls, parse.decodedImages)
         console.log(imgUrls)
         if(imgUrls) {
-          newContent = imgHook.change(content, imgUrls)
+          newContent = imgHook.change(content, imgUrls, parse.base64ImageIndexes)
           console.log(newContent)
           boardWrite.mutate({ title: title, content: newContent, tag: 'love'})
         }
