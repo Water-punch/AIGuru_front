@@ -4,7 +4,7 @@ const nextConfig = {
   output: 'standalone',
 };
 
-const webpack = require('webpack')
+const webpack = require('webpack');
 
 module.exports = {
   // 다른 설정들...
@@ -24,7 +24,7 @@ module.exports = {
       config.plugins.push(
         new webpack.IgnorePlugin({
           resourceRegExp: /^quill$/,
-        })
+        }),
       );
     }
     return config;

@@ -6,7 +6,7 @@ import { RootState } from '../store';
 
 const HomePage = () => {
   const userState = useSelector((state: RootState) => state.user.user);
-  console.log(userState)
+  console.log(userState);
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
@@ -14,7 +14,10 @@ const HomePage = () => {
       <img src="/images/guru.png" className="quarter-size mt-4"></img>
 
       <div>
-        <ConversationBox text={scriptForMain.text} isGuru={scriptForMain.isGuru}/>
+        <ConversationBox
+          text={scriptForMain.text}
+          isGuru={scriptForMain.isGuru}
+        />
       </div>
 
       <div className="flex flex-row gap-20 mt-10">

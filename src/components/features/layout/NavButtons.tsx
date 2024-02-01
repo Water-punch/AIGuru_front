@@ -45,10 +45,9 @@ const NavButtons = () => {
           </Link>
           <MyPageButton />
         </div>
-      } 
+      )}
 
-      {
-      position.includes('/board') && !position.includes('write' || 'edit') &&
+      {position.includes('/board') && !position.includes('write' || 'edit') && (
         <div className="flex flex-row gap-6">
           <Link href="/board">
             <button>
@@ -59,8 +58,8 @@ const NavButtons = () => {
             </button>
           </Link>
 
-          <button 
-            className="flex items-start" 
+          <button
+            className="flex items-start"
             onClick={() => handleNavigation('/board/write')}
           >
             <img
@@ -115,8 +114,7 @@ const NavButtons = () => {
           </Link>
           <MyPageButton />
         </div>
-      }
-      
+      )}
     </div>
   );
 };
