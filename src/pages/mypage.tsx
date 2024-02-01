@@ -16,7 +16,7 @@ const MyPage = () => {
   const [boardPage, setboardPage] = useState(1);
   const commentQuery = `?page=${commentPage}&limit=${limit}`;
   const boardQuery = `?page=${boardPage}&limit=${limit}`;
-  const [selectedComponent, setSelectedComponent] = useState(null);
+  const [selectedComponent, setSelectedComponent] = useState(<HandleUsers />);
 
   const handleSelectComponent = (component: any) => {
     setSelectedComponent(component);
@@ -49,7 +49,7 @@ const MyPage = () => {
             className="border border-black h-10"
             onClick={() => handleSelectComponent(<HandleServices />)}
           >
-            서비스
+            멤버십 정보/변경
           </button>
         </div>
       </div>

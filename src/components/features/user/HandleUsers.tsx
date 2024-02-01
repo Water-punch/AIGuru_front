@@ -8,23 +8,28 @@ const HandleUsers = () => {
           </div>
 
           <div className="mt-3">
-            <div>eoqnwjs11</div>
+            <input
+              className="border rounded p-2"
+              type="text"
+              placeholder="현재 비밀번호"
+            ></input>
           </div>
           <div className="mt-3">
-            <div>
-              <div className="mb-3">
-                <div className="border rounded p-2">닉네임</div>
-              </div>
-              <div className="mb-3">
-                <div className="border rounded p-2" />
-              </div>
-              <div className="mb-3">
-                <div className="border rounded p-2" />
-              </div>
-              <div>변경사항저장</div>
-            </div>
-            회원탈퇴
+            <input
+              className="border rounded p-2"
+              type="text"
+              placeholder="비밀번호입력"
+            ></input>
           </div>
+          <div className="mt-3">
+            <input
+              className="border rounded p-2"
+              type="text"
+              placeholder="비밀번호확인"
+            ></input>
+          </div>
+          <div className="mt-3">비밀번호 변경</div>
+          <div className="mt-3">회원탈퇴</div>
         </div>
       </div>
     </>
