@@ -87,7 +87,9 @@ const CommentAnalysis = ({ positiveCount, negativeCount }: CommentsProps) => {
 
   return (
     <div className="mt-4">
-      <h3 className="text-lg font-semibold mb-2">Comment Analysis</h3>
+      <h3 className="text-lg font-semibold mb-2">
+        구루의 제자들의 생각은 어떨까요?
+      </h3>
       {renderImages()}
     </div>
   );

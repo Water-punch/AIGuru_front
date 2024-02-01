@@ -10,6 +10,7 @@ import { useBoardComment } from '@/src/hooks/api/comment';
 import axios from 'axios';
 import CommentInput from '@/src/components/features/comment/CommentInput';
 import withAuth from '@/src/hocs/withAuth';
+import CommentAnalysis from '@/src/components/features/comment/CommentAnalysis';
 
 const serverUrl = 'http://localhost:5001/api';
 const api = axios.create({

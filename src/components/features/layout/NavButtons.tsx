@@ -12,7 +12,7 @@ const NavButtons = () => {
   const userState = useSelector((state: RootState) => state.user.user);
 
   const handleNavigation = (path: string) => {
-    if (userState.logintype === '없음') {
+    if (userState.userId === '0') {
       alert('로그인이 필요한 기능입니다.');
       router.push('/login');
     } else {
