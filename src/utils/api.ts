@@ -26,8 +26,14 @@ api.interceptors.request.use(
   },
 );
 
-async function get<T = any>(endpoint: string, token?: string) {
-  const headers = token ? { Authorization: `Bearer ${token}`} : {}
+async function get<T = any>(endpoint: string, token?: string, cookie?: string) {
+  let headers: { [key: string]: string } = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  if (cookie) {
+    headers['Cookie'] = cookie;
+  }
   return await api.get<T>(endpoint, { headers });
 }
 

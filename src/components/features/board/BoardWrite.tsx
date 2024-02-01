@@ -4,7 +4,8 @@ import {
 } from '@/src/components/features/board/EditorSetting';
 import { useRouter } from 'next/router';
 import { useState, useCallback, useEffect } from 'react';
-import ReactQuill from 'react-quill';
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 import Link from 'next/link';
 

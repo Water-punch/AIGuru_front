@@ -9,7 +9,7 @@ export {scriptForInput, scriptForQnA, scriptForMain, scriptForLoading}
 
 export const scenario0: SurveyQuestionType[] = [
   {
-    question: '음 추가정보를 제공하면 자세한 답변을 할 수 있다네. 추가정보를 제공할텐가? 아니면 바로 질문을 말해볼텐가?',
+    question: '음 추가정보를 제공하면 자세한 답변을 할 수 있다네. 추가정보를 제공할텐가? ("아니오" 를 누르면 바로 질문 작성 화면으로 이동합니다.)',
     options: [{answer: '예', add: ''}, {answer: '아니오', add: ''}],
   },
 ]

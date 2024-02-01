@@ -6,6 +6,7 @@ import HandleBoards from "../components/features/user/HandleBoards";
 import HandleComments from "../components/features/user/HandleComments";
 import HandleServices from "../components/features/user/HandleServices";
 import HandleUsers from "../components/features/user/HandleUsers";
+import withAuth from "../hocs/withAuth";
 
 const limit = 15
 
@@ -40,4 +41,27 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default withAuth(MyPage);
+
+import * as Api from '../utils/api'
+import { GetServerSidePropsContext } from 'next';
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const cookie = context.req.headers.cookie || '';
+
+  try {
+    const res = await Api.get('/user/me', undefined, cookie)
+    console.log(res)
+    if (res.data) {
+      return { props: {} };
+    }
+  } catch(err) {
+    console.log(err)
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+}

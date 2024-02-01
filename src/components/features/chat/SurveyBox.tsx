@@ -16,7 +16,7 @@ const SurveyBox = () => {
   const handleAnswer = (option: SurveyAnswerType) => {
     setResult([...result, option.add]);
 
-    if (scenario == scenario0) {
+    if (scenario[0].question == scenario0[0].question) {
       if (option.answer === '아니오') {
         router.push('/chat/input');
       }
@@ -25,7 +25,7 @@ const SurveyBox = () => {
       }
     } 
 
-    if (scenario == scenario1) {
+    if (scenario[0].question == scenario1[0].question) {
       if (option.answer === '예') {
         setScenario(scenario2);
       }
@@ -35,12 +35,13 @@ const SurveyBox = () => {
           setCurrentQuestionIndex(0);
           console.log(currentQuestionIndex)
           console.log(scenario)
+          return ;
         }
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       }
     }
 
-    if (scenario === scenario3) {
+    if (scenario[0].question === scenario3[0].question) {
       if (option.answer === '헤어져서 오히려 후련합니다.') {
         setScenario(scenario1)
         setCurrentQuestionIndex(3)
@@ -97,12 +98,13 @@ const SurveyBox = () => {
               </div>
             </div>}
             {isEnd &&
-            <div className="w-[600px] min-h-16 border-2 border-white flex justify-center items-center bg-white/50 break-words rounded-md">
+            <div className="w-[600px] min-h-16 border-2 border-white flex flex-col justify-center items-center bg-white/70 break-words rounded-md p-3 drop-shadow-md">
               그렇구만.. 말해줘서 고맙네. 이제 자유롭게 사연을 얘기해보게나. 
-              <div>
+              <div className="grid grid-cols-1 divide-y-2 mt-10 w-80 bg-white/70 border-2 border-white p-2 rounded-md drop-shadow-2xl">
                 <button 
+                className="p-1 mb-2 rounded-md bg-[#da2f2faaa] drop-shadow-lg z-10"
                 onClick={handleNavigate}>
-                  고민 작성하기
+                  ✏고민 작성하기
                 </button>
               </div>
             </div>}

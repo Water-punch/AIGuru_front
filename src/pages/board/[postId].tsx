@@ -9,6 +9,7 @@ import { useBoardComment } from '@/src/hooks/api/comment';
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
 import CommentInput from '@/src/components/features/comment/CommentInput';
+import withAuth from '@/src/hocs/withAuth';
 
 const serverUrl = 'http://localhost:5001/api';
 const api = axios.create({
@@ -83,4 +84,4 @@ const PostviewPage = () => {
     </div>
   );
 };
-export default PostviewPage;
+export default withAuth(PostviewPage);

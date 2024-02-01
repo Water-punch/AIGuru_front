@@ -4,7 +4,7 @@ import { ChatResponseType, } from '../components/types/ChatTypes';
 
 
 const initialState: ChatResponseType = {
-  response: [[0, 'title'] , [['input', 'output']]]
+  response: [['', 'title'] , ['input', 'output']]
 };
 
 export const chatSlice = createSlice({

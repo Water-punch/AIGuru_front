@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import Pagination from '@/src/components/features/board/Pagination';
 import { RootState } from '@/src/store';
+import withAuth from '@/src/hocs/withAuth';
 const serverUrl = 'http://localhost:5001/api';
 // const api = axios.create({
 //   baseURL: serverUrl,
@@ -205,4 +206,4 @@ const BoardPage = () => {
   );
 };
 
-export default BoardPage;
+export default withAuth(BoardPage);
