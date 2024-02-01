@@ -129,6 +129,6 @@ export const useHandleImage = () => {
 
 //댓글 신고 접수
 export const useReportBoard = () => {
-  return useBaseMutation('/board/report', 'post');
+  return useBaseMutation('/boards/report', 'post');
   //return useBaseMutation('/board/report', 'post', 'boardComment');
 };
