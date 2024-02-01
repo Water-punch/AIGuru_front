@@ -201,29 +201,37 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
             <Link href="/board/">목록</Link>
           </button>
           <br />
-          <Link
-            href={{
-              pathname: '/board/edit',
-              query: {
-                detail: JSON.stringify(post),
-              },
-            }}
-            as="/board/edit"
-          >
-            수정
-          </Link>
-          <br />
-          <button
-            onClick={() => {
-              if (window.confirm('정말로 삭제하시겠습니까?')) {
-                onDelete();
-                //alert('게시물이 삭제되었습니다😎');
-                //window.location.href = '/board';
-              }
-            }}
-          >
-            삭제
-          </button>
+          {!isUser ? (
+            <div></div>
+          ) : (
+            <div>
+              <Link
+                href={{
+                  pathname: '/board/edit',
+                  query: {
+                    detail: JSON.stringify(post),
+                  },
+                }}
+                as="/board/edit"
+              >
+                수정
+              </Link>
+
+              <br />
+
+              <button
+                onClick={() => {
+                  if (window.confirm('정말로 삭제하시겠습니까?')) {
+                    onDelete();
+                    //alert('게시물이 삭제되었습니다😎');
+                    //window.location.href = '/board';
+                  }
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -49,7 +49,7 @@ const BoardWrite = () => {
             parse.base64ImageIndexes,
           );
           console.log(newContent);
-          boardWrite.mutate({ title: title, content: newContent, tag: 'love' });
+          boardWrite.mutate({ title: title, content: newContent, tag: tag });
         }
       } else {
         boardWrite.mutate({ title: title, content: content, tag: tag });
