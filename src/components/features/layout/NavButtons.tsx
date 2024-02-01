@@ -9,10 +9,9 @@ const NavButtons = () => {
   const router = useRouter();
   const position = router.pathname;
   const dispatch = useDispatch();
-  const userState = useSelector((state: RootState) => state.user.user)
-  
+  const userState = useSelector((state: RootState) => state.user.user);
+
   const handleNavigation = (path: string) => {
-    
     if (userState.logintype === '없음') {
       alert('로그인이 필요한 기능입니다.');
       router.push('/login');
@@ -23,9 +22,7 @@ const NavButtons = () => {
 
   return (
     <div className="absolute top-0 right-0 m-6">
-      
-      {
-      position.includes('write' || 'edit') &&
+      {position.includes('write' || 'edit') && (
         <div className="flex flex-row gap-6">
           <Link href="/board">
             <button>
@@ -78,31 +75,33 @@ const NavButtons = () => {
           </Link>
           <MyPageButton />
         </div>
-      } 
-    
-      {(!position.includes("write") && !position.includes("board")) && position != '/' &&
-        <div className="flex flex-row gap-6">
-          <Link href="/board">
-            <button>
-              <img
-                src="/images/parthenon.png"
-                className="rounded-full h-[30px] w-[30px]"
-              ></img>
-            </button>
-          </Link>
-          <Link href="/">
-            <button>
-              <img
-                src="/images/guru.png"
-                className="rounded-full h-[33px] w-[33px]"
-              ></img>
-            </button>
-          </Link>
-          <MyPageButton />
-        </div>
-      }
+      )}
 
-      {position === '/' &&
+      {!position.includes('write') &&
+        !position.includes('board') &&
+        position != '/' && (
+          <div className="flex flex-row gap-6">
+            <Link href="/board">
+              <button>
+                <img
+                  src="/images/parthenon.png"
+                  className="rounded-full h-[30px] w-[30px]"
+                ></img>
+              </button>
+            </Link>
+            <Link href="/">
+              <button>
+                <img
+                  src="/images/guru.png"
+                  className="rounded-full h-[33px] w-[33px]"
+                ></img>
+              </button>
+            </Link>
+            <MyPageButton />
+          </div>
+        )}
+
+      {position === '/' && (
         <div className="flex flex-row gap-6">
           <Link href="/board">
             <button>
