@@ -23,7 +23,19 @@ const api = axios.create({
   withCredentials: true,
 });
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import 'dayjs/locale/ko';
 const BoardCardDetail = ({ id, post }: BoardCardType) => {
+  //한국시간으로 변경하는 로직
+  function changeUtcTimeToKst(date: any) {
+    // 플러그인 사용
+    dayjs.extend(utc);
+    dayjs.locale('ko');
+
+    return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
+  }
+
   //게시글 신고 관련
   console.log('게시글상세컴포넌트 태그값 확인: ', post.boardId);
   const reportTargetBoardId = post.boardId;
@@ -154,7 +166,7 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
               <br />
 
               <div className="createdate border-2 border-black">
-                {post && post.createdAt}
+                {post && changeUtcTimeToKst(post.createdAt)}
               </div>
               <p>{post.tag}</p>
             </div>
