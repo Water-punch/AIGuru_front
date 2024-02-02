@@ -40,7 +40,7 @@ const PostviewPage = () => {
   const [commentPage, setCommentPage] = useState(1);
   const limit = 15;
   const commentQuery = `?$page=${page}&limit=${limit}`;
-  const boardComment = useBoardComment(postId, commentQuery);
+  const boardComment = useBoardComment(postId, commentPage);
 
   const getPost = async () => {
     try {
@@ -57,11 +57,14 @@ const PostviewPage = () => {
   useEffect(() => {
     if (postId) {
       boardComment.executeQuery();
-      setComments(boardComment.data?.data);
     }
     if (boardComment.data) {
+      setComments(boardComment.data?.data)
       console.log('댓글 요청 성공');
       console.log(comments);
+    }
+    if (boardComment.error) {
+      console.log(boardComment.error);
     }
   }, [postId, commentPage, boardComment]);
 

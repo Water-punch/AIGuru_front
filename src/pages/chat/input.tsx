@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { saveResult } from '@/src/store/chat';
 import { useRouter } from 'next/router';
 import { scriptForInput } from '@/src/utils/const/scripts';
-import axios from 'axios';
 import ChattingListBar from '@/src/components/features/layout/ChattingListBar';
 import { useFirstGuestMessage, useFirstLoginMessage } from '@/src/hooks/api/chat';
 import { RootState } from '@/src/store';
@@ -63,26 +62,6 @@ const AIcounselingPage = () => {
     }
     setUserInput('')
   }
-
-  // const handleSubmit = async () => {
-  //   const serverUrl = 'http://localhost:5000';
-  //   try {
-  //       setLoading(true);
-  //       const response = await axios.post(`${serverUrl}/chat/first`, {
-  //           question: userInput
-  //       });
-  //       const history = response.data.response;
-  //       localStorage.setItem(`chat${history[0][0]}`, JSON.stringify(history));
-  //       console.log(history)
-  //       dispatch(saveResult({ response : history }))
-  //       setLoading(false);
-  //       router.push('/chat/result')
-
-  //   } catch (error) {
-  //       console.error('api 호출 오류', error);
-  //       setLoading(false);
-  //   }
-  // }
 
   useEffect(() => {
     if (sendGuestMessage.isPending) {

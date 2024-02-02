@@ -153,7 +153,7 @@ const BoardEdit = ({ post }: BoardCardTypeMini) => {
         onChange={e => setTitle(e.target.value)}
       />
       <div>
-        <select onChange={handleSelect} value={selectedTag}>
+        <select onChange={() =>handleSelect} value={selectedTag}>
           {selectList.map(item => (
             <option value={item} key={item}>
               {item}

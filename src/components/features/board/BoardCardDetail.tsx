@@ -1,10 +1,4 @@
-//import { AiOutlineEllipsis } from "react-icons/ai";
-//import { FaHeart, FaCommentAlt } from "react-icons/fa";
-import PostModal from './PostModal';
 import { useState, useEffect } from 'react';
-
-//import BoardAnswer from "./BoardAnswer";
-//import { Link } from "react-router-dom";
 import Link from 'next/link';
 import BoardEdit from './BoardEdit';
 import React from 'react';
