@@ -6,7 +6,7 @@ const GoogleLoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      location.href = 'kdt-ai-9-team01.elicecoding.com/api/user/login/google'
+      location.href = 'kdt-ai-9-team01.elicecoding.com:5001/api/user/login/google'
     } catch (err) {
       console.log(err)
     }

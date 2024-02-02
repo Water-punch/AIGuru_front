@@ -14,7 +14,7 @@ import CommentAnalysis from '@/src/components/features/comment/CommentAnalysis';
 import Pagination from '../../components/features/comment/CommentPagination';
 import Seo from '@/src/components/common/Seo';
 
-const serverUrl = 'kdt-ai-9-team01.elicecoding.com/api';
+const serverUrl = 'kdt-ai-9-team01.elicecoding.com:5001/api';
 const config = {
   headers: {
     'Access-Control-Allow-Origin': '*',
