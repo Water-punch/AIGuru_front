@@ -2,6 +2,9 @@ import { useDeleteComment, useReportComment } from '@/src/hooks/api/comment';
 import { CommentProps } from '../../types/CommentTypes';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import 'dayjs/locale/ko';
@@ -11,6 +14,7 @@ const Comment = (commentData: CommentProps) => {
     content,
     anonymous_number,
     position,
+    userId,
     status,
     createdAt,
     deletedAt,
@@ -38,6 +42,14 @@ const Comment = (commentData: CommentProps) => {
     return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
   }
 
+  //현재 로그인중인 사용자 아이디 받아오는 부분(댓글삭제가능여부판단용)
+  const userState = useSelector((state: RootState) => state.user.user);
+  console.log(
+    'userState.userId(현재 로그인중인 유저아이디 : ',
+    userState.userId,
+  );
+
+  //댓글삭제관련
   const deleteComment = useDeleteComment(commentId);
 
   const handleDelete = async () => {
@@ -98,8 +110,12 @@ const Comment = (commentData: CommentProps) => {
           <p className="inline-block text-gray-800 font-semibold">{`익명${anonymous_number}`}</p>
 
           <p className="text-gray-700">{position}</p>
-          <button onClick={handleDelete}>삭제</button>
-          <button onClick={handleReport}>신고</button>
+          {userState && userState.userId === userId ? (
+            <button onClick={handleDelete}>삭제</button>
+          ) : (
+            <button onClick={handleReport}>신고</button>
+          )}
+
           <p className="text-gray-700">{changeUtcTimeToKst(createdAt)}</p>
         </div>
         <p className="text-gray-700">{content}</p>
