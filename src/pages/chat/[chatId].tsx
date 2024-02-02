@@ -1,13 +1,10 @@
-import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveResult } from '@/src/store/chat';
 import { RootState } from '@/src/store';
 import { useRouter } from 'next/router';
 import ConversationBoxes from '@/src/components/features/chat/ConversationBoxes';
 import { ChatHistoryType } from '@/src/components/types/ChatTypes';
 import { useEffect, useState } from 'react';
 import ChattingListBar from '@/src/components/features/layout/ChattingListBar';
-import axios from 'axios';
 import AdditionalLoading from '@/src/components/features/chat/AdditionalAnswerLoading';
 import withAuth from '@/src/hocs/withAuth';
 
@@ -20,60 +17,52 @@ const ExtraChatPage = () => {
   const chatId = router.query.chatId;
   const [history, setHistory] = useState<ChatHistoryType>(['',''])
   const [cursor, setCursor] = useState(0);
-  const [query, setQuery] = useState(`${chatId}`);
+  const [query, setQuery] = useState(`${chatId}?cursor${cursor}`);
   const getLog = useChatLog(query);
-  const additionalMessage = useAdditionalMessage(chatId);
+  const additionalMessage = useAdditionalMessage(chatId, query);
   
+  // get 요청의 내용을 통해서 data(history)와 cusor(서버에서 받은 커서값)를 업데이트 하는 부분
   useEffect(() => {
-    if(chatId) {
-      console.log(chatId)
-      getLog.executeQuery()
+    if(getLog.data) {
+      setHistory(getLog.data?.data.history)
+      setCursor(getLog.data?.data.cursor)
     }
-  }, [chatId])
+  }, [getLog])
 
-  useEffect(() => {
-    setHistory(getLog.data?.data.history)
-    setCursor(getLog.data?.data.cursor)
-  }, [getLog.data])
-
+  // 새로운 메세지를 보내는 부분
   const handleMessage = async () => {
     additionalMessage.mutateAsync({
       question: userInput,
     })
     setUserInput('')
-  }
 
-//   const handleSubmit = async () => {
-//     const serverUrl = 'http://localhost:5000';
-//     try {
-//         setLoading(true);
-//         const response = await axios.post(`${serverUrl}/chat/${chatId}`, {
-//             question: userInput,
-//             history: history
-//         });
-//         setHistory(response.data.response)
-//         console.log(history)
-//         dispatch(saveResult({ response : history }))
-//         setLoading(false);
-//         setUserInput('');
-//     } catch (error) {
-//         console.error('api 호출 오류', error);
-//         setLoading(false);
-//         setUserInput('');
-//     }
-// }
+    if (additionalMessage.isPending) {
+      setLoading(true);
+      history.push(`${userInput}`, ' 음... 잠시 생각을 정리하는 중이라네...........................................................................................................................................................................................................................')
+    }
+
+    if (additionalMessage.data) {
+      setLoading(false);
+    }
+    
+    if (additionalMessage.error) {
+      setLoading(false);   
+    }
+  }
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
       <ChattingListBar />
       <div className='mx-[20vh] flex flex-col items-center'>
+      
+      {/* get요청으로 받은 데이터를 출력하는 부분. 영역이 제한되어있고, 여기의 스크롤을 감지해야 한다. */}
         <div className="mt-20 max-h-[70vh] overflow-y-auto">
           <ConversationBoxes history={history} cursor={cursor}/>
         </div>
 
+
         <div className='flex flex-row fixed bottom-[50px] form'>
           {loading ? (<AdditionalLoading/>) : (<img src="/images/guru.png" alt='guru' className="h-[15vh]" />)
-
           }
                
           <textarea
@@ -110,12 +99,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   try {
     const res = await Api.get('/user/me', undefined, cookie)
-    console.log(res)
     if (res.data) {
       return { props: {} };
     }
   } catch(err) {
-    console.log(err)
     return {
       redirect: {
         destination: '/login',

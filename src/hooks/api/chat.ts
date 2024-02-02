@@ -1,7 +1,7 @@
 import { ChatResponseType, SendingMessageType } from "@/src/components/types/ChatTypes";
 import { useBaseMutation, useBaseQuery } from "./reactQueryConfig";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useFirstLoginMessage = () => {
   return useBaseMutation('/chat', 'post')
@@ -31,27 +31,35 @@ export const useChatList = () => {
   };
 };
 
-export const useChatLog = (query?: string) => {
-  const [trigger, setTrigger] = useState(false);
-  const { isLoading, error, data } = useBaseQuery(
-    `/chat/${query}`,
-    `chatLog${query}`,
-    trigger,
-  );
+// export const useChatLog = () => {
+//   const [query, setQuery] = useState('');
+//   const [trigger, setTrigger] = useState(false);
 
-  const executeQuery = () => {
-    setTrigger(true);
-  };
+//   const executeQuery = (newQuery: string) => {
+//     setQuery(newQuery);
+//     setTrigger(prev => !prev);
+//   };
 
-  return {
-    isLoading,
-    error,
-    data,
-    executeQuery,
-  };
-}
+//   const { isLoading, error, data } = useBaseQuery(
+//     `/chat/${query}`,
+//     `chatLog${query}`, 
+//     trigger, 
+//   );
 
-export const useAdditionalMessage = (chatId: string | string[] | undefined) => {
-  return useBaseMutation(`/chat/${chatId}`, 'post')
+//   return {
+//     isLoading,
+//     error,
+//     data,
+//     executeQuery,
+//   };
+// };
+
+export const useChatLog = (query: string) => {
+
+ return useBaseQuery(`/chat/${query}`, `chatLog${query}`)
+};
+
+export const useAdditionalMessage = ( chatId: string | string[] | undefined, query?: string | string[] | undefined, ) => {
+  return useBaseMutation(`/chat/${chatId}`, 'post', `chatLog${query}`)
 }
 

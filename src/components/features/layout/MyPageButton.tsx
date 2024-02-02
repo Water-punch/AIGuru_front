@@ -19,7 +19,7 @@ const MyPageButton = () => {
     setIsLogin(false)
     userLogout.executeQuery()
     dispatch(logout())
-    router.push('/')
+    console.log('로그아웃')
   }
 
   const handleNavigate = (path: string) => {
@@ -36,10 +36,8 @@ const MyPageButton = () => {
   }
 
   useEffect(() => {
-    if (userState.logintype !== '안함') {
-      setIsLogin(true)
-    }
-  }, []);
+    setIsLogin(userState.userId !== '0')
+  }, [userState]);
   
   return (
     <div>

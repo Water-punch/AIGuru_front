@@ -23,8 +23,8 @@ return (
       <button className="border-2 border-black" onClick={() => handleClick({membership: 'membership_product_1', price: 6990})}>결제하기</button>
     </div>
     <div className="flex flex-col gap-5" >
-      premium plan: 월 14990원 / 질문 횟수: 무제한
-      <button className="border-2 border-black" onClick={() => handleClick({membership: 'membership_product_2', price: 14990})}>결제하기</button>
+      premium plan: 월 12990원 / 질문 횟수: 무제한
+      <button className="border-2 border-black" onClick={() => handleClick({membership: 'membership_product_2', price: 12990})}>결제하기</button>
     </div>
   </div>
   )

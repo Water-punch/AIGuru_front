@@ -6,12 +6,14 @@ import ChattingListBar from '@/src/components/features/layout/ChattingListBar';
 import { useEffect, useState } from 'react';
 import { ChatHistoryType, HistoryType } from '@/src/components/types/ChatTypes';
 import { useRouter } from 'next/router';
+import { useFirstLoginMessage } from '@/src/hooks/api/chat';
 
 const CounselingResult = () => {
   const [chatId, setChatId] = useState('')
   const [history, setHistory] = useState<HistoryType>([['',''],['','']])
   const userState = useSelector((state: RootState) => state.user.user)
   const router = useRouter()
+  const makeChatLog = useFirstLoginMessage()
 
   useEffect(() => {
     const historyJSON = localStorage.getItem(`firstMessage`)
@@ -27,11 +29,16 @@ const CounselingResult = () => {
       router.push(path)
     }
     else {
-      if (userState.logintype === '없음') {
-        alert('로그인이 필요한 기능입니다.')
+      if (userState.userId === '0' && window.confirm('로그인이 필요한 기능입니다. \n로그인 페이지로 이동하시겠습니까?')) {    
         router.push('/login');
       }
       else {
+        if (path === `/chat${chatId}` && chatId === 'GUSET') {
+          makeChatLog.mutateAsync({
+            title: history[0][1],
+            history: history[1]
+          })
+        }
         router.push(path)
       }
     }

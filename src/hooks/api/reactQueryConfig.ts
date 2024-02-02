@@ -17,7 +17,7 @@ export const useBaseQuery = <T = any> (endpoint: string, queryKey: string, enabl
   const { isLoading, error, data } = useQuery<ApiResponse<T>>({
     queryKey: [queryKey],
     queryFn: queryFn,
-    enabled,
+    enabled
   })
   return {
     isLoading,

@@ -3,10 +3,35 @@ import ConversationBox from '../components/common/ConversationBox';
 import { scriptForMain } from '../utils/const/scripts';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
+import { useEffect, useState } from 'react';
+import { useFirstLoginMessage } from '@/src/hooks/api/chat';
+import { ChatHistoryType, HistoryType } from '@/src/components/types/ChatTypes';
 
 const HomePage = () => {
   const userState = useSelector((state: RootState) => state.user.user);
-  console.log(userState)
+  const [chatId, setChatId] = useState('')
+  const [history, setHistory] = useState<HistoryType>([['',''],['','']])
+  const makeChatLog = useFirstLoginMessage()
+
+  useEffect(() => {
+    if(userState.userId !== '0') {
+      const historyJSON = localStorage.getItem(`firstMessage`)
+      if (historyJSON) {
+        setHistory(JSON.parse(historyJSON));
+        setChatId(JSON.parse(historyJSON)[0][0])
+      } 
+    } 
+  }, [])
+
+  useEffect(() => {
+    if (chatId === 'GUEST' && userState.userId !== '0') {
+      makeChatLog.mutateAsync({
+        title: history[0][1],
+        history: history[1]
+      })
+    }
+  }, [chatId, history])
+
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">

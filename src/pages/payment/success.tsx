@@ -82,9 +82,15 @@ interface Props {
               />
               결제 성공
           </h2>
-          <p>paymentKey = {payment.paymentKey}</p>
-          <p>orderId =  {payment.orderId}</p>
-          <p>amount = {payment.totalAmount.toLocaleString()}원</p>
+          <p>구매해주셔서 감사합니다.</p>
+
+          <Link href={'/chat'}>
+            <button className="button">구루에게 질문하기</button>
+          </Link>
+          
+          {/* <p>paymentKey = {payment.paymentKey}</p>
+          <p>orderId =  {payment.orderId}</p> */}
+          {/* <p>amount = {payment.totalAmount.toLocaleString()}원</p> */}
 
           <div>
             <Link href="https://docs.tosspayments.com/guides/payment-widget/integration">

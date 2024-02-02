@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import Link from 'next/link';
+import withAuth from "@/src/hocs/withAuth";
 
-export default function FailPage() {
+function FailPage() {
   const { query } = useRouter();
 
   return (
@@ -32,3 +33,5 @@ export default function FailPage() {
     </main>
   );
 }
+
+export default withAuth(FailPage)

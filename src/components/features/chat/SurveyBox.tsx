@@ -83,7 +83,7 @@ const SurveyBox = () => {
 
         <div>
             {!isEnd && scenario[currentQuestionIndex].question &&
-            <div className="w-[600px] min-h-16 border-2 border-white flex flex-col justify-center items-center bg-white/70 break-words rounded-md p-3 drop-shadow-md">
+            <div className="w-[60vw] min-h-16 border-2 border-white flex flex-col justify-center items-center bg-white/70 break-words rounded-md p-3 drop-shadow-md">
               {scenario[currentQuestionIndex].question}
               <div className="grid grid-cols-1 divide-y-2 mt-10 w-80 bg-white/70 border-2 border-white p-2 rounded-md drop-shadow-2xl">
                 {scenario[currentQuestionIndex].options.map((option, idx) => (
@@ -98,7 +98,7 @@ const SurveyBox = () => {
               </div>
             </div>}
             {isEnd &&
-            <div className="w-[600px] min-h-16 border-2 border-white flex flex-col justify-center items-center bg-white/70 break-words rounded-md p-3 drop-shadow-md">
+            <div className="w-[60vw] min-h-16 border-2 border-white flex flex-col justify-center items-center bg-white/70 break-words rounded-md p-3 drop-shadow-md">
               그렇구만.. 말해줘서 고맙네. 이제 자유롭게 사연을 얘기해보게나. 
               <div className="grid grid-cols-1 divide-y-2 mt-10 w-80 bg-white/70 border-2 border-white p-2 rounded-md drop-shadow-2xl">
                 <button 

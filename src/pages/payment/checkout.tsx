@@ -108,7 +108,7 @@ const CheckoutPage = () => {
                   // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
                   await paymentWidget?.requestPayment({
                     orderId: nanoid(),
-                    orderName: 'membership_product_1',
+                    orderName: orderName,
                     customerName: "김토스",
                     customerEmail: "customer123@gmail.com",
                     customerMobilePhone: "01012341234",

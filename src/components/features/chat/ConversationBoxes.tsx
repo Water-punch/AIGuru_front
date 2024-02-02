@@ -16,7 +16,7 @@ const ConversationBoxes = ({ cursor, history } : ChatLogType) => {
         });
         console.log(displayedChats)
         setCurrentIdx(idx => idx + 1);
-      }, 500)
+      }, 1000)
 
       return () => clearTimeout(timer);
     }
@@ -33,16 +33,18 @@ const ConversationBoxes = ({ cursor, history } : ChatLogType) => {
   return (
     <div>
       {displayedChats.map((chat, idx) => (
-        <div key={idx}>
-          <div className="my-5 flex-1 justify-start">
+        idx % 2 === 0 ? (
+          // 짝수번 인덱스일 때
+          <div key={idx} className="my-5 flex-1 justify-start">
             <ConversationBox text={chat} isGuru={false} />
           </div>
-          <div className="my-5 flex-1 justify-end">
-            <ConversationBox text={chat[1]} isGuru={true} />
+        ) : (
+          // 홀수번 인덱스일 때
+          <div key={idx} className="my-5 flex-1 justify-end">
+            <ConversationBox text={chat} isGuru={true} />
           </div>
-        </div>
-        ))
-      }
+        )
+      ))}
     </div>
   )
 }

@@ -34,8 +34,9 @@ const AIcounselingPage = () => {
   }, [])
 
   const handleMessage = async () => {
+    console.log('userId: ', userState.logintype)
     if (testResult) {
-      if (userState.logintype === '없음') {
+      if (userState.userId === '0') {
         sendGuestMessage.mutateAsync({
           question: userInput,
           testResult: { classification: '연애', situation: [testResult] }
@@ -49,7 +50,7 @@ const AIcounselingPage = () => {
       }
     }
     else {
-      if (userState.logintype === '없음') {
+      if (userState.logintype === '0') {
         sendGuestMessage.mutateAsync({
           question: userInput,
         })
