@@ -52,13 +52,13 @@ const CounselingResult = () => {
       </div>
 
       <div className="flex flex-col gap-2 mt-10 mb-10">
-        <button className="min-w-12 h-6 border-2 border-white bg-white/50" onClick={() => handleNavigate(`/chat/${chatId}`)}>
+        <button className="flex justify-center items-center w-42 h-8 border-2 border-white bg-white/70 rounded-md hover:bg-[#f02356] drop-shadow-lg" onClick={() => handleNavigate(`/chat/${chatId}`)}>
           추가 질문하기
         </button>
-        <button className="min-w-12 h-6 border-2 border-white bg-white/50" onClick={() => handleNavigate(`/board/write`)}>
+        <button className="flex justify-center items-center w-42 h-8 border-2 border-white bg-white/70 rounded-md hover:bg-[#f02356] drop-shadow-lg" onClick={() => handleNavigate(`/board/write`)}>
           제자들에게 질문하기
         </button>
-        <button className="min-w-12 h-6 border-2 border-white bg-white/50" onClick={() => handleNavigate(`/chat`)}>
+        <button className="flex justify-center items-center w-42 h-8 border-2 border-white bg-white/70 rounded-md hover:bg-[#f02356] drop-shadow-lg" onClick={() => handleNavigate(`/chat`)}>
           새 질문하기
         </button>
       </div>

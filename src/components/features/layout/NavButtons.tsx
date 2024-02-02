@@ -22,7 +22,7 @@ const NavButtons = () => {
   };
 
   return (
-    <div className="absolute top-0 right-0 m-6">
+    <div className="absolute top-0 right-0 m-6 z-10">
       {position.includes('write' || 'edit') && (
         <div className="flex flex-row gap-6">
           <Link href="/board">

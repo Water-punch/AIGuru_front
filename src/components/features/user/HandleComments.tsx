@@ -16,8 +16,17 @@ const HandleComments = () => {
   }, [getComments.data]);
 
   return (
-    <div className="flex justify-center items-center">
-      {comments && <Comments count={comments.count} list={comments.list} />}
+    <div className="flex flex-col mt-[20vh]">
+      <div className="mb-10 username text-2xl font-bold">
+        댓글 관리
+      </div>
+      {comments && 
+        <Comments 
+          count={comments.count} 
+          list={comments.list}             
+          positiveCount={comments.positiveCount}
+          negativeCount={comments.negativeCount}
+        />}
     </div>
   );
 };

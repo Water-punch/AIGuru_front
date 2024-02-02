@@ -89,7 +89,7 @@ const ChattingListBar = () => {
             {chatList && chatList.map((chatInfo, idx) => (
               <div 
               key={idx} 
-              className="p-1 my-1 mx-1 border-2 border-white/70 rounded-lg"
+              className="p-1 my-1 mx-1 border-2 border-white/70 rounded-lg bg-[#f34363] hover:bg-[#e9b7bf]"
               >
                 <button onClick={() => handleNavigate(`/chat/${chatInfo.chatId}`)}>
                   {chatInfo.title}

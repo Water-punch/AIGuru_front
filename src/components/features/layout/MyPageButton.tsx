@@ -48,22 +48,32 @@ const MyPageButton = () => {
       <button onClick={() => setIsOpen(true)}>
         <img
           src="/images/user.png"
-          className="rounded-full h-[30px] w-[30px]"
+          className="rounded-full h-[30px] w-[30px] z-10"
         />
       </button>
       {isOpen && (
         <div
-          className="flex flex-col gap-2 h-15 w-25 border-2 border-black bg-white absolute z-10 right-0"
+          className="grid grid-cols-1 divide-y mt-2 w-32 bg-white/70 border-2 border-white p-1 rounded-md drop-shadow-xl absolute z-10 right-0"
           onMouseLeave={() => setIsOpen(false)}
         >
           { !isLogin && (
-            <button onClick={() => handleNavigate('/login')}>로그인</button>
+            <button 
+              className="rounded-md hover:bg-[#ffffff] drop-shadow-lg z-10"
+              onClick={() => handleNavigate('/login')}>
+                로그인
+            </button>
           )}
           { isLogin &&
           (
             <div className="flex flex-col gap-2">
-              <button onClick={handleLogout}>로그아웃</button>
-              <button onClick={() => handleNavigate('/mypage')}>마이페이지</button>
+              <button 
+                className="p-1 mb-2 rounded-md hover:bg-[#ffffff drop-shadow-lg z-10"
+                onClick={handleLogout}>
+                  로그아웃
+              </button>
+              <button 
+                className="p-1 mb-2 rounded-md hover:bg-[#d4d0d1 drop-shadow-lg z-10"
+                onClick={() => handleNavigate('/mypage')}>마이페이지</button>
             </div>
           )
           }

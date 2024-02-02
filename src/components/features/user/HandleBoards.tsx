@@ -15,7 +15,10 @@ const HandleBoards = () => {
   }, [getPosts.data]);
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex flex-col mt-[20vh] ml-[5vw]">
+      <div className="mb-10 username text-2xl font-bold">
+        게시글 관리
+      </div>
       {posts && <PostCards count={posts.count} list={posts.list} />}
     </div>
   );
