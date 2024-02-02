@@ -31,7 +31,7 @@ export const useBaseQuery = <T = any> (endpoint: string, queryKey: string, enabl
 // useBaseMutation.data = { data: response.data, headers: response.headers }
 export const useBaseMutation = <T = any>(endpoint: string,  method: 'post' | 'put' | 'delete', queryKey?: string) => {
   const queryClient = useQueryClient();
-  const mutationFn = useCallback(async (bodyData?: Object,): Promise<ApiResponse<T>> => {
+  const mutationFn = useCallback(async (bodyData?: Object | undefined): Promise<ApiResponse<T>> => {
     let response;
     switch (method) {
       case 'post':

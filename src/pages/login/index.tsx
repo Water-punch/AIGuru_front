@@ -1,8 +1,10 @@
+import Seo from '@/src/components/common/Seo';
 import Link from 'next/link';
 
 const LoginPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
+      <Seo title='로그인' />
       <div className="my-20">
         구루의 회원이 되고 프리미엄 서비스를 사용해보세요!
       </div>

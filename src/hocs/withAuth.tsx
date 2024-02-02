@@ -12,6 +12,8 @@ const withAuth = <P extends {}>(WrappedComponent: ComponentType<P>) => {
     const dispatch = useDispatch();
     const userState = useSelector((state: RootState) => state.user.user);
 
+
+
     useEffect(() => {
       const pathSegment = router.pathname.split('/')[1];
       const isNumeric = !isNaN(parseInt(pathSegment));
@@ -20,7 +22,6 @@ const withAuth = <P extends {}>(WrappedComponent: ComponentType<P>) => {
       validation.executeQuery();
 
       if (validation.data) {
-        console.log('withAuth - /user/me 요청 성공')
         dispatch(login({ user: validation.data.data }));
       }
 
@@ -30,9 +31,22 @@ const withAuth = <P extends {}>(WrappedComponent: ComponentType<P>) => {
         }
         router.push('/login')
       }
-    }, [dispatch, router, validation, router.pathname]);
 
-    return <WrappedComponent {...props} />
+      const checkAuth = () => {
+        validation.executeQuery();
+        if (validation.data) {
+          dispatch(login({ user: validation.data.data }));
+        }
+      };
+
+      const interval = setInterval(() => {
+        checkAuth();
+      }, 600000);
+
+      return () => clearInterval(interval);
+    }, [router, validation, router.pathname]);
+
+    return <WrappedComponent {...props} />;
   };
 };
 

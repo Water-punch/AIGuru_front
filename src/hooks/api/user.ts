@@ -57,6 +57,10 @@ export const useUserComment = (query: string) => {
   return useBaseQuery(`/comments/my${query}`, 'userComment')
 }
 
+export const useMemberShip = () => {
+  return useBaseQuery('/user/my/membership', 'membership')
+}
 
-
-
+export const useUserResign = () => {
+  return useBaseMutation('/user/resign', 'post')
+}

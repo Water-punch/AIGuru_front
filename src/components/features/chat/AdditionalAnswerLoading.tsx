@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 
 const AdditionalLoading = () => {
+  console.log('로딩으로 넘어옴')
   return (
     <div>
       <motion.div 

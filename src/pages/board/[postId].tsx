@@ -12,6 +12,7 @@ import withAuth from '@/src/hocs/withAuth';
 import CommentAnalysis from '@/src/components/features/comment/CommentAnalysis';
 //댓글 페이지네이션 추가용 모듈 import
 import Pagination from '../../components/features/comment/CommentPagination';
+import Seo from '@/src/components/common/Seo';
 
 const serverUrl = 'http://localhost:5001/api';
 const config = {
@@ -56,11 +57,6 @@ const PostviewPage = () => {
     //boardComment;
     console.log('getCommentList(useEffect) :  ', commentpage);
     //getBoardlist(searchKeyword); // 컨텐츠 데이터 새롭게 불러와 상태 변경 -> ProductList리렌더링
-    // console.log('==================댓글 페이지 변경 발생==================');
-    // if (boardComment.error) {
-    //   console.log(boardComment.error);
-    // }
-    // console.log('==================댓글 페이지 변경 발생==================');
   }, [commentpage]);
 
   const [comments, setComments] = useState({
@@ -117,24 +113,7 @@ const PostviewPage = () => {
       console.error(error);
     }
   };
-  /*
-  useEffect(() => {
-    if (postId) {
-      setComments(boardComment.data?.data);
-      boardComment.executeQuery();
-    }
-    if (boardComment.data) {
-      setComments(boardComment.data?.data)
-      console.log('댓글 요청 성공');
-      console.log(comments);
-    }
-    if (boardComment.error) {
-      console.log(boardComment.error);
-    }
-  }, [postId, boardComment, commentPage]);
-  */
-  //getCommentList();
-  //postId, commentPage, boardComment
+
   useEffect(() => {
     getPost();
   }, [postId]);
@@ -155,6 +134,7 @@ const PostviewPage = () => {
 
   return (
     <div className="flex flex-col gap-3">
+      <Seo title='게시글 상세페이지' />
       <div>{post && <BoardCardDetail id={postId} post={post} />}</div>
       <button onClick={isClick}>댓글새로고침</button>
       <div>

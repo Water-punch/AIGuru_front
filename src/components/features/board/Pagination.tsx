@@ -145,12 +145,12 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
               {'<'}
             </Link>
           </li>
-          {visiblePageNumbers.map(number => {
+          {visiblePageNumbers.map((number, idx) => {
             // const pageListClass = `${styles.pageList} ${
             //   currentPage === number ? styles.active : null
             // }`;
             return (
-              <>
+              <div key={idx}>
                 <li
                   key={number}
                   // className='border-none rounded-md px-8 py-8 m-0 bg-black text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
@@ -173,7 +173,7 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
                     </Link>
                   )}
                 </li>
-              </>
+              </div>
             );
           })}
           <li>

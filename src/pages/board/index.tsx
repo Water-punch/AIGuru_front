@@ -11,6 +11,7 @@ import axios from 'axios';
 import Pagination from '@/src/components/features/board/Pagination';
 import { RootState } from '@/src/store';
 import withAuth from '@/src/hocs/withAuth';
+import Seo from '@/src/components/common/Seo';
 const serverUrl = 'http://localhost:5001/api';
 // const api = axios.create({
 //   baseURL: serverUrl,
@@ -140,6 +141,7 @@ const BoardPage = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-board.jpg')]">
+      <Seo title='게시글 목록' />
       <div className="my-20">
         <input
           type="text"

@@ -37,7 +37,7 @@ async function get<T = any>(endpoint: string, token?: string, cookie?: string) {
   return await api.get<T>(endpoint, { headers });
 }
 
-async function post<T = any>(endpoint: string, bodyData: FormData | Object, cookie?: string) {
+async function post<T = any>(endpoint: string, bodyData?: FormData | Object, cookie?: string) {
   let headers: { [key: string]: string } = {};
   if (cookie) {
     headers['Cookie'] = cookie;

@@ -8,6 +8,7 @@ import { scriptForInput } from '@/src/utils/const/scripts';
 import ChattingListBar from '@/src/components/features/layout/ChattingListBar';
 import { useFirstGuestMessage, useFirstLoginMessage } from '@/src/hooks/api/chat';
 import { RootState } from '@/src/store';
+import Seo from '@/src/components/common/Seo';
 
 const gurusMessage =
   '그렇구만.. 대강 감이 오는구만. 어디 한 번 상세하게 고민을 읊어보게나.';
@@ -98,6 +99,7 @@ const AIcounselingPage = () => {
 
   return (
     <div >
+      <Seo title='질문 입력' />
       <ChattingListBar />
       {loading? (
         <AnswerLoadingPage/>

@@ -1,3 +1,4 @@
+import Seo from '@/src/components/common/Seo';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
@@ -13,6 +14,7 @@ const GoogleLoginPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
+      <Seo title='구글 소셜 로그인' />
       <div className="my-20">
         간편하게 로그인하고 다양한 서비스를 사용해보세요!
       </div>

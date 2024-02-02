@@ -27,8 +27,8 @@ const Comment = (commentData: CommentProps) => {
   const deleteComment = useDeleteComment(commentId);
 
   const handleDelete = async () => {
-    deleteComment.mutate(commentId);
-    if (deleteComment.isSuccess && deleteComment.data) {
+    deleteComment.mutateAsync(commentId);
+    if (deleteComment.isSuccess) {
       console.log('댓글 삭제 성공');
     }
   };

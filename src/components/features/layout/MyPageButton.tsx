@@ -35,8 +35,8 @@ const MyPageButton = () => {
   useEffect(() => {
     // 로그아웃 성공 시에만 `isLogin` 상태를 false로 설정
     if (userLogout.data) {
-      console.log('로그아웃 성공');
       setIsLogin(false);
+      router.push('/')
     } else {
       // 로그아웃 데이터가 없으면 `userState`를 기반으로 `isLogin` 상태를 업데이트
       setIsLogin(userState.userId !== '0');
