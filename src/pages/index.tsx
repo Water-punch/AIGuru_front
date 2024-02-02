@@ -6,6 +6,7 @@ import { RootState } from '../store';
 import { useEffect, useState } from 'react';
 import { useFirstLoginMessage } from '@/src/hooks/api/chat';
 import { ChatHistoryType, HistoryType } from '@/src/components/types/ChatTypes';
+import withAuth from '../hocs/withAuth';
 
 const HomePage = () => {
   const userState = useSelector((state: RootState) => state.user.user);
@@ -74,4 +75,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default withAuth(HomePage);

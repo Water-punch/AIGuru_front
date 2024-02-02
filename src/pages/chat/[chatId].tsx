@@ -14,16 +14,25 @@ const ExtraChatPage = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter()
-  const {chatId} = router.query
+  const chatId = router.query.chatId
   const [history, setHistory] = useState<ChatHistoryType>(['',''])
   const [cursor, setCursor] = useState(0);
-  const [query, setQuery] = useState(`${chatId}?cursor${cursor}`);
+  const [query, setQuery] = useState(`${chatId}?${cursor}`);
   const getLog = useChatLog(query);
   const additionalMessage = useAdditionalMessage(chatId, query);
 
+  useEffect(() => {
+    // chatId 변경 시 로직 수행
+    if (router.query.chatId) {
+      const newChatId = router.query.chatId;
+      setHistory(['',''])
+      setCursor(0);
+      setQuery(`${newChatId}?0`);
+    }
+  }, [router.query.chatId]);
+
   // get 요청의 내용을 통해서 data(history)와 cusor(서버에서 받은 커서값)를 업데이트 하는 부분
   useEffect(() => {
-    
     if(getLog.data) {
       setHistory(getLog.data?.data.history)
       setCursor(getLog.data?.data.cursor)
@@ -39,7 +48,11 @@ const ExtraChatPage = () => {
 
     if (additionalMessage.isPending) {
       setLoading(true);
-      history.push(`${userInput}`, ' 음... 잠시 생각을 정리하는 중이라네...........................................................................................................................................................................................................................')
+      setHistory((prev) => {
+        const newHistory = prev
+        newHistory.push(`${userInput}`, ' 음... 잠시 생각을 정리하는 중이라네...........................................................................................................................................................................................................................')
+        return newHistory
+      })
     }
 
     if (additionalMessage.data) {

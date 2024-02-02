@@ -4,15 +4,23 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store';
 import Comments from '@/src/components/features/comment/Comments';
-import { useBoardComment } from '@/src/hooks/api/comment';
 
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
 import CommentInput from '@/src/components/features/comment/CommentInput';
 import withAuth from '@/src/hocs/withAuth';
 import CommentAnalysis from '@/src/components/features/comment/CommentAnalysis';
+//댓글 페이지네이션 추가용 모듈 import
+import Pagination from '../../components/features/comment/CommentPagination';
+import Seo from '@/src/components/common/Seo';
 
 const serverUrl = 'kdt-ai-9-team01.elicecoding.com/api';
+const config = {
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+  },
+};
 const api = axios.create({
   baseURL: serverUrl,
   headers: { 'Content-Type': 'application/json' },
@@ -20,15 +28,44 @@ const api = axios.create({
 });
 
 const PostviewPage = () => {
+  //댓글새로고침클릭
+  const [isRefresh, setIsRefresh] = useState(false);
+  const isCommentRefresh = (flag: any) => {
+
+    setIsRefresh(true);
+
+  };
+  // const isClick = () => {
+  //   setIsRefresh(true);
+  // };
+  //댓글 페이지 값 관리
   const router = useRouter();
+  const commentpage = Number(router.query.page);
+  const [currentPage, setCurrentPage] = useState(1);
+  const commentPaginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const postId = router.query.postId;
-  console.log(postId);
+
+  useEffect(() => {
+    // 페이지 변경 시
+    if (!commentpage) return;
+    setCurrentPage(Number(commentpage)); // 현재 페이지 상태 변경 -> Pagination리렌더링
+    getCommentList();
+
+    //getBoardlist(searchKeyword); // 컨텐츠 데이터 새롭게 불러와 상태 변경 -> ProductList리렌더링
+  }, [commentpage]);
+
   const [comments, setComments] = useState({
     count: 0,
     list: [],
     positiveCount: 0,
     negativeCount: 0,
   });
+
+  useEffect(() => {
+    setIsRefresh(false);
+    console.log('useEffect isRefresh 확인 : ', isRefresh);
+    getCommentList();
+  }, [postId, isRefresh]);
   const [post, setPost] = useState<BoardDataType>();
 
   //ㄹ그인여부 본인게시글
@@ -40,7 +77,6 @@ const PostviewPage = () => {
   const [commentPage, setCommentPage] = useState(1);
   const limit = 15;
   const commentQuery = `?$page=${page}&limit=${limit}`;
-  const boardComment = useBoardComment(postId, commentPage);
 
   const getPost = async () => {
     try {
@@ -54,19 +90,22 @@ const PostviewPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (postId) {
-      boardComment.executeQuery();
+  const getCommentList = async () => {
+
+    try {
+      const response = await axios.get(
+        `${serverUrl}/comments/${postId}?page=${currentPage}`,
+        config,
+      );
+      console.log('Commentdata:', response.data);
+      setComments(response.data);
+      //setComments(boardComment.data?.data);
+      return response.data;
+    } catch (error) {
+      console.error('getCommentList error');
+      console.error(error);
     }
-    if (boardComment.data) {
-      setComments(boardComment.data?.data)
-      console.log('댓글 요청 성공');
-      console.log(comments);
-    }
-    if (boardComment.error) {
-      console.log(boardComment.error);
-    }
-  }, [postId, commentPage, boardComment]);
+  };
 
   useEffect(() => {
     getPost();
@@ -81,10 +120,16 @@ const PostviewPage = () => {
       userState.userId === post.userId,
     );
   }
+  if (hasComments) {
+    console.log('comments : ', comments);
+    console.log('comments.count : ', comments.count);
+  }
 
   return (
     <div className="flex flex-col gap-3">
+      <Seo title='게시글 상세페이지' />
       <div>{post && <BoardCardDetail id={postId} post={post} />}</div>
+      {/* <button onClick={isClick}>댓글새로고침</button> */}
       <div>
         {hasComments && (
           <CommentAnalysis
@@ -92,12 +137,16 @@ const PostviewPage = () => {
             list={comments.list}
             positiveCount={comments.positiveCount}
             negativeCount={comments.negativeCount}
+            onDataChange={isCommentRefresh}
           />
         )}
       </div>
+      <br />
+      <br />
       <div>
         {hasComments && (
           <Comments
+            onDataChange={isCommentRefresh}
             count={comments.count}
             list={comments.list}
             positiveCount={comments.positiveCount}
@@ -105,7 +154,18 @@ const PostviewPage = () => {
           />
         )}
       </div>
-      <CommentInput />
+      {hasComments && comments.count != 0 && (
+        <Pagination
+          totalContents={comments.count}
+          bNumber={postId}
+          //totalContents={15}
+          contentsPerPage={15}
+          currentPage={currentPage}
+          paginate={commentPaginate}
+        />
+      )}
+
+      <CommentInput onDataChange={isCommentRefresh} />
     </div>
   );
 };

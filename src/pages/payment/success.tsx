@@ -83,7 +83,7 @@ interface Props {
               결제 성공
           </h2>
           <p>구매해주셔서 감사합니다.</p>
-
+          <br/><br/>
           <Link href={'/chat'}>
             <button className="button">구루에게 질문하기</button>
           </Link>

@@ -23,12 +23,8 @@ export interface UserDataType {
 
 export interface MembershipType {
   // non-member, trail, basic, premium
-  userId: string;
-  start_at: Date;
-  end_at: Date;
   usingService: string;
-  remainChances: number;
-  created_at?: Date;
-  updated_at?: Date;
-  deleted_at?: Date;
+  remainChances?: number;
+  startAt: Date;
+  endAt: Date;
 }

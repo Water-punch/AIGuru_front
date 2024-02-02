@@ -6,17 +6,21 @@ import { useRouter } from 'next/router';
 interface IProps {
   currentPage: number;
   totalContents: number;
+  bNumber: string | string[] | undefined;
   paginate: (pageNumber: number) => void;
   contentsPerPage: number;
 }
 
-function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
-  const router = useRouter();
-  const { boardNumber } = router.query;
+function Pagination({
+  totalContents,
+  bNumber,
+  contentsPerPage,
+  paginate,
+}: IProps) {
+  // const router = useRouter();
+  // const { boardNumber } = router.query;
   const [currentPage, setCurrentPage] = useState<number>(1);
-
   const maxPageNum = Math.ceil(totalContents / contentsPerPage);
-
   const page_num_per_block = 5; //한 블록 당 페이지 개수
   // 현재 블록 위치 : 올림(현재페이지 / 한 블록 당 페이지 개수)
   const nowBlock = Math.ceil(currentPage / page_num_per_block);
@@ -37,8 +41,6 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
   if (nowBlock == lastBlock) {
     console.log('현재 블럭은 마지막 블럭입니다 : ', nowBlock);
   } else {
-    console.log('현재 블럭 : ', nowBlock);
-    console.log('마지막 블럭 : ', lastBlock);
     right_start_page =
       (nowBlock + 1) * page_num_per_block - (page_num_per_block - 1);
   }
@@ -66,27 +68,23 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
   const goToFirstPage = () => {
     setCurrentPage(1);
     paginate(1);
-    console.log('맨 처음 페이지로 이동 : ', 1);
   };
 
   const goToLastPage = () => {
     setCurrentPage(maxPageNum);
     paginate(maxPageNum);
-    console.log('맨 마지막 페이지로 이동 : ', maxPageNum);
   };
 
   const handleClick = (number: number) => {
     setCurrentPage(number);
     setCurrentNumbers(updatePageNumbers(number));
     paginate(number);
-    console.log('클릭한 해당 페이지로 이동 : ', number);
   };
 
   const goToBlock = (number: number) => {
     setCurrentPage(number);
     setCurrentNumbers(updatePageNumbers(number));
     paginate(number);
-    console.log('해당 블럭 스타트 페이지로 이동 : ', number);
   };
 
   return (
@@ -95,7 +93,7 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
         <div className="flex justify-center items-center gap-4 m-16">
           <li>
             <Link
-              href={`board/${boardNumber}?page=1`}
+              href={`${bNumber}?page=1`}
               onClick={() => goToFirstPage()}
               className='border-none rounded-md px-8 py-8 m-0 bg-black text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
             >
@@ -104,7 +102,7 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
           </li>
           <li>
             <Link
-              href={`board/${boardNumber}?page=${left_start_page}`}
+              href={`${bNumber}?page=${left_start_page}`}
               onClick={() => goToBlock(left_start_page)}
               className='border-none rounded-md px-8 py-8 m-0 bg-black text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
             >
@@ -117,7 +115,7 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
                 <li key={number}>
                   {currentPage == number ? (
                     <Link
-                      href={`board/${boardNumber}?page=${number}`}
+                      href={`${bNumber}`}
                       onClick={() => handleClick(number)}
                       className='border-none rounded-md px-8 py-8 m-0 bg-gray-400 text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
                     >
@@ -125,7 +123,7 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
                     </Link>
                   ) : (
                     <Link
-                      href={`board/${boardNumber}?page=${number}`}
+                      href={`${bNumber}?page=${number}`}
                       onClick={() => handleClick(number)}
                       className='border-none rounded-md px-8 py-8 m-0 bg-black text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
                     >
@@ -138,7 +136,7 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
           })}
           <li>
             <Link
-              href={`board/${boardNumber}?page=${right_start_page}`}
+              href={`${bNumber}?page=${right_start_page}`}
               onClick={() => goToBlock(right_start_page)}
               className='border-none rounded-md px-8 py-8 m-0 bg-black text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
             >
@@ -147,7 +145,7 @@ function Pagination({ totalContents, contentsPerPage, paginate }: IProps) {
           </li>
           <li>
             <Link
-              href={`board/${boardNumber}?page=${maxPageNum}`}
+              href={`${bNumber}?page=${maxPageNum}`}
               onClick={() => goToLastPage()}
               className='border-none rounded-md px-8 py-8 m-0 bg-black text-white text-1rem transition duration-300 ease-in-out hover:bg-tomato hover:cursor-pointer hover:transform-translate-y-[-2px] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none" aria-current="true"'
             >

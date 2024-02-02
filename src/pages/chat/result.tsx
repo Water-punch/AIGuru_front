@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { ChatHistoryType, HistoryType } from '@/src/components/types/ChatTypes';
 import { useRouter } from 'next/router';
 import { useFirstLoginMessage } from '@/src/hooks/api/chat';
+import Seo from '@/src/components/common/Seo';
 
 const CounselingResult = () => {
   const [chatId, setChatId] = useState('')
@@ -46,6 +47,7 @@ const CounselingResult = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
+      <Seo title='답변' />
       <ChattingListBar />
       <div className="mt-20">
         <ConversationBox text={history[1][1]} isGuru={true}/>

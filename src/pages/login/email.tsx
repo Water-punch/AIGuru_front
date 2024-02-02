@@ -5,6 +5,7 @@ import { login } from '@/src/store/user';
 import { useEmailLogin } from '@/src/hooks/api/user';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Seo from '@/src/components/common/Seo';
 
 const EmailLoginPage = () => {
   const [email, setEmail] = useState('');
@@ -40,6 +41,7 @@ const EmailLoginPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-[url('/images/background-home.jpg')]">
+      <Seo title='email 로그인' />
       <div className="my-20">
         간편하게 로그인하고 다양한 서비스를 사용해보세요!
       </div>

@@ -14,9 +14,6 @@ interface BoardCardTypeMini {
 }
 
 const BoardEdit = ({ post }: BoardCardTypeMini) => {
-  console.log('post.boardId(BoardEdit) : ', post.boardId);
-  console.log('post.title(BoardEdit) : ', post.title);
-  console.log('post(BoardEdit) : ', post);
   const router = useRouter();
   const [content, setContent] = useState(post.content);
   const [title, setTitle] = useState(post.title);
@@ -25,11 +22,8 @@ const BoardEdit = ({ post }: BoardCardTypeMini) => {
   const [selectedTag, setSelectedTag] = useState(post.tag);
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedTag(e.target.value);
-    console.log('수정화면에서 태그수정 : ', selectedTag);
   };
 
-  console.log('수정컴포넌트 태그값 확인: ', post.tag);
-  console.log('수정화면에서 수정된 태그값 확인 : ', selectedTag);
   let newContent = '';
   const imgHook = useHandleImage();
   const boardEdit = useEditBoard();
