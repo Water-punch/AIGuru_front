@@ -113,21 +113,18 @@ const BoardWrite = () => {
   // );
 
   return (
-    <div>
-      <div>글쓰기</div>
-
+    <div className="flex flex-col items-center justify-center mt-20">
+      <div className="text-3xl font-bold mb-6 mt-20">글쓰기</div>
       <input
-        style={{
-          width: '700px',
-          height: '35px',
-          marginTop: '20px',
-          paddingLeft: '10px',
-        }}
+        className="flex justify-start w-4/5 h-[6vh] mt-10 mb-4 px-4 border border-gray-300 rounded"
         type="text"
         placeholder="제목을 입력하세요"
         onChange={e => setTitle(e.target.value)}
       />
-      <select onChange={e => setTag(e.target.value)}>
+      <select
+        className="flex justify-end w-36 h-10 px-4 mr-24 border border-gray-300 rounded"
+        onChange={e => setTag(e.target.value)}
+      >
         <option value="free">일상고민</option>
         <option value="divorce">이혼</option>
         <option value="love" selected>
@@ -136,23 +133,27 @@ const BoardWrite = () => {
         <option value="marriage">결혼</option>
       </select>
       <ReactQuill
-        style={{
-          width: '82%',
-          height: '60vh',
-          marginBottom: '5vh',
-          marginTop: '2.5vh',
-        }}
+        className="w-[82%] h-[60vh] mb-20 mt-5"
         theme="snow"
         modules={modules}
         formats={formats}
         value={content}
         onChange={e => setContent(e)}
       />
-      <button onClick={handleWrite}>완료</button>
-      <br />
-      <Link href="/board/">
-        <button>취소</button>
-      </Link>
+      <div className="flex flex-row">
+        <button
+          className="w-20 h-10 mr-10 bg-blue-500 text-white rounded hover:bg-blue-700"
+          onClick={handleWrite}
+        >
+          게시
+        </button>
+        <br />
+        <Link href="/board/">
+          <button className="w-20 h-10  bg-gray-300 rounded hover:bg-gray-400">
+            취소
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };
