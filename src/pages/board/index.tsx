@@ -13,7 +13,7 @@ import { RootState } from '@/src/store';
 import withAuth from '@/src/hocs/withAuth';
 import Seo from '@/src/components/common/Seo';
 
-const serverUrl = 'kdt-ai-9-team01.elicecoding.com:5001/api';
+const serverUrl = 'http://kdt-ai-9-team01.elicecoding.com:5001/api';
 
 const BoardPage = () => {
   const [boardList, setBoardList] = useState<BoardDataTypeList>({

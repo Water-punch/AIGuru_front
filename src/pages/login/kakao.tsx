@@ -5,7 +5,7 @@ const KakaoLoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      location.href = 'kdt-ai-9-team01.elicecoding.com:5001/api/user/login/kakao'
+      location.href = 'http://kdt-ai-9-team01.elicecoding.com:5001/api/user/login/kakao'
     } catch (err) {
       console.log(err)
     }
