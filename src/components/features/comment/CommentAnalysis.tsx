@@ -1,5 +1,6 @@
 import React from 'react';
 import { CommentsProps } from '../../types/CommentTypes';
+import Image from 'next/image';
 
 // interface IProps {
 //   currentPage: number;
@@ -24,6 +25,9 @@ const CommentAnalysis = ({ positiveCount, negativeCount }: CommentsProps) => {
 
   const renderImages = () => {
     const { positivePercentage, negativePercentage } = analyzeComments();
+    if (isNaN(positivePercentage) || isNaN(negativePercentage)) {
+      return <div>아직 의견을 남겨 준 제자가 없어요.</div>;
+    }
     console.log('Percentage 확인: ', positivePercentage, negativePercentage);
 
     // 이미지를 반복해서 출력할 숫자 (10으로 나누고 반올림)
@@ -39,41 +43,44 @@ const CommentAnalysis = ({ positiveCount, negativeCount }: CommentsProps) => {
       <div>
         <div className="flex items-center mb-2">
           {/* Smile 이미지 */}
-          <img
+          <Image
             src="/images/happy.png"
             alt="smile"
             className="mr-2"
-            style={{ width: `${positivePercentage / 4}%` }}
+            width={positivePercentage * 1.5}
+            height={positivePercentage * 1.5}
           />
 
           {/* Angry 이미지 */}
-          <img
+          <Image
             src="/images/angry.png"
             alt="angry"
-            style={{ width: `${negativePercentage / 4}%` }}
+            width={positivePercentage * 1.5}
+            height={positivePercentage * 1.5}
           />
         </div>
         <div>
           <div className="flex items-center">
-            {/* Smile 반복 이미지 */}
-
             {Array.from({ length: positiveLength }).map(function (_, idx) {
               return (
-                <img
+                <Image
                   src="/images/happy.png"
                   alt="smile"
-                  style={{ width: `40px` }}
+                  width={40}
+                  height={40}
+                  key={idx}
                 />
               );
             })}
 
-            {/* Angry 반복 이미지 */}
             {Array.from({ length: negativeLength }).map(function (_, idx) {
               return (
-                <img
+                <Image
                   src="/images/angry.png"
                   alt="angry"
-                  style={{ width: `40px` }}
+                  width={40}
+                  height={40}
+                  key={idx}
                 />
               );
             })}
