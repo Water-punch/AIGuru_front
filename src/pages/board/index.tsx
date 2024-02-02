@@ -1,6 +1,5 @@
 //get 요청으로 받아올 전체 post목록(임시)
 import PostCards from '@/src/components/features/board/PostCards';
-import { dummyData } from '@/src/components/features/board/dummyData';
 //import BoardList from '@/src/components/features/board/BoardList.jsx';
 import Link from 'next/link';
 import { useEffect, useState, useReducer } from 'react';
@@ -12,7 +11,7 @@ import axios from 'axios';
 import Pagination from '@/src/components/features/board/Pagination';
 import { RootState } from '@/src/store';
 import withAuth from '@/src/hocs/withAuth';
-const serverUrl = 'http://localhost:5001/api';
+const serverUrl = 'kdt-ai-9-team01.elicecoding.com:5001/api';
 // const api = axios.create({
 //   baseURL: serverUrl,
 //   headers: { "Content-Type": "application/json" },

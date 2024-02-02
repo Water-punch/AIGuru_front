@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5001/api',
-  // baseURL: 'http://localhost:5000',
+  // baseURL: 'http://localhost:5001/api',
+  baseURL: 'kdt-ai-9-team01.elicecoding.com:5001/api',
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });

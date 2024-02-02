@@ -9,7 +9,7 @@ import { RootState } from '@/src/store';
 
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
-const serverUrl = 'http://localhost:5001/api';
+const serverUrl = 'kdt-ai-9-team01.elicecoding.com:5001/api';
 
 const api = axios.create({
   baseURL: serverUrl,
