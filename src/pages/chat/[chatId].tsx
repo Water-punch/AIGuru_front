@@ -14,15 +14,16 @@ const ExtraChatPage = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter()
-  const chatId = router.query.chatId;
+  const {chatId} = router.query
   const [history, setHistory] = useState<ChatHistoryType>(['',''])
   const [cursor, setCursor] = useState(0);
   const [query, setQuery] = useState(`${chatId}?cursor${cursor}`);
   const getLog = useChatLog(query);
   const additionalMessage = useAdditionalMessage(chatId, query);
-  
+
   // get 요청의 내용을 통해서 data(history)와 cusor(서버에서 받은 커서값)를 업데이트 하는 부분
   useEffect(() => {
+    
     if(getLog.data) {
       setHistory(getLog.data?.data.history)
       setCursor(getLog.data?.data.cursor)
@@ -57,7 +58,7 @@ const ExtraChatPage = () => {
       
       {/* get요청으로 받은 데이터를 출력하는 부분. 영역이 제한되어있고, 여기의 스크롤을 감지해야 한다. */}
         <div className="mt-20 max-h-[70vh] overflow-y-auto">
-          <ConversationBoxes history={history} cursor={cursor}/>
+          <ConversationBoxes history={history} cursor={cursor} key={`chatId:${chatId}`}/>
         </div>
 
 
@@ -73,8 +74,6 @@ const ExtraChatPage = () => {
           />
 
           <div className="flex flex-col gap-1 justify-center">
-            <label htmlFor='file-upload' className='border-2 border-[#0c0b0b] bg-white rounded-md flex justify-center'> 📎 </label>
-            <input id="file-upload" className='hidden' type="file" accept="image/*" placeholder="📎" />
             <button
               onClick={handleMessage}
               className="max-w-10 border-2 border-[#0c0b0b] bg-white rounded-md"

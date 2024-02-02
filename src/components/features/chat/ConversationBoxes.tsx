@@ -36,12 +36,12 @@ const ConversationBoxes = ({ cursor, history } : ChatLogType) => {
         idx % 2 === 0 ? (
           // 짝수번 인덱스일 때
           <div key={idx} className="my-5 flex-1 justify-start">
-            <ConversationBox text={chat} isGuru={false} />
+            <ConversationBox text={chat} isGuru={false} key={chat.length} />
           </div>
         ) : (
           // 홀수번 인덱스일 때
           <div key={idx} className="my-5 flex-1 justify-end">
-            <ConversationBox text={chat} isGuru={true} />
+            <ConversationBox text={chat} isGuru={true} key={chat.length}/>
           </div>
         )
       ))}

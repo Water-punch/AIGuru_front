@@ -15,10 +15,8 @@ const MyPageButton = () => {
   const userState = useSelector((state: RootState) => state.user.user);
   const userLogout = useLogout();
 
-  const handleLogout = () => {
-    setIsLogin(false)
+  const handleLogout = async () => { 
     userLogout.executeQuery()
-    dispatch(logout())
   }
 
   const handleNavigate = (path: string) => {
@@ -35,8 +33,15 @@ const MyPageButton = () => {
   };
 
   useEffect(() => {
-    setIsLogin(userState.userId !== '0')
-  }, [userState]);
+    // 로그아웃 성공 시에만 `isLogin` 상태를 false로 설정
+    if (userLogout.data) {
+      console.log('로그아웃 성공');
+      setIsLogin(false);
+    } else {
+      // 로그아웃 데이터가 없으면 `userState`를 기반으로 `isLogin` 상태를 업데이트
+      setIsLogin(userState.userId !== '0');
+    }
+  }, [userState, userLogout.data]);
   
   return (
     <div>
@@ -51,12 +56,18 @@ const MyPageButton = () => {
           className="flex flex-col gap-2 h-15 w-25 border-2 border-black bg-white absolute z-10 right-0"
           onMouseLeave={() => setIsOpen(false)}
         >
-          {!isLogin ? (
+          { !isLogin && (
             <button onClick={() => handleNavigate('/login')}>로그인</button>
-          ) : (
-            <button onClick={handleLogout}>로그아웃</button>
           )}
-          <button onClick={() => handleNavigate('/mypage')}>마이페이지</button>
+          { isLogin &&
+          (
+            <div className="flex flex-col gap-2">
+              <button onClick={handleLogout}>로그아웃</button>
+              <button onClick={() => handleNavigate('/mypage')}>마이페이지</button>
+            </div>
+          )
+          }
+          
         </div>
       )}
     </div>

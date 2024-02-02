@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { ChatListType, HistoryType } from "../../types/ChatTypes";
 import Link from "next/link";
-import { motion } from 'framer-motion'
 import { useChatList } from "@/src/hooks/api/chat";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/src/store';
