@@ -11,7 +11,7 @@ import axios from 'axios';
 import Pagination from '@/src/components/features/board/Pagination';
 import { RootState } from '@/src/store';
 import withAuth from '@/src/hocs/withAuth';
-const serverUrl = 'kdt-ai-9-team01.elicecoding.com:5001/api';
+const serverUrl = 'kdt-ai-9-team01.elicecoding.com/api';
 // const api = axios.create({
 //   baseURL: serverUrl,
 //   headers: { "Content-Type": "application/json" },

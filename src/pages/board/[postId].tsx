@@ -12,7 +12,7 @@ import CommentInput from '@/src/components/features/comment/CommentInput';
 import withAuth from '@/src/hocs/withAuth';
 import CommentAnalysis from '@/src/components/features/comment/CommentAnalysis';
 
-const serverUrl = 'kdt-ai-9-team01.elicecoding.com:5001/api';
+const serverUrl = 'kdt-ai-9-team01.elicecoding.com/api';
 const api = axios.create({
   baseURL: serverUrl,
   headers: { 'Content-Type': 'application/json' },
