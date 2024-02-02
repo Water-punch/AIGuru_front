@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 interface IProps {
   currentPage: number;
   totalContents: number;
-  bNumber: number;
+  bNumber: string | string[] | undefined;
   paginate: (pageNumber: number) => void;
   contentsPerPage: number;
 }
