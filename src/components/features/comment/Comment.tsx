@@ -1,7 +1,7 @@
 import { useDeleteComment, useReportComment } from '@/src/hooks/api/comment';
 import { CommentProps } from '../../types/CommentTypes';
 import { useRouter } from 'next/router';
-
+import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import 'dayjs/locale/ko';
@@ -15,7 +15,20 @@ const Comment = (commentData: CommentProps) => {
     createdAt,
     deletedAt,
     commentId,
+    onDeleteChanged,
   } = commentData;
+  //const isDeleted = onDeleteChanged
+  const [isDeleteRefresh, setIsDeleteRefresh] = useState(false);
+
+  const sendDataToParent = () => {
+    console.log('Comment.tsx 666666666666');
+    console.log('sendDataToParent(댓글삭제)');
+    setIsDeleteRefresh(true);
+    console.log('Comment.tsx 777777777777777777777777777');
+    onDeleteChanged(isDeleteRefresh); // 콜백 함수 호출하여 데이터 전달
+    console.log('Comment.tsx 88888888888888888888888888');
+  };
+
   //한국시간으로 변경하는 로직
   function changeUtcTimeToKst(date: any) {
     // 플러그인 사용
@@ -24,14 +37,27 @@ const Comment = (commentData: CommentProps) => {
 
     return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
   }
+
   const deleteComment = useDeleteComment(commentId);
 
   const handleDelete = async () => {
-    deleteComment.mutate(commentId);
-    if (deleteComment.isSuccess && deleteComment.data) {
-      console.log('댓글 삭제 성공');
-    }
+    console.log('Comment.tsx 1111111111111111111');
+    deleteComment.mutateAsync(commentId);
+    console.log('Comment.tsx 2222222222222222222222');
+    // setIsDeleteRefresh(true);
+    // sendDataToParent();
   };
+  useEffect(() => {
+    if (deleteComment.data) {
+      console.log('Comment.tsx 33333333333333333');
+      console.log('================== 댓글 삭제 성공 ===============');
+      setIsDeleteRefresh(true);
+      console.log('Comment.tsx 444444444444444444444');
+      console.log('handleDelete(댓글삭제)');
+      sendDataToParent();
+      console.log('Comment.tsx 555555555555555555');
+    }
+  }, [deleteComment.data]);
 
   const router = useRouter();
 

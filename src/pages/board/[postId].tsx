@@ -29,9 +29,17 @@ const api = axios.create({
 const PostviewPage = () => {
   //댓글새로고침클릭
   const [isRefresh, setIsRefresh] = useState(false);
-  const isClick = () => {
+  const isCommentRefresh = (flag: any) => {
+    console.log('sendDataToParent(댓글삭제 444444444444444');
+    console.log('isCommentRefresh의 flag값 확인 : ', flag);
+    //setIsRefresh(flag);
     setIsRefresh(true);
+    //getCommentList();
+    console.log('sendDataToParent(댓글삭제 55555555555555555');
   };
+  // const isClick = () => {
+  //   setIsRefresh(true);
+  // };
   //댓글 페이지 값 관리
   const router = useRouter();
   const commentpage = Number(router.query.page);
@@ -72,8 +80,9 @@ const PostviewPage = () => {
 
   useEffect(() => {
     setIsRefresh(false);
+    console.log('useEffect isRefresh 확인 : ', isRefresh);
     getCommentList();
-  }, [isRefresh]);
+  }, [postId, isRefresh]);
   const [post, setPost] = useState<BoardDataType>();
 
   //ㄹ그인여부 본인게시글
@@ -99,6 +108,7 @@ const PostviewPage = () => {
   };
 
   const getCommentList = async () => {
+    console.log('getCommentList isRefresh 확인 : ', isRefresh);
     console.log('getCommentList 타나?');
     //console.log('getCommentList 진입');
     console.log('commentpage(getCommentList) : ', commentpage);
@@ -156,7 +166,7 @@ const PostviewPage = () => {
   return (
     <div className="flex flex-col gap-3">
       <div>{post && <BoardCardDetail id={postId} post={post} />}</div>
-      <button onClick={isClick}>댓글새로고침</button>
+      {/* <button onClick={isClick}>댓글새로고침</button> */}
       <div>
         {hasComments && (
           <CommentAnalysis
@@ -164,6 +174,7 @@ const PostviewPage = () => {
             list={comments.list}
             positiveCount={comments.positiveCount}
             negativeCount={comments.negativeCount}
+            onDataChange={isCommentRefresh}
           />
         )}
       </div>
@@ -172,6 +183,7 @@ const PostviewPage = () => {
       <div>
         {hasComments && (
           <Comments
+            onDataChange={isCommentRefresh}
             count={comments.count}
             list={comments.list}
             positiveCount={comments.positiveCount}
@@ -190,7 +202,7 @@ const PostviewPage = () => {
         />
       )}
 
-      <CommentInput />
+      <CommentInput onDataChange={isCommentRefresh} />
     </div>
   );
 };
