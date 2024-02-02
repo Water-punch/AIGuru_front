@@ -20,10 +20,7 @@ function Pagination({
   // const router = useRouter();
   // const { boardNumber } = router.query;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  console.log('totalContents: ', totalContents);
-  console.log('contentsPerPage: ', contentsPerPage);
   const maxPageNum = Math.ceil(totalContents / contentsPerPage);
-  console.log('maxPageNum: ', maxPageNum);
   const page_num_per_block = 5; //한 블록 당 페이지 개수
   // 현재 블록 위치 : 올림(현재페이지 / 한 블록 당 페이지 개수)
   const nowBlock = Math.ceil(currentPage / page_num_per_block);
@@ -44,8 +41,6 @@ function Pagination({
   if (nowBlock == lastBlock) {
     console.log('현재 블럭은 마지막 블럭입니다 : ', nowBlock);
   } else {
-    console.log('현재 블럭 : ', nowBlock);
-    console.log('마지막 블럭 : ', lastBlock);
     right_start_page =
       (nowBlock + 1) * page_num_per_block - (page_num_per_block - 1);
   }
@@ -73,27 +68,23 @@ function Pagination({
   const goToFirstPage = () => {
     setCurrentPage(1);
     paginate(1);
-    console.log('맨 처음 페이지로 이동 : ', 1);
   };
 
   const goToLastPage = () => {
     setCurrentPage(maxPageNum);
     paginate(maxPageNum);
-    console.log('맨 마지막 페이지로 이동 : ', maxPageNum);
   };
 
   const handleClick = (number: number) => {
     setCurrentPage(number);
     setCurrentNumbers(updatePageNumbers(number));
     paginate(number);
-    console.log('클릭한 해당 페이지로 이동 : ', number);
   };
 
   const goToBlock = (number: number) => {
     setCurrentPage(number);
     setCurrentNumbers(updatePageNumbers(number));
     paginate(number);
-    console.log('해당 블럭 스타트 페이지로 이동 : ', number);
   };
 
   return (

@@ -26,21 +26,16 @@ const ReportPage = () => {
     // boardId가 있으면 reportBoard로
     // commentId가 있으면 reportComment로
     if (boardId) {
-      console.log('boardId가 있으면 reportBoard로 : ', boardId);
       reportBoard.mutate({
         boardId: boardId,
         reportType: boardReportType[userSelect],
       });
     } else {
-      console.log('boardId가 없으면 reportComment로 : ', boardId);
       reportComment.mutate({
         commentId: commentId,
         reportType: commentReportType[userSelect],
       });
     }
-    console.log('boardId : ', boardId);
-    console.log('게시글신고관련로그확인 : ', reportBoard);
-    console.log('댓글신고관련로그확인 : ', reportComment);
   };
 
   useEffect(() => {

@@ -23,24 +23,21 @@ const BoardWrite = () => {
 
   const boardWrite = useWriteBoard();
 
-  console.log(content);
-
   const handleWrite = async () => {
     if (typeof window !== 'undefined') {
       const parse = await imgHook.parse(content, title);
-      console.log(parse.filenames);
+
       if (parse.filenames) {
         const preUrls = await imgHook.getUrl(parse.filenames);
-        console.log(preUrls);
         const imgUrls = await imgHook.imgToS3(preUrls, parse.decodedImages);
-        console.log(imgUrls);
+
         if (imgUrls) {
           newContent = imgHook.change(
             content,
             imgUrls,
             parse.base64ImageIndexes,
           );
-          console.log(newContent);
+          
           boardWrite.mutate({ title: title, content: newContent, tag: tag });
         }
       } else {

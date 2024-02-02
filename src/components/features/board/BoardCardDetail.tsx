@@ -31,10 +31,8 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
   }
 
   //게시글 신고 관련
-  console.log('게시글상세컴포넌트 태그값 확인: ', post.boardId);
   const reportTargetBoardId = post.boardId;
   const handleReport = async () => {
-    console.log(`신고 화면으로 이동!`);
     router.push({
       pathname: `/board/report`,
       query: {
@@ -50,7 +48,6 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
 
   //태그항목추가
   const [tag, setTag] = useState(post.tag);
-  console.log('게시글상세컴포넌트 태그값 확인: ', tag);
 
   // 처음엔 모달이 닫혀있다가 누르면 버튼이 열리게 //
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,27 +62,19 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
   // delete 요청 코드
   const onDelete = async () => {
     try {
-      console.log('post.boardId(onDelete) : ', post.boardId);
       const response = await api.delete(`${serverUrl}/boards/${post.boardId}`);
       if (response.status === 200) {
         window.alert('게시글 삭제되었습니다.😎');
-        console.log(
-          `=====================게시글 삭제하면 무조건 여기로 오나================`,
-        );
-        console.log(`게시글 삭제되었습니다.`);
         router.push(`/board`);
       } else {
-        console.log(`delete error`);
         router.push(`/board/${post.boardId}`);
       }
     } catch (error) {
-      console.log('delete error(catch)');
       console.log(error);
     }
   };
 
   useEffect(() => {
-    console.log(userState, post);
     if (userState && post && userState.userId === post.userId) {
       setIsModalOpen(true);
       setIsUser(true);

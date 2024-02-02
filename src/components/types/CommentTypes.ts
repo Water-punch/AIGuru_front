@@ -10,6 +10,7 @@ export interface CommentProps {
   createdAt: any;
   updatedAt: Date;
   deletedAt: Date;
+  onDeleteChanged: any;
 }
 
 // 댓글 한 개가 담긴 객체 타입
@@ -23,6 +24,7 @@ export interface CommentsProps {
   list: CommentProps[];
   positiveCount: number;
   negativeCount: number;
+  onDataChange?: any;
 }
 
 // 댓글 작성 시 req.body에 보낼 data 타입
