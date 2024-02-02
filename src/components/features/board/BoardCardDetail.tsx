@@ -3,14 +3,14 @@ import Link from 'next/link';
 import BoardEdit from './BoardEdit';
 import React from 'react';
 import DOMPurify from 'dompurify';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store';
 
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
 const serverUrl = 'http://localhost:5001/api';
 
-import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/src/store';
 const api = axios.create({
   baseURL: serverUrl,
   headers: { 'Content-Type': 'application/json' },
