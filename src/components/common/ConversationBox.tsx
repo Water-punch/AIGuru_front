@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { ConversationBoxType } from "../types/ChatTypes";
+import { useEffect, useState } from 'react';
+import { ConversationBoxType } from '../types/ChatTypes';
 
 const ConversationBox = ({ text, isGuru }: ConversationBoxType) => {
   const [typedText, setTypedText] = useState('');
   const [index, setIndex] = useState(0);
   const typingDelay = 40;
   let person = '';
-  if (isGuru) person = 'AI 구루'
-  else person = '당신'
+  if (isGuru) person = 'AI 구루';
+  else person = '당신';
 
   useEffect(() => {
     const timer = setInterval(() => {
       if (index < text.length) {
-        setTypedText((prev) => prev + text[index]);
+        setTypedText(prev => prev + text[index]);
         setIndex(index + 1);
       }
       if (index === text.length) {

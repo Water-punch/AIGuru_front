@@ -44,6 +44,8 @@ export const useBoardComment = (boardId: any, query?: string) => {
     setTrigger(true);
   };
 
+  console.log('data!! ', data);
+
   return {
     isLoading,
     error,

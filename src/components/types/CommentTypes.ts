@@ -21,6 +21,8 @@ export interface CommentType {
 export interface CommentsProps {
   count: number;
   list: CommentProps[];
+  positiveCount: number;
+  negativeCount: number;
 }
 
 // 댓글 작성 시 req.body에 보낼 data 타입

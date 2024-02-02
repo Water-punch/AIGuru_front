@@ -10,6 +10,7 @@ import { useBoardComment } from '@/src/hooks/api/comment';
 import axios from 'axios';
 import CommentInput from '@/src/components/features/comment/CommentInput';
 import withAuth from '@/src/hocs/withAuth';
+import CommentAnalysis from '@/src/components/features/comment/CommentAnalysis';
 
 const serverUrl = 'http://localhost:5001/api';
 const api = axios.create({
@@ -22,7 +23,12 @@ const PostviewPage = () => {
   const router = useRouter();
   const postId = router.query.postId;
   console.log(postId);
-  const [comments, setComments] = useState({ count: 0, list: [] });
+  const [comments, setComments] = useState({
+    count: 0,
+    list: [],
+    positiveCount: 0,
+    negativeCount: 0,
+  });
   const [post, setPost] = useState<BoardDataType>();
 
   //ㄹ그인여부 본인게시글
@@ -31,6 +37,7 @@ const PostviewPage = () => {
   // 게시글이 없으면 isLoaded되지 않도록
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
+  const [commentPage, setCommentPage] = useState(1);
   const limit = 15;
   const commentQuery = `?$page=${page}&limit=${limit}`;
   const boardComment = useBoardComment(postId, commentQuery);
@@ -51,12 +58,12 @@ const PostviewPage = () => {
     if (postId) {
       boardComment.executeQuery();
       setComments(boardComment.data?.data);
-      console.log(comments);
     }
     if (boardComment.data) {
       console.log('댓글 요청 성공');
+      console.log(comments);
     }
-  }, [postId, page, boardComment]);
+  }, [postId, commentPage, boardComment]);
 
   useEffect(() => {
     getPost();
@@ -77,7 +84,22 @@ const PostviewPage = () => {
       <div>{post && <BoardCardDetail id={postId} post={post} />}</div>
       <div>
         {hasComments && (
-          <Comments count={comments.count} list={comments.list} />
+          <CommentAnalysis
+            count={comments.count}
+            list={comments.list}
+            positiveCount={comments.positiveCount}
+            negativeCount={comments.negativeCount}
+          />
+        )}
+      </div>
+      <div>
+        {hasComments && (
+          <Comments
+            count={comments.count}
+            list={comments.list}
+            positiveCount={comments.positiveCount}
+            negativeCount={comments.negativeCount}
+          />
         )}
       </div>
       <CommentInput />

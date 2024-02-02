@@ -9,7 +9,7 @@ import { ErrorBoundary } from '../utils/ErrorBoundary';
 import FallbackComponent from '../utils/ErrorBoundary';
 import { useRouter } from 'next/router';
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -22,7 +22,6 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.pathname]);
 
   return (
-    
     <Suspense fallback={<div>로딩중</div>}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
@@ -34,6 +33,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </Provider>
       </QueryClientProvider>
     </Suspense>
-    
   );
 }

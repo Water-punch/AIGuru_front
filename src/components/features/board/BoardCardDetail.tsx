@@ -23,7 +23,19 @@ const api = axios.create({
   withCredentials: true,
 });
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import 'dayjs/locale/ko';
 const BoardCardDetail = ({ id, post }: BoardCardType) => {
+  //한국시간으로 변경하는 로직
+  function changeUtcTimeToKst(date: any) {
+    // 플러그인 사용
+    dayjs.extend(utc);
+    dayjs.locale('ko');
+
+    return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
+  }
+
   //게시글 신고 관련
   console.log('게시글상세컴포넌트 태그값 확인: ', post.boardId);
   const reportTargetBoardId = post.boardId;
@@ -154,7 +166,7 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
               <br />
 
               <div className="createdate border-2 border-black">
-                {post && post.createdAt}
+                {post && changeUtcTimeToKst(post.createdAt)}
               </div>
               <p>{post.tag}</p>
             </div>
@@ -201,29 +213,37 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
             <Link href="/board/">목록</Link>
           </button>
           <br />
-          <Link
-            href={{
-              pathname: '/board/edit',
-              query: {
-                detail: JSON.stringify(post),
-              },
-            }}
-            as="/board/edit"
-          >
-            수정
-          </Link>
-          <br />
-          <button
-            onClick={() => {
-              if (window.confirm('정말로 삭제하시겠습니까?')) {
-                onDelete();
-                //alert('게시물이 삭제되었습니다😎');
-                //window.location.href = '/board';
-              }
-            }}
-          >
-            삭제
-          </button>
+          {!isUser ? (
+            <div></div>
+          ) : (
+            <div>
+              <Link
+                href={{
+                  pathname: '/board/edit',
+                  query: {
+                    detail: JSON.stringify(post),
+                  },
+                }}
+                as="/board/edit"
+              >
+                수정
+              </Link>
+
+              <br />
+
+              <button
+                onClick={() => {
+                  if (window.confirm('정말로 삭제하시겠습니까?')) {
+                    onDelete();
+                    //alert('게시물이 삭제되었습니다😎');
+                    //window.location.href = '/board';
+                  }
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

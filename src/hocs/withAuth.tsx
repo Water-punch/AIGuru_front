@@ -1,14 +1,16 @@
 import { useRouter } from "next/router";
 import { useValidation } from "../hooks/api/user";
 import { useEffect, ComponentType, ReactElement } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../store/user";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout } from "../store/user";
+import { RootState } from '@/src/store';
 
 const withAuth = <P extends {}>(WrappedComponent: ComponentType<P>) => {
   return function AuthComponent (props: P) {
     const router = useRouter();
     const validation = useValidation();
     const dispatch = useDispatch();
+    const userState = useSelector((state: RootState) => state.user.user);
 
     useEffect(() => {
       const pathSegment = router.pathname.split('/')[1];
@@ -23,6 +25,9 @@ const withAuth = <P extends {}>(WrappedComponent: ComponentType<P>) => {
       }
 
       if (validation.error && (privatePaths.includes(router.pathname) || isNumeric)) {
+        if (userState.userId !== '0') {
+          dispatch(logout())
+        }
         router.push('/login')
       }
     }, [dispatch, router, validation, router.pathname]);

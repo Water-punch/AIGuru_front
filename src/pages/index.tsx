@@ -39,7 +39,10 @@ const HomePage = () => {
       <img src="/images/guru.png" className="quarter-size mt-4"></img>
 
       <div>
-        <ConversationBox text={scriptForMain.text} isGuru={scriptForMain.isGuru}/>
+        <ConversationBox
+          text={scriptForMain.text}
+          isGuru={scriptForMain.isGuru}
+        />
       </div>
 
       <div className="flex flex-row gap-20 mt-10">
