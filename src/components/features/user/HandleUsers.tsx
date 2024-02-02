@@ -1,10 +1,10 @@
 const HandleUsers = () => {
   return (
     <>
-      <div className="flex justify-center items-center">
+      <div className="flex flex-col mt-[20vh] ml-[10vw] gap-3">
         <div className="mb-3 center-container">
           <div className="mb-3 username text-2xl font-bold">
-            eoqnwjs11님의 마이페이지
+            마이페이지
           </div>
 
           <div className="mt-3">

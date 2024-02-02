@@ -8,16 +8,8 @@ import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 import Link from 'next/link';
-
-//백엔드 통신 관련 임시코드
-import axios from 'axios';
 import { useHandleImage, useWriteBoard } from '@/src/hooks/api/board';
-const serverUrl = 'http://localhost:5001';
-const api = axios.create({
-  baseURL: serverUrl,
-  headers: { 'Content-Type': 'application/json' },
-  // withCredentials: true,
-});
+
 
 const BoardWrite = () => {
   const router = useRouter();
@@ -67,50 +59,6 @@ const BoardWrite = () => {
   if (boardWrite.error) {
     console.log(boardWrite.error);
   }
-
-  // const handleSubmit = useCallback(
-  //   async (event: React.MouseEvent<HTMLButtonElement>) => {
-  //     event.preventDefault();
-  //     // 게시물의 제목, 내용 중 하나라도 입력을 안하면 제출할 수 없도록 막고
-  //     //DB에 성공적으로 데이터가 반영이 되면 url을 /PostlistPage로 이동한다. //
-  //     if (title === '' || title === null || title === undefined) {
-  //       alert('제목을 작성하십시오.');
-  //       return false;
-  //     }
-  //     if (content === '' || content === null || content === undefined) {
-  //       alert('내용을 작성하십시오.');
-  //       return false;
-  //     }
-  //     // post 요청 코드
-  //     // axios ...
-  //     try {
-  //       const response = await axios.post(`${serverUrl}/api/boards`, {
-  //         // userId: post.userId,
-  //         title: post.title,
-  //         content: post.content,
-  //         tag: '',
-  //       });
-  //       if (response.status === 201) {
-  //         window.alert('등록이 완료되었습니다😎');
-  //         console.log(
-  //           `게시글을 작성했습니다.\n title: ${title}\n, content: ${content}`,
-  //         );
-  //         console.log(post);
-  //         // 글 작성하고 나서 게시판 목록으로 이동
-  //         router.push('/board/');
-  //         //router.push("/board/[postId]");
-  //         //router.push("/board/[" + 1 + "]");
-  //         //router.push("/board/[postId]");
-  //       }
-  //     } catch (e) {
-  //       //   toast.error("등록이 실패하였습니다😭", {
-  //       //     position: "top-center",
-  //       //   });
-  //       alert('등록이 실패하였습니다.');
-  //     }
-  //   },
-  //   [title, content],
-  // );
 
   return (
     <div>

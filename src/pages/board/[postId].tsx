@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/src/store';
 import Comments from '@/src/components/features/comment/Comments';
-import { useBoardComment } from '@/src/hooks/api/comment';
 
 //백엔드 통신 관련 임시코드
 import axios from 'axios';
@@ -86,7 +85,6 @@ const PostviewPage = () => {
   const [commentPage, setCommentPage] = useState(1);
   const limit = 15;
   const commentQuery = `?$page=${page}&limit=${limit}`;
-  //const boardComment = useBoardComment(postId, currentPage);
 
   const getPost = async () => {
     try {
@@ -126,6 +124,7 @@ const PostviewPage = () => {
       boardComment.executeQuery();
     }
     if (boardComment.data) {
+      setComments(boardComment.data?.data)
       console.log('댓글 요청 성공');
       console.log(comments);
     }

@@ -1,6 +1,6 @@
 //get 요청으로 받아올 전체 post목록(임시)
 import PostCards from '@/src/components/features/board/PostCards';
-import { dummyData } from '@/src/components/features/board/dummyData';
+
 //import BoardList from '@/src/components/features/board/BoardList.jsx';
 import Link from 'next/link';
 import { useEffect, useState, useReducer } from 'react';

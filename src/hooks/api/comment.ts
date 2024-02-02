@@ -32,10 +32,10 @@ export const useMyComment = (page: number) => {
 
 // 게시글에 작성된 댓글 목록 조회
 
-export const useBoardComment = (boardId: any, query?: string) => {
+export const useBoardComment = (boardId: any, page?: number) => {
   const [trigger, setTrigger] = useState(false);
   const { isLoading, error, data } = useBaseQuery(
-    `/comments/${boardId}${query}`,
+    `/comments/${boardId}?page=${page}&limit=15`,
     'boardComment',
     trigger,
   );

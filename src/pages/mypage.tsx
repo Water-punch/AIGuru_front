@@ -24,37 +24,36 @@ const MyPage = () => {
   };
 
   return (
-    <div className="">
-      <div className="fixed left-0 top-0 h-screen w-[20vw] border-white border shadow-lg bg-pink-400 p-5 ml-50">
-        <div className="mb-10">{user.userId} 임시로 보여주는 userId</div>
-        <div className="flex flex-col gap-7 w-15">
-          <button
-            className="border border-black h-10"
-            onClick={() => handleSelectComponent(<HandleUsers />)}
-          >
-            유저 정보
-          </button>
-          <button
-            className="border border-black h-10"
-            onClick={() => handleSelectComponent(<HandleBoards />)}
-          >
-            작성한 게시글
-          </button>
-          <button
-            className="border border-black h-10"
-            onClick={() => handleSelectComponent(<HandleComments />)}
-          >
-            작성한 댓글
-          </button>
-          <button
-            className="border border-black h-10"
-            onClick={() => handleSelectComponent(<HandleServices />)}
-          >
-            멤버십 정보/변경
-          </button>
-        </div>
+    <div>
+      <div className="fixed left-[15vw] top-0 h-screen w-[25vw] border-[#f3edee] border-2 shadow-lg bg-white/90 p-5 flex flex-col items-center gap-10">
+        <button
+          className="border border-black h-10 w-5/6 text-center mt-[20vh] hover:bg-[#f5e2e7]"
+          onClick={() => handleSelectComponent(<HandleUsers />)}
+        >
+          유저 정보
+        </button>
+        <button
+          className="border border-black h-10 w-5/6 text-center hover:bg-[#f5e2e7]"
+          onClick={() => handleSelectComponent(<HandleBoards />)}
+        >
+          작성한 게시글
+        </button>
+        <button
+          className="border border-black h-10 w-5/6 text-center hover:bg-[#f5e2e7]"
+          onClick={() => handleSelectComponent(<HandleComments />)}
+        >
+          작성한 댓글
+        </button>
+        <button
+          className="border border-black h-10 w-5/6 text-center hover:bg-[#f5e2e7]"
+          onClick={() => handleSelectComponent(<HandleServices />)}
+        >
+          멤버십 정보/변경
+        </button>
       </div>
-      <div className="ml-auto mt-20">{selectedComponent}</div>
+      <div className="absolute left-[40vw] top-0 p-5 w-[60vw] h-screen flex bg-[#f3edee]/40 ">        
+        {selectedComponent}
+      </div>
     </div>
   );
 };

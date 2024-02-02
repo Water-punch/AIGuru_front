@@ -88,7 +88,7 @@ const SurveyBox = () => {
               <div className="grid grid-cols-1 divide-y-2 mt-10 w-80 bg-white/70 border-2 border-white p-2 rounded-md drop-shadow-2xl">
                 {scenario[currentQuestionIndex].options.map((option, idx) => (
                   <button 
-                  className="p-1 mb-4 rounded-md bg-[#da2f2faaa] drop-shadow-lg z-10"
+                  className="p-1 mb-4 rounded-md hover:bg-[#c0bbbc] drop-shadow-lg z-10"
                   key={idx} 
                   onClick={() => handleAnswer(option)}
                   >
@@ -102,7 +102,7 @@ const SurveyBox = () => {
               그렇구만.. 말해줘서 고맙네. 이제 자유롭게 사연을 얘기해보게나. 
               <div className="grid grid-cols-1 divide-y-2 mt-10 w-80 bg-white/70 border-2 border-white p-2 rounded-md drop-shadow-2xl">
                 <button 
-                className="p-1 mb-2 rounded-md bg-[#da2f2faaa] drop-shadow-lg z-10"
+                className="p-1 mb-2 rounded-md hover:bg-[#c0bbbc] drop-shadow-lg z-10"
                 onClick={handleNavigate}>
                   ✏고민 작성하기
                 </button>
