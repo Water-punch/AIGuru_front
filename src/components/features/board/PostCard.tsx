@@ -32,9 +32,11 @@ const PostCard = (props: BoardDataType) => {
       <Link href={`/board/${boardId}`}>
         <div className="flex justify-center w-[400px] min-h-10 bg-[#fde68a] ">
           <div className="w-5/6 bg-white flex flex-col">
-            <div>{title}</div>
-            <div>{changeUtcTimeToKst(createdAt)}</div>
-            <div>{tag}</div>
+            <div className="font-bold text-xl">{title}</div>
+            <div className="text-slate-700">
+              {changeUtcTimeToKst(createdAt)}
+            </div>
+            <div className="text-lg">[{tag}]</div>
           </div>
         </div>
       </Link>

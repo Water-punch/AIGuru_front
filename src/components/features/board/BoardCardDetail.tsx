@@ -89,8 +89,6 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
     if (userState && post && userState.userId === post.userId) {
       setIsModalOpen(true);
       setIsUser(true);
-      // console.log('setIsUser(true): ', isUser);
-      // console.log('setIsModalOpen(true): ', isModalOpen);
     }
   }, [post, userState]);
   console.log('isUser : ', isUser);
@@ -99,145 +97,103 @@ const BoardCardDetail = ({ id, post }: BoardCardType) => {
     <>
       <div className="flex flex-col justify-between w-180 h-[100%] left-1/2 box-border">
         <div className="boardwrap">
-          <div className="text-blue-500 bg-white w-860 h-40 flex justify-center items-center p-10 text-35 font-bold border-b-2 border-blue-500">
+          <div className="bg-pink-100 w-860 h-40 flex justify-center items-center p-10 text-3xl mt-20 font-bold border-4 border-red-100">
             통합 게시판
           </div>
-          <button>
-            <Link href="/board/">목록</Link>
-          </button>
-          <br />
-          {!isUser ? (
-            <div></div>
-          ) : (
-            <div>
-              <Link
-                href={{
-                  pathname: '/board/edit',
-                  query: {
-                    detail: JSON.stringify(post),
-                  },
-                }}
-                as="/board/edit"
-              >
-                수정
-              </Link>
-
-              <br />
-              <button
-                onClick={() => {
-                  if (window.confirm('정말로 삭제하시겠습니까?')) {
-                    onDelete();
-                    //alert('게시물이 삭제되었습니다😎');
-                    //window.location.href = '/board';
-                  }
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          )}
-          <br />
-          <div className="boardview border-2 border-black">
-            <div className="h-70 p-100 border-b-1 border-solid border-black;">
-              <div className="border-2 border-black h-8 flex items-center text-22;">
-                {post && post.title}
-                {/* 모달창 관련 코드  
-                <div
-                  className="flex items-center justify-center w-24 h-24 cursor-pointer"
-                  onClick={handleClick}
+          <div className="flex flex-row space-x-2 mt-3 mb-3">
+            <button className="border-zinc-800 border-2 rounded px-4 py-2 bg-gray-100 hover:bg-gray-200">
+              <Link href="/board/">목록</Link>
+            </button>
+            {!isUser ? (
+              <div></div>
+            ) : (
+              <div className="space-x-2">
+                <Link
+                  href={{
+                    pathname: '/board/edit',
+                    query: {
+                      detail: JSON.stringify(post),
+                    },
+                  }}
+                  as="/board/edit"
                 >
-                  {isUser && (
-                    <div className="absolute top-10 right-0 text-2xl" />
-                  )}
+                  <button className="border-zinc-800 border-2 rounded px-4 py-2 bg-blue-100 hover:bg-blue-200">
+                    수정
+                  </button>
+                </Link>
+                <button
+                  onClick={() => {
+                    if (window.confirm('정말로 삭제하시겠습니까?')) {
+                      onDelete();
+                    }
+                  }}
+                  className="border-zinc-800 border-2 rounded px-4 py-2 bg-red-100 hover:bg-red-200"
+                >
+                  삭제
+                </button>
+                <button
+                  onClick={handleReport}
+                  className="border-zinc-800 border-2 rounded px-4 py-2 bg-green-100 hover:bg-green-200"
+                >
+                  신고
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="border-4 border-black">
+            <div className="flex flex-row items-center justify-between h-16 p-4">
+              <div className="flex flex-row p-2 space-x-3 ">
+                <div className="font-bold text-2xl">{post && post.title}</div>
+                <div className="text-slate-500">
+                  {post && changeUtcTimeToKst(post.createdAt)}
                 </div>
-                {isModalOpen && (
-                  <PostModal
-                    onClose={() => setIsModalOpen(false)}
-                    isOpen={isModalOpen}
-                  />
-                )} */}
+                <p className="text-lg">[{post.tag}]</p>
               </div>
-              <br />
-
-              <div className="createdate border-2 border-black">
-                {post && changeUtcTimeToKst(post.createdAt)}
-              </div>
-              <p>{post.tag}</p>
             </div>
-            <div className="border-2 border-black h-240 flex flex-col items-start p-10 mt-10 border-b-10 border-solid border-black tracking-wide">
-              <div
-                className="content border-2 border-green-400"
-                dangerouslySetInnerHTML={{ __html: cleanContent }}
-              ></div>
-              <>
-                <div className=" flex items-center justify-center mt-auto ml-30 pb-10;">
-                  <button onClick={handleReport}>신고</button>
-                  <br />
-                  <span>
-                    {/* <Like
-                      onClick={() => {
-                        setLike(like + 1);
-                      }}
-                      style={{ fontSize: "20px" }}
-                    /> */}
-                  </span>
-                  <span style={{ paddingBottom: '40' }}>
-                    <br />
-                    <br />
-                    {like}
-                  </span>
-                  <span className=" ml-200;">
-                    {/* <CommentIcon
-                      onChange={() => {
-                        setCount(count);
-                      }}
-                    /> */}
-                  </span>
-
-                  <span style={{ paddingBottom: '40', marginLeft: '10px' }}>
-                    <br />
-                    <br />
-                    {count}
-                  </span>
-                </div>
-              </>
+            <div className="border-t-2 text-lg border-black p-4">
+              <div dangerouslySetInnerHTML={{ __html: cleanContent }}></div>
             </div>
           </div>
-          <button>
-            <Link href="/board/">목록</Link>
-          </button>
-          <br />
-          {!isUser ? (
-            <div></div>
-          ) : (
-            <div>
-              <Link
-                href={{
-                  pathname: '/board/edit',
-                  query: {
-                    detail: JSON.stringify(post),
-                  },
-                }}
-                as="/board/edit"
-              >
-                수정
-              </Link>
-
-              <br />
-
-              <button
-                onClick={() => {
-                  if (window.confirm('정말로 삭제하시겠습니까?')) {
-                    onDelete();
-                    //alert('게시물이 삭제되었습니다😎');
-                    //window.location.href = '/board';
-                  }
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          )}
+          <div className="flex flex-row space-x-2 mt-3 mb-3">
+            <button className="border-zinc-800 border-2 rounded px-4 py-2 bg-gray-100 hover:bg-gray-200">
+              <Link href="/board/">목록</Link>
+            </button>
+            {!isUser ? (
+              <div></div>
+            ) : (
+              <div className="space-x-2">
+                <Link
+                  href={{
+                    pathname: '/board/edit',
+                    query: {
+                      detail: JSON.stringify(post),
+                    },
+                  }}
+                  as="/board/edit"
+                >
+                  <button className="border-zinc-800 border-2 rounded px-4 py-2 bg-blue-100 hover:bg-blue-200">
+                    수정
+                  </button>
+                </Link>
+                <button
+                  onClick={() => {
+                    if (window.confirm('정말로 삭제하시겠습니까?')) {
+                      onDelete();
+                    }
+                  }}
+                  className="border-zinc-800 border-2 rounded px-4 py-2 bg-red-100 hover:bg-red-200"
+                >
+                  삭제
+                </button>
+                <button
+                  onClick={handleReport}
+                  className="border-zinc-800 border-2 rounded px-4 py-2 bg-green-100 hover:bg-green-200"
+                >
+                  신고
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>
