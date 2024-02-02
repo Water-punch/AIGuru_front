@@ -2,6 +2,9 @@ import { useDeleteComment, useReportComment } from '@/src/hooks/api/comment';
 import { CommentProps } from '../../types/CommentTypes';
 import { useRouter } from 'next/router';
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import 'dayjs/locale/ko';
 //댓글 하나 출력
 const Comment = (commentData: CommentProps) => {
   const {
@@ -13,7 +16,14 @@ const Comment = (commentData: CommentProps) => {
     deletedAt,
     commentId,
   } = commentData;
+  //한국시간으로 변경하는 로직
+  function changeUtcTimeToKst(date: any) {
+    // 플러그인 사용
+    dayjs.extend(utc);
+    dayjs.locale('ko');
 
+    return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
+  }
   const deleteComment = useDeleteComment(commentId);
 
   const handleDelete = async () => {
@@ -64,6 +74,7 @@ const Comment = (commentData: CommentProps) => {
           <p className="text-gray-700">{position}</p>
           <button onClick={handleDelete}>삭제</button>
           <button onClick={handleReport}>신고</button>
+          <p className="text-gray-700">{changeUtcTimeToKst(createdAt)}</p>
         </div>
         <p className="text-gray-700">{content}</p>
       </div>

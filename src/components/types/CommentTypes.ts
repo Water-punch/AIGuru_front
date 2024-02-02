@@ -7,7 +7,7 @@ export interface CommentProps {
   anonymous_number: number;
   position: string;
   status: string;
-  createdAt: Date;
+  createdAt: any;
   updatedAt: Date;
   deletedAt: Date;
 }
