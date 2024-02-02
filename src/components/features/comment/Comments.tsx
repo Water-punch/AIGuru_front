@@ -1,13 +1,14 @@
 import { CommentProps, CommentsProps } from '../../types/CommentTypes';
-import Pagination from '../board/Pagination';
+
 import Comment from './Comment';
 import { useEffect, useState } from 'react';
+import Pagination from './CommentPagination';
 
 const Comments = ({ count, list }: CommentsProps) => {
   const commentsData = list;
   const [currentPage, setCurrentPage] = useState(1);
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-  //useEffect(() => {}, [Comments]);
+  useEffect(() => {}, [currentPage]);
 
   return (
     <div>

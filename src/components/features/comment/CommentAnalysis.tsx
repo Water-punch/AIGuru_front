@@ -37,25 +37,23 @@ const CommentAnalysis = ({ positiveCount, negativeCount }: CommentsProps) => {
 
     return (
       <div>
-        <div className="flex items-center">
+        <div className="flex items-center mb-2">
           {/* Smile 이미지 */}
           <img
             src="/images/happy.png"
             alt="smile"
             className="mr-2"
-            style={{ width: `${positivePercentage / 3}%` }}
+            style={{ width: `${positivePercentage / 4}%` }}
           />
 
           {/* Angry 이미지 */}
           <img
             src="/images/angry.png"
             alt="angry"
-            style={{ width: `${negativePercentage / 3}%` }}
+            style={{ width: `${negativePercentage / 4}%` }}
           />
         </div>
         <div>
-          <div>반복 이미지가 들어가는 공간</div>
-
           <div className="flex items-center">
             {/* Smile 반복 이미지 */}
 
@@ -86,9 +84,9 @@ const CommentAnalysis = ({ positiveCount, negativeCount }: CommentsProps) => {
   };
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 ml-6 bg-pink-50 w-[700px] h-[200px]">
       <h3 className="text-lg font-semibold mb-2">
-        구루의 제자들의 생각은 어떨까요?
+        다른 제자들의 생각은 어떨까요?
       </h3>
       {renderImages()}
     </div>
